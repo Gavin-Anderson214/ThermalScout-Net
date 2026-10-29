@@ -1,0 +1,9 @@
+epoch,training_loss,dataset,notes
+1,0.9574,synthetic,Not a real-data accuracy score
+2,0.3722,synthetic,Not a real-data accuracy score
+3,0.24,synthetic,Not a real-data accuracy score
+4,0.1815,synthetic,Not a real-data accuracy score
+5,0.132,synthetic,Not a real-data accuracy score
+6,0.0702,synthetic,Not a real-data accuracy score
+7,0.0278,synthetic,Not a real-data accuracy score
+8,0.022,synthetic,Not a real-data accuracy score

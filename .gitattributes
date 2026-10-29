@@ -1,0 +1,6 @@
+# Normalize source files when collaborating across Windows and Linux.
+*.py text eol=lf
+*.md text eol=lf
+*.csv text eol=lf
+*.txt text eol=lf
+*.bat text eol=crlf

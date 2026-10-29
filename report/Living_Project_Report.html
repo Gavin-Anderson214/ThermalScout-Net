@@ -1,0 +1,51 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>ThermalScout-Net Living Project Report</title><style>body{font-family:Segoe UI,Arial,sans-serif;color:#233040;max-width:1050px;margin:34px auto;padding:0 28px;line-height:1.53}h1{color:#44276e;font-size:30px;border-bottom:3px solid #7f66ae;padding-bottom:9px}h2{color:#452877;font-size:20px;margin-top:28px}h3{color:#452877}p{font-size:14px} .list{margin:5px 0;padding-left:10px;border-left:3px solid #eee}table{border-collapse:collapse;min-width:750px;width:100%;font-size:12px}th{background:#43276f;color:white;text-align:left}td,th{padding:8px 9px;border:1px solid #dbe1e6}tr:nth-child(even){background:#f7f6fa}.scroll{overflow-x:auto;margin:12px 0}code{background:#f3f0f7;padding:1px 4px}figure{margin:16px 0}figure img{width:100%;max-width:780px}figcaption{font-size:12px;color:#64748b}@media print{body{margin:12mm}h2{break-after:avoid}.scroll{overflow:visible}table{min-width:0}}</style></head><body><h1>ThermalScout-Net | Living Research Report</h1>
+<p><strong>Course:</strong> COSC 2345 - Introduction to Artificial Intelligence  <br><strong>Application:</strong> conservation and potential anti-poaching support through thermal aerial object detection.  <br><strong>Report rebuilt locally:</strong> 2026-10-29 00:02  <br><strong>Status:</strong> Completed: synthetic CNN and BIRDSAI data preparation. In progress: real-image detector training.</p>
+<h2>1. The problem and AI approach</h2>
+<p>The project designs and tests a custom convolutional neural network (CNN) to locate animals and people in infrared drone footage. A network learns visual representations from labeled images and predicts bounding boxes and classes. Research compares training from scratch, transfer learning, and YOLO11n. Hyperparameter search is a model-selection procedure and should not be confused with BFS or A* pathfinding.</p>
+<h2>2. Verified milestones</h2>
+<div class="scroll"><table><tr><th>Date</th><th>Status</th><th>Milestone</th><th>Evidence / notes</th></tr>
+<tr><td>2026-10-28</td><td>Complete</td><td>Custom CNN prototype</td><td>Implemented a 29,635-parameter CNN in Python/PyTorch.</td></tr>
+<tr><td>2026-10-28</td><td>Complete</td><td>Synthetic training</td><td>Eight epochs; training loss 0.9574 to 0.0220; three objects detected in one synthetic demonstration.</td></tr>
+<tr><td>2026-10-28</td><td>Complete</td><td>BIRDSAI dataset inspection</td><td>32 source videos and 40,661 real frames identified; annotations matched to frames.</td></tr>
+<tr><td>2026-10-28</td><td>Complete</td><td>Video-separated development export</td><td>2,001 train images and 334 validation images; 26 train videos and 6 validation videos.</td></tr>
+<tr><td>2026-10-28</td><td>Not started</td><td>Custom real-image training</td><td>Train a small anchor-free custom detector from random weights.</td></tr>
+<tr><td>2026-10-28</td><td>Not started</td><td>Transfer-learning experiment</td><td>Compare custom detector with pretrained feature extraction.</td></tr>
+<tr><td>2026-10-28</td><td>Not started</td><td>YOLO11n baseline</td><td>Fine-tune a pretrained object detector on the same split.</td></tr>
+<tr><td>2026-10-28</td><td>Not started</td><td>Held-out evaluation</td><td>Compute class-specific precision/recall, mAP@.50, mAP@.50:.95, and FPS.</td></tr></table></div>
+<h2>3. Dataset and scientific controls</h2>
+<p class="list">- Original TrainReal: 32 sequences; 40,661 images; 74,668 animal annotations; 12,531 human annotations.</p>
+<p class="list">- Prepared development split: 26 train videos (2,001 images, 6,691 animal and 1,090 human labels); 6 validation videos (334 images, 954 animal and 62 human labels).</p>
+<p class="list">- Videos are split by sequence (not by adjacent image) to reduce data leakage.</p>
+<p class="list">- Official TestReal held out; not used for training or validation.</p>
+<p class="list">- The small validation sample has only 62 human labels: human recall will have high uncertainty.</p>
+<h2>4. Custom CNN demonstration (synthetic)</h2>
+<p class="list">- Custom trainable parameters: 29,635. Trained 8 epochs on synthetic shapes.</p>
+<p class="list">- Training loss: 0.9574 -&gt; 0.0220.</p>
+<p class="list">- A single illustrated synthetic scene had 3/3 objects detected.</p>
+<p class="list">- This is not a real-footage precision, recall, mAP, or generalization result.</p>
+<h2>5. Real-image training runs</h2>
+<div class="scroll"><table><tr><th>Timestamp</th><th>Model</th><th>Mode</th><th>Epochs</th><th>Final train loss</th><th>Best val loss</th></tr>
+<tr><td>-</td><td>Custom real-image model</td><td>Not yet run</td><td>-</td><td>-</td><td>-</td></tr></table></div>
+<figure><img src="figures/synthetic_training_loss.png" alt="Measured synthetic-loss curve"><figcaption>Measured synthetic-loss curve</figcaption></figure>
+<h2>6. Research comparison: measured detection scores</h2>
+<div class="scroll"><table><tr><th>Model</th><th>Training</th><th>Split</th><th>Precision</th><th>Recall</th><th>mAP@.50</th><th>mAP@.50:.95</th><th>FPS</th><th>Evidence</th></tr>
+<tr><td>ThermalScout (real)</td><td>From scratch</td><td>Not yet evaluated</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+<tr><td>ThermalScout (real)</td><td>Transfer learning</td><td>Not yet evaluated</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+<tr><td>YOLO11n</td><td>Transfer learning</td><td>Not yet evaluated</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr></table></div>
+<p><strong>Interpretation:</strong> Lower training loss does not establish higher object-detection accuracy. Only enter precision, recall, mAP, and FPS after running the same evaluation protocol on an appropriate held-out split.</p>
+<h2>7. Risks and limitations</h2>
+<p class="list">- Human annotations are less common than animal annotations.</p>
+<p class="list">- People are often only a few pixels wide; some objects are ambiguous.</p>
+<p class="list">- The first custom detector uses one prediction per grid cell and can miss crowded targets.</p>
+<p class="list">- Prototype output may show detection boxes before trustworthy benchmark metrics exist.</p>
+<h2>8. Next engineering actions</h2>
+<p class="list">1. Run the packaged custom detector using <code>python3.13 project_manager.py train --mode quick</code>.</p>
+<p class="list">2. Inspect ground truth versus predictions and review the training/validation losses.</p>
+<p class="list">3. Run a larger scratch-training experiment and record its settings and limitations.</p>
+<p class="list">4. Implement a class-wise IoU-matched precision/recall/mAP evaluation before comparing models.</p>
+<p class="list">5. Train a controlled transfer-learning model and a YOLO11n baseline on the same data.</p>
+<p class="list">6. Report unbiased final metrics only after the official test set is evaluated.</p>
+<h2>9. Course connection</h2>
+<p>COSC 2345 covers intelligent systems, search and heuristics, uncertainty, supervised learning, artificial neural networks, and responsible AI. This project emphasizes supervised learning and CNN-based perception, while using controlled model selection and evidence-based evaluation.</p>
+<h2>10. How this report stays current</h2>
+<p>Run <code>python3.13 project_manager.py update</code> after each experiment or add milestones with <code>python3.13 project_manager.py note --title &quot;...&quot; --detail &quot;...&quot;</code>. The files in this project folder update when you execute the command; nothing runs in the background.</p></body></html>

@@ -1,0 +1,9 @@
+date,status,milestone,details
+2026-10-28,Complete,Custom CNN prototype,"Implemented a 29,635-parameter CNN in Python/PyTorch."
+2026-10-28,Complete,Synthetic training,Eight epochs; training loss 0.9574 to 0.0220; three objects detected in one synthetic demonstration.
+2026-10-28,Complete,BIRDSAI dataset inspection,"32 source videos and 40,661 real frames identified; annotations matched to frames."
+2026-10-28,Complete,Video-separated development export,"2,001 train images and 334 validation images; 26 train videos and 6 validation videos."
+2026-10-28,Not started,Custom real-image training,Train a small anchor-free custom detector from random weights.
+2026-10-28,Not started,Transfer-learning experiment,Compare custom detector with pretrained feature extraction.
+2026-10-28,Not started,YOLO11n baseline,Fine-tune a pretrained object detector on the same split.
+2026-10-28,Not started,Held-out evaluation,"Compute class-specific precision/recall, mAP@.50, mAP@.50:.95, and FPS."

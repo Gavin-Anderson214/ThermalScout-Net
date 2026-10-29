@@ -1,0 +1,38 @@
+# Python temporary files and environments
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+.env
+.env.*
+.vscode/
+.idea/
+
+# Raw or derived BIRDSAI imagery: large and may be subject to dataset terms
+**/TrainReal/
+**/TestReal/
+**/conservation_drones_train_real/
+**/conservation_drones_test_real/
+**/birdsai_step2_output/
+**/yolo_real/
+data/**
+!data/.gitkeep
+*.zip
+*.crdownload
+
+# Model outputs can be large: store locally, not in Git history
+training_runs/**
+!training_runs/.gitkeep
+*.pt
+*.pth
+*.ckpt
+*.onnx
+*.weights
+
+# Local preview of a dataset frame: check dataset redistribution terms
+examples/BIRDSAI_annotated_example.png
+
+# Generated figures are reproducible from records
+report/figures/real_training_loss.png
+report/figures/model_comparison.png

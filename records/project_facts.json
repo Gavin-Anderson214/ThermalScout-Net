@@ -1,0 +1,28 @@
+{
+  "project": "ThermalScout-Net: Custom Thermal Object Detection",
+  "course": "COSC 2345 - Introduction to Artificial Intelligence",
+  "dataset": {
+    "original_videos": 32,
+    "original_frames": 40661,
+    "all_animal_annotations": 74668,
+    "all_human_annotations": 12531,
+    "train_videos": 26,
+    "val_videos": 6,
+    "train_images": 2001,
+    "val_images": 334,
+    "train_animal": 6691,
+    "train_human": 1090,
+    "val_animal": 954,
+    "val_human": 62,
+    "test_status": "Official TestReal held out; not used for training or validation."
+  },
+  "synthetic": {
+    "parameters": 29635,
+    "epochs": 8,
+    "initial_loss": 0.9574,
+    "final_loss": 0.022,
+    "demo_objects_correct": 3,
+    "demo_objects_total": 3,
+    "status": "Synthetic proof of concept only, not a real-data accuracy score."
+  }
+}
