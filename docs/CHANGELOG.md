@@ -13,3 +13,9 @@
 - Kept original synthetic demo and prior reports as references.
 - Improved detection candidate selection to prioritize confidence rather than image location.
 - **No real-image model accuracy has been measured or claimed.**
+
+## 2026-10-29 — Completed real-image development baseline
+- Completed run 20261029_133235_full: 10 epochs, 2,001 training images, 334 validation images; best checkpoint at epoch 7.
+- Measured precision 3.29%, recall 43.11%, mAP@0.50 8.11%, mAP@0.50:0.95 2.44%, and CPU inference plus postprocessing at 7.11 FPS.
+- Added portable evaluation JSON and full epoch history under records/experiments, plus a results summary in docs/RESULTS_2026-10-29.md.
+- Results use development validation only. Official TestReal remains held out; high false-positive counts require further work.

@@ -1,4 +1,16 @@
 # ThermalScout-Net
+
+## Latest measured results — October 29, 2026
+
+Completed a 10-epoch real-image custom-detector baseline on 2,001 training and 334 video-separated development-validation images. Best checkpoint: epoch 7, validation loss 0.7148.
+
+| Precision | Recall | mAP@0.50 | mAP@0.50:0.95 | CPU inference + postprocessing |
+|---:|---:|---:|---:|---:|
+| 3.29% | 43.11% | 8.11% | 2.44% | 7.11 FPS |
+
+These are development-validation results; official TestReal remains held out. The model has many false positives and needs improvement before drone use. See [results, limitations and saved evidence](docs/RESULTS_2026-10-29.md). Earlier status snapshots in the project describe progress before this experiment.
+
+**Navigation:** [Start Here - folder labels and VS Code guide](START_HERE.md). Open `ThermalScout-Net.code-workspace` for labeled Explorer folders.
 ### Custom AI-Based Human and Wildlife Detection Using Thermal Drone Imagery
 
 **Tarleton State University**  

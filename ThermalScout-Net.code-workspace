@@ -1,0 +1,20 @@
+{
+  "folders": [
+    {
+      "name": "01 - ThermalScout-Net (active project)",
+      "path": "."
+    },
+    {
+      "name": "02 - BIRDSAI (existing prepared output)",
+      "path": "../../birdsai_step2_output"
+    },
+    {
+      "name": "03 - Earlier BIRDSAI preparation",
+      "path": "../../ThermalScout_BIRDSAI_Step2"
+    },
+    {
+      "name": "04 - Earlier synthetic demo",
+      "path": "../../ThermalScout_Demo"
+    }
+  ]
+}
