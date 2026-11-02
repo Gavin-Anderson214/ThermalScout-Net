@@ -10,6 +10,7 @@ from PIL import Image, ImageDraw
 import torch
 from .model import CLASSES, COLORS
 
+# --- Compare box intersection with total covered area to measure overlap.
 def box_iou(box, other):
     """Compute the overlap of a proposed box with other boxes."""
     x1 = torch.maximum(box[0], other[:, 0]); y1 = torch.maximum(box[1], other[:, 1])
@@ -19,6 +20,7 @@ def box_iou(box, other):
     oa = (other[:, 2] - other[:, 0]).clamp(min=0) * (other[:, 3] - other[:, 1]).clamp(min=0)
     return area / (a + oa - area + 1e-7)
 
+# --- Keep the strongest box first, then discard overlapping lower-scoring boxes.
 def nms(boxes, scores, threshold=0.5):
     """Remove duplicate overlapping detections using non-maximum suppression."""
     order = scores.argsort(descending=True)
@@ -31,12 +33,14 @@ def nms(boxes, scores, threshold=0.5):
         order = rest[box_iou(boxes[i], boxes[rest]) <= threshold]
     return keep
 
+# --- Run the detector without gradients, decode grid outputs and suppress duplicate predictions per class.
 @torch.no_grad()
 def infer(model, image, device, threshold=0.25):
     """Turn raw CNN maps into scored human/animal bounding boxes."""
     model.eval()
     pred = model(image.unsqueeze(0).to(device))[0].cpu()
     _, h, w = pred.shape
+    # Confidence combines object presence with the most likely class probability.
     prob = pred[0].sigmoid()
     clp = pred[5:7].softmax(dim=0)
     cls_prob, cls_id = clp.max(dim=0)
@@ -50,6 +54,8 @@ def infer(model, image, device, threshold=0.25):
     if ys.numel() > 500:
         selected = torch.topk(score[ys, xs], k=500).indices
         ys, xs = ys[selected], xs[selected]
+    # Sigmoid offsets stay within each cell; exponentials recover positive sizes.
+    # Normalize decoded boxes to image coordinates and clip them to the canvas.
     ox = pred[1, ys, xs].sigmoid()
     oy = pred[2, ys, xs].sigmoid()
     bw = pred[3, ys, xs].clamp(-6, 5).exp()
@@ -59,6 +65,7 @@ def infer(model, image, device, threshold=0.25):
     box = torch.stack((x - bw/2, y - bh/2, x + bw/2, y + bh/2), dim=1).clamp(0, 1)
     sc, cl = score[ys, xs], cls_id[ys, xs]
     detections = []
+    # Suppress duplicates separately for animals and humans, then cap output at 40.
     for c in range(2):
         indices = torch.where(cl == c)[0]
         if indices.numel() == 0:
@@ -68,6 +75,7 @@ def infer(model, image, device, threshold=0.25):
             detections.append((int(c), float(sc[j]), box[j].tolist()))
     return sorted(detections, key=lambda r: -r[1])[:40]
 
+# --- Compare ground-truth boxes and predictions on the same letterboxed validation image.
 def create_preview(model, ds, device, output: Path, threshold: float):
     # Show what it predicts on one held-out validation frame.
     """Draw dataset labels beside model predictions on a validation frame."""

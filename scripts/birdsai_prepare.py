@@ -34,6 +34,7 @@ PALETTE = {0: "#b3ff79", 1: "#55c8ff"}
 IMG_EXTS = {".jpg", ".jpeg", ".png", ".bmp", ".tif", ".tiff"}
 
 
+# --- Represent one source annotation before conversion to normalized training labels.
 @dataclass(frozen=True)
 class Annotation:
     """One labeled thermal object in one video frame."""
@@ -49,12 +50,14 @@ class Annotation:
     noise: str = ""
 
 
+# --- Extract numeric frame identifiers from image filenames.
 def numeric_tail(path: Path):
     """Return the final run of digits in a stem, e.g. seq_000005.jpg -> 5."""
     m = re.search(r"(\d+)$", path.stem)
     return int(m.group(1)) if m else None
 
 
+# --- Find the real training partition while leaving the official test partition separate.
 def find_train_real(root: Path) -> Path | None:
     """Locate the folder with original thermal images and CSV labels."""
     root = root.expanduser().resolve()
@@ -73,6 +76,7 @@ def find_train_real(root: Path) -> Path | None:
     return None
 
 
+# --- Resolve the supplied dataset location or search expected local locations.
 def locate_data(path_arg: str | None) -> Path:
     """Choose the dataset location from a user path or likely folders."""
     candidates = []
@@ -101,6 +105,7 @@ def locate_data(path_arg: str | None) -> Path:
     )
 
 
+# --- Parse source CSV rows into annotations for frame matching.
 def read_annotations(csv_path: Path):
     """Read original BIRDSAI MOT CSV: frame,id,x,y,w,h,class,species,occ,noise."""
     by_frame = defaultdict(list)
@@ -131,6 +136,7 @@ def read_annotations(csv_path: Path):
     return dict(by_frame), counters
 
 
+# --- List supported image files for a sequence.
 def frame_files(seq_dir: Path):
     """Find image files in a video folder in frame order."""
     frames = [p for p in seq_dir.iterdir() if p.is_file() and p.suffix.lower() in IMG_EXTS]
@@ -139,6 +145,7 @@ def frame_files(seq_dir: Path):
     return frames
 
 
+# --- Match annotation frame numbers to image filenames, accounting for numbering offsets.
 def frame_map(images: list[Path], annotation_frames: set[int], user_offset: int | None):
     """Return frame_id -> image path, selected filename offset, explanatory note.
 
@@ -171,6 +178,7 @@ def frame_map(images: list[Path], annotation_frames: set[int], user_offset: int 
     return paired, offset, f"{how}. {note}".strip()
 
 
+# --- Locate the images associated with an annotation sequence.
 def locate_image_directory(images_root: Path, stem: str):
     """Find the folder holding image frames for one sequence."""
     exact = images_root / stem
@@ -185,6 +193,7 @@ def locate_image_directory(images_root: Path, stem: str):
     return None
 
 
+# --- Gather usable sequences and their matched images and labels.
 def collect_sequences(train_real: Path, offset: int | None):
     """Match annotation files with image directories for each video."""
     annotations_dir = train_real / "annotations"
@@ -213,6 +222,7 @@ def collect_sequences(train_real: Path, offset: int | None):
     return sequences
 
 
+# --- Clip a source box to image boundaries before export.
 def clip_box(ann: Annotation, width: int, height: int):
     """Keep labeled boxes within the edges of the image."""
     x1 = min(max(ann.x, 0.0), float(width))
@@ -222,6 +232,7 @@ def clip_box(ann: Annotation, width: int, height: int):
     return (x1, y1, x2, y2) if x2 > x1 and y2 > y1 else None
 
 
+# --- Draw source labels over one image so alignment can be checked visually.
 def save_preview(seq, frame_id: int, dst: Path):
     """Draw ground-truth animal and human boxes on one image."""
     img_path = seq["paired"][frame_id]
@@ -246,6 +257,7 @@ def save_preview(seq, frame_id: int, dst: Path):
     return valid
 
 
+# --- Choose and save inspection examples from the discovered sequences.
 def save_previews(sequences, out_dir: Path, n: int):
     """Choose annotated frames with both classes when possible."""
     created = []
@@ -286,6 +298,7 @@ def save_previews(sequences, out_dir: Path, n: int):
     return created
 
 
+# --- Summarize source data and frame matching in an audit.
 def report(sequences, out_dir: Path):
     """Summarize data quality, frame matching, and annotation counts."""
     valid = [s for s in sequences if "error" not in s]
@@ -319,6 +332,7 @@ def report(sequences, out_dir: Path):
     return valid
 
 
+# --- Select a limited set of frames for a manageable development export.
 def balanced_sample(seq, max_per_video: int, stride: int, rng):
     """Select a manageable collection of frames from one video."""
     ids = sorted(seq["paired"])
@@ -339,6 +353,7 @@ def balanced_sample(seq, max_per_video: int, stride: int, rng):
     return sorted(set(selected))
 
 
+# --- Export video-separated training/validation images and normalized YOLO labels.
 def export_yolo(sequences, out_dir: Path, val_fraction: float, seed: int,
                 max_per_video: int, stride: int):
     """Write a YOLO-format development dataset split by whole videos."""
@@ -430,6 +445,7 @@ def export_yolo(sequences, out_dir: Path, val_fraction: float, seed: int,
     print("Use this sample for model DEVELOPMENT, not your final unbiased test score.")
 
 
+# --- Choose inspection or preparation mode and apply the requested dataset settings.
 def main():
     """Inspect original BIRDSAI data and optionally export train/val images."""
     p = argparse.ArgumentParser(description="Inspect and prepare BIRDSAI REAL thermal data for ThermalScout-Net")

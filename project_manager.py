@@ -54,6 +54,7 @@ RUN_FIELDS = ['timestamp', 'run_id', 'model', 'mode', 'epochs', 'train_loss_fina
 EVENT_FIELDS = ['date', 'status', 'milestone', 'details']
 
 
+# --- Read existing evidence tables as named fields.
 def read_csv(path: Path):
     """Read an experiment log as rows of named columns."""
     if not path.is_file():
@@ -62,6 +63,7 @@ def read_csv(path: Path):
         return list(csv.DictReader(f))
 
 
+# --- Write records with a consistent column order so logs remain spreadsheet-friendly.
 def write_csv(path: Path, columns, rows):
     """Save experiment records in a spreadsheet-friendly CSV file."""
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -72,6 +74,7 @@ def write_csv(path: Path, columns, rows):
             w.writerow({k: r.get(k, '') for k in columns})
 
 
+# --- Create missing tracking files and report folders without replacing existing evidence.
 def initialize():
     """Create default tracking files when starting a new repository."""
     RECORDS.mkdir(parents=True, exist_ok=True)
@@ -87,6 +90,7 @@ def initialize():
             write_csv(RECORDS / name, cols, initial)
 
 
+# --- Use an explicit prepared-data path or check known local locations; do not copy original datasets.
 def get_data_root(explicit=None):
     """Find prepared training images without copying the full dataset."""
     if explicit:
@@ -102,6 +106,7 @@ def get_data_root(explicit=None):
     return next((p for p in candidates if (p/'images'/'train').is_dir() and (p/'labels'/'val').is_dir()), None)
 
 
+# --- Register a completed training history in the research log.
 def register_loss_csv(path: Path, mode='development'):
     """Record a training run only once, using a file checksum."""
     if not path.exists():
@@ -109,7 +114,7 @@ def register_loss_csv(path: Path, mode='development'):
     raw = path.read_bytes()
     key = hashlib.sha256(raw).hexdigest()
     known = read_csv(RECORDS / 'training_runs.csv')
-    if any(r['sha256'] == key and r['source_csv'] == str(path.resolve()) for r in known):
+    if any(r['sha256'] == key and (r['source_csv'] == str(path.resolve()) or r['run_id'] == path.parent.name) for r in known):
         return False
     rows = read_csv(path)
     if not rows or not {'epoch', 'train_loss', 'val_loss'} <= set(rows[0]):
@@ -125,6 +130,7 @@ def register_loss_csv(path: Path, mode='development'):
     return True
 
 
+# --- Render training-history evidence as a lightweight vector chart.
 def svg_loss_plot(path: Path):
     """Plot training and validation loss so learning can be compared."""
     try:
@@ -148,6 +154,7 @@ def svg_loss_plot(path: Path):
         return False
 
 
+# --- Plot the earlier synthetic demonstration separately from real-image experiments.
 def synthetic_loss_plot():
     """Graph the recorded eight-epoch synthetic training history."""
     try:
@@ -167,6 +174,7 @@ def synthetic_loss_plot():
         return False
 
 
+# --- Import measured evaluation evidence into the model-metrics log.
 def register_evaluation_json(path:Path, mode='development'):
     """Import measured detector metrics from an evaluator output file."""
     data=json.loads(path.read_text(encoding='utf-8'))
@@ -191,6 +199,7 @@ def register_evaluation_json(path:Path, mode='development'):
     return False
 
 
+# --- Visualize available model measurements for the report.
 def png_model_chart(metrics):
     """Compare measured mAP scores across different experiment runs."""
     rows = [r for r in metrics if r.get('map50') not in (None, '')]
@@ -213,6 +222,7 @@ def png_model_chart(metrics):
         return False
 
 
+# --- Format values for presentation while keeping missing results distinguishable from measured zeros.
 def fmt(v, percent=False):
     """Present measured values clearly; leave missing results unmeasured."""
     if v in (None, ''):
@@ -223,6 +233,7 @@ def fmt(v, percent=False):
         return str(v)
 
 
+# --- Rebuild the living report from research records and available evidence.
 def report_update():
     """Rebuild the research report using logged experiments and milestones."""
     initialize()
@@ -234,7 +245,7 @@ def report_update():
     has_loss = latest_history and latest_history.exists() and svg_loss_plot(latest_history)
     has_chart = png_model_chart(metrics)
     has_synthetic = synthetic_loss_plot()
-    status = 'Completed: synthetic CNN and BIRDSAI data preparation. In progress: real-image detector training.'
+    status = 'Completed: scratch/focal development evaluations and controlled threshold analysis. In progress: improving human detection and background rejection.'
     lines = [
         '# ThermalScout-Net | Living Research Report',
         f'**Course:** {facts["course"]}  ',
@@ -301,10 +312,10 @@ def report_update():
              '- The first custom detector uses one prediction per grid cell and can miss crowded targets.',
              '- Prototype output may show detection boxes before trustworthy benchmark metrics exist.',
              '', '## 8. Next engineering actions',
-             '1. Run the packaged custom detector using `python3.13 project_manager.py train --mode quick`.',
+             '1. Review the checkpoint audit and controlled threshold experiment in section 11.',
              '2. Inspect ground truth versus predictions and review the training/validation losses.',
              '3. Run a larger scratch-training experiment and record its settings and limitations.',
-             '4. Implement a class-wise IoU-matched precision/recall/mAP evaluation before comparing models.',
+             '4. Use the existing class-wise IoU-matched evaluator and compare human recall as well as aggregate mAP.',
              '5. Train a controlled transfer-learning model and a YOLO11n baseline on the same data.',
              '6. Report unbiased final metrics only after the official test set is evaluated.',
              '', '## 9. Course connection',
@@ -312,10 +323,19 @@ def report_update():
              'artificial neural networks, and responsible AI. This project emphasizes supervised learning '
              'and CNN-based perception, while using controlled model selection and evidence-based evaluation.',
              '', '## 10. How this report stays current',
-             'Run `python3.13 project_manager.py update` after each experiment or add milestones with '
-             '`python3.13 project_manager.py note --title "..." --detail "..."`. '
+             'Run `py -3.12 project_manager.py update` after each experiment or add milestones with '
+             '`py -3.12 project_manager.py note --title "..." --detail "..."`. '
              'The files in this project folder update when you execute the command; nothing runs in the background.',
              '']
+    experiment = ROOT / 'docs' / 'THRESHOLD_EXPERIMENT_2026-11-02.md'
+    if experiment.exists():
+        lines += [''] + experiment.read_text(encoding='utf-8').replace('# Focal checkpoint threshold experiment — November 2, 2026', '## 11. Controlled threshold experiment — November 2, 2026').splitlines()
+    boundary = ROOT / 'docs' / 'BOUNDARY_DIAGNOSIS_2026-11-02.md'
+    if boundary.exists():
+        lines += [''] + boundary.read_text(encoding='utf-8').replace('# Human and boundary diagnosis — November 2, 2026', '## 12. Human and boundary diagnosis — November 2, 2026').splitlines()
+    class_weight = ROOT / 'docs' / 'HUMAN_WEIGHT_EXPERIMENT_2026-11-02.md'
+    if class_weight.exists():
+        lines += [''] + class_weight.read_text(encoding='utf-8').replace('# Human class-weight experiment — November 2, 2026', '## 13. Human class-weight experiment — November 2, 2026').splitlines()
     md = '\n'.join(lines)
     (REPORT / 'Living_Project_Report.md').write_text(md, encoding='utf-8')
     # Simple, offline and dependency-free HTML rendering for the same report.
@@ -366,6 +386,7 @@ def report_update():
     print('Measured model metrics:', len(metrics), ' | recorded training runs:', len(runs))
 
 
+# --- Dispatch the requested command: run an experiment, record a note or refresh reports.
 def main():
     """Choose a task: train, evaluate, record a note, or update the report."""
     p = argparse.ArgumentParser(description='Organize ThermalScout-Net results and build the living report')

@@ -1,0 +1,7 @@
+{
+  "human_labels": 62,
+  "human_overlap_at_50": 21,
+  "animal_only_overlap_at_50": 12,
+  "no_overlap_at_50": 29,
+  "any_overlap_at_10": 62
+}

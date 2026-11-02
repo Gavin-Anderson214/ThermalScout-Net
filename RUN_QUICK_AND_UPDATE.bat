@@ -1,4 +1,4 @@
 @echo off
 cd /d "%~dp0"
-python3.13 project_manager.py train --mode quick
+py -3.12 project_manager.py train --mode quick
 pause

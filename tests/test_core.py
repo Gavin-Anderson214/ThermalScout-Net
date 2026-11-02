@@ -43,3 +43,16 @@ def test_inference_produces_valid_boxes():
     model = ThermalScoutReal().eval()
     dets = infer(model, torch.zeros(1, 64, 64), "cpu", threshold=0.01)
     assert all(c in (0, 1) and 0. <= s <= 1. and len(box) == 4 for c,s,box in dets)
+
+
+def test_focal_background_weights_hard_negatives():
+    # Two all-background cells: the high-confidence mistake should dominate.
+    pred = torch.zeros(1, 7, 1, 2, requires_grad=True)
+    with torch.no_grad():
+        pred[0, 0, 0, 0] = -4.0
+        pred[0, 0, 0, 1] = 4.0
+    focal, _ = criterion(pred, [[]], objectness="focal")
+    focal.backward()
+    assert torch.isfinite(focal)
+    assert abs(pred.grad[0, 0, 0, 1]) > 100 * abs(pred.grad[0, 0, 0, 0])
+    assert math.isfinite(float(criterion(torch.zeros(1, 7, 2, 2), [[(1, .5, .5, .2, .2)]], objectness="focal")[0]))

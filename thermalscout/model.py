@@ -12,11 +12,13 @@ import torch.nn.functional as F
 CLASSES = ("animal", "human")  # 0 = animal, 1 = human
 COLORS = ("#A8FF78", "#53C6FF")
 
+# --- Reuse a convolution, batch normalization and ReLU block throughout the detector.
 def conv(in_ch: int, out_ch: int, stride: int = 1) -> nn.Sequential:
     """Build one small convolution block: filter pixels, normalize, then activate."""
     return nn.Sequential(nn.Conv2d(in_ch, out_ch, 3, stride, 1, bias=False),
                          nn.BatchNorm2d(out_ch), nn.ReLU(inplace=True))
 
+# --- Fuse fine spatial features with deeper features; each stride-4 cell predicts one possible object.
 class ThermalScoutReal(nn.Module):
     """Original small detector: stride-4 fusion of shallow and deep features.
 
@@ -33,6 +35,8 @@ class ThermalScoutReal(nn.Module):
 
     def forward(self, x):
         """Pass images through the CNN to get prediction maps."""
+        # Preserve fine detail for small targets, then resize deeper features
+        # to the same grid before concatenating their channels.
         low = self.low(x)
         deep = self.deep(low)
         deep = F.interpolate(deep, size=low.shape[-2:], mode="bilinear", align_corners=False)

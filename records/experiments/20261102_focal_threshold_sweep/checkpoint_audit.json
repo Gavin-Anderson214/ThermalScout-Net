@@ -1,0 +1,50 @@
+[
+  {
+    "run": "20261029_124654_quick",
+    "checkpoint_sha256": "b50d222b1b7fa9d051b791ce9efb3d984da856d028f12a073577d190a395d8cb",
+    "tensor_sha256": "abf4b28447f05b73c2ed77f3a7e2e733a20e9b817230901dca488af60ab56335",
+    "epoch": 2,
+    "objectness_loss": "not recorded",
+    "history_sha256": "f876674ca949cb37da5e488a07fa38d557af127713d2551ad2cb930a0925166a"
+  },
+  {
+    "run": "20261029_124946_quick",
+    "checkpoint_sha256": "b50d222b1b7fa9d051b791ce9efb3d984da856d028f12a073577d190a395d8cb",
+    "tensor_sha256": "abf4b28447f05b73c2ed77f3a7e2e733a20e9b817230901dca488af60ab56335",
+    "epoch": 2,
+    "objectness_loss": "not recorded",
+    "history_sha256": "f876674ca949cb37da5e488a07fa38d557af127713d2551ad2cb930a0925166a"
+  },
+  {
+    "run": "20261029_125035_full",
+    "checkpoint_sha256": "d4304c9cb1c380978507751e887aa7a41c568d307b1bf71d27cc90a164439897",
+    "tensor_sha256": "d15c5233691eb67e390e6ec62da92792637c75f0e19d3d4eb8349f2a828bbadf",
+    "epoch": 7,
+    "objectness_loss": "not recorded",
+    "history_sha256": null
+  },
+  {
+    "run": "20261029_133235_full",
+    "checkpoint_sha256": "d4304c9cb1c380978507751e887aa7a41c568d307b1bf71d27cc90a164439897",
+    "tensor_sha256": "d15c5233691eb67e390e6ec62da92792637c75f0e19d3d4eb8349f2a828bbadf",
+    "epoch": 7,
+    "objectness_loss": "not recorded",
+    "history_sha256": "9ef2b4916628261138ae47facf0b046b60a92cedfba2952d659e92a1cd62ae69"
+  },
+  {
+    "run": "20261029_focal_experiment",
+    "checkpoint_sha256": "d8ef015be250a0a1b800ec058c3a3acc9564c2064c7f9abebc10d4df71e2d9aa",
+    "tensor_sha256": "215827ad7344763c2d493637401292b527c5f1bd35d1dfe596cb0704483e045c",
+    "epoch": 7,
+    "objectness_loss": "focal",
+    "history_sha256": "d570d853974b1ed25f847c61f4654ccb13beaec51809296d387609a83bbe9df3"
+  },
+  {
+    "run": "20261102_114742_quick",
+    "checkpoint_sha256": "e5a6ed2ded9b03baab4e7cf5f92ade609706ade9decc63b71f9c7359e1e188a4",
+    "tensor_sha256": "abf4b28447f05b73c2ed77f3a7e2e733a20e9b817230901dca488af60ab56335",
+    "epoch": 2,
+    "objectness_loss": "baseline",
+    "history_sha256": "f876674ca949cb37da5e488a07fa38d557af127713d2551ad2cb930a0925166a"
+  }
+]

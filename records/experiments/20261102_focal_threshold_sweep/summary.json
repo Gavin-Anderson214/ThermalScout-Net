@@ -1,0 +1,138 @@
+{
+  "run": "20261029_focal_experiment",
+  "checkpoint_sha256": "d8ef015be250a0a1b800ec058c3a3acc9564c2064c7f9abebc10d4df71e2d9aa",
+  "checkpoint_epoch": 7,
+  "images": 334,
+  "baseline": {
+    "threshold": 0.25,
+    "group": "all",
+    "tp": 441,
+    "fp": 12919,
+    "fn": 575,
+    "gt": 1016,
+    "precision": 0.03300898203592814,
+    "recall": 0.4340551181102362,
+    "f1": 0.06135225375626043
+  },
+  "per_class_baseline": [
+    {
+      "threshold": 0.25,
+      "group": "animal",
+      "tp": 437,
+      "fp": 12800,
+      "fn": 517,
+      "gt": 954,
+      "precision": 0.03301352270151847,
+      "recall": 0.4580712788259958,
+      "f1": 0.06158833063209076
+    },
+    {
+      "threshold": 0.25,
+      "group": "human",
+      "tp": 4,
+      "fp": 119,
+      "fn": 58,
+      "gt": 62,
+      "precision": 0.032520325203252036,
+      "recall": 0.06451612903225806,
+      "f1": 0.043243243243243246
+    },
+    {
+      "threshold": 0.25,
+      "group": "all",
+      "tp": 441,
+      "fp": 12919,
+      "fn": 575,
+      "gt": 1016,
+      "precision": 0.03300898203592814,
+      "recall": 0.4340551181102362,
+      "f1": 0.06135225375626043
+    }
+  ],
+  "human_preserving_policy": {
+    "animal_threshold": 0.99,
+    "human_threshold": 0.25,
+    "tp": 259,
+    "fp": 649,
+    "gt": 1016,
+    "precision": 0.2852422907488987,
+    "recall": 0.2549212598425197,
+    "f1": 0.2692307692307692
+  },
+  "policy_human_metrics": {
+    "threshold": 0.25,
+    "group": "human",
+    "tp": 4,
+    "fp": 119,
+    "fn": 58,
+    "gt": 62,
+    "precision": 0.032520325203252036,
+    "recall": 0.06451612903225806,
+    "f1": 0.043243243243243246
+  },
+  "reproducibility": {
+    "command": [
+      "analyze_validation.py",
+      "--run",
+      "training_runs/20261029_focal_experiment",
+      "--out",
+      "training_runs/20261102_threshold_verified"
+    ],
+    "python": "3.12.10",
+    "torch": "2.15.0+cpu",
+    "numpy": "2.5.4",
+    "device": "cpu",
+    "data": "D:\\College Work\\Intro To AI\\Intro to AI project\\ThermalScout-Net_GitHub_Ready\\ThermalScout-Net\\data\\processed\\yolo_real",
+    "dataset_manifest_sha256": "a5912a64772571138119a82eac3d1cdf058c61aaaf03c8bec826745448f64b5f",
+    "predictions_sha256": "da06a9432b61a1e75669f3c3695170262bc72769b26f51a9102c7e16f1b05a6a",
+    "source_sha256": {
+      "D:\\College Work\\Intro To AI\\Intro to AI project\\ThermalScout-Net_GitHub_Ready\\ThermalScout-Net\\analyze_validation.py": "a2e6685671647a38b765d9df7ebf16120d832129520de17292f5b7495b1b85d2",
+      "thermalscout\\__init__.py": "08b65382f4c51f4cbce0200f6ba3b900cbc45c806995dcb8c8ba26045f23f9fa",
+      "thermalscout\\data.py": "f3a2e7421f2b8bace2890f14a02d89e75a1ced93d973fdc1a87032659397d678",
+      "thermalscout\\evaluate_detector.py": "df19a1b04bbaf707c71c43fb0112424d9e4b28a2a465adf549d6b7e04f0139ca",
+      "thermalscout\\inference.py": "c9c98ad0adc1de5d5fb448866b8799ce7650e2cf42123be0454dcdc97a58cc0f",
+      "thermalscout\\model.py": "8ccf96aa6effab57ecc492eed51eb93e4d840b1d7c5a68913baf3bc6d0be7aac",
+      "thermalscout\\train_detector.py": "3e6b9e640e91fb73e20263b0c1931f0aec27c531f1b7292b53a123c4e3547fe0",
+      "thermalscout\\training.py": "9b268aabcdb785f854edd690d5df29a51dafa283b43e0decd0526b191d827926"
+    }
+  },
+  "validation_selected_best_micro_f1": {
+    "threshold": 0.99,
+    "group": "all",
+    "tp": 255,
+    "fp": 531,
+    "fn": 761,
+    "gt": 1016,
+    "precision": 0.3244274809160305,
+    "recall": 0.25098425196850394,
+    "f1": 0.2830188679245283
+  },
+  "baseline_error_categories": {
+    "tp": 441,
+    "duplicate": 92,
+    "wrong_class": 25,
+    "localization": 1175,
+    "background_like": 11627,
+    "missed": 575
+  },
+  "example_selection": "Highest false-positive count frame in each validation video; ties use first filename",
+  "example_images": [
+    "0000000067_0000000012__f0000462.jpg",
+    "0000000067_0000000025__f0000303.jpg",
+    "0000000067_0000000026__f0000178.jpg",
+    "0000000067_0000000031__f0000250.jpg",
+    "0000000067_0000000059__f0000070.jpg",
+    "0000000351_0000000000__f0000135.jpg"
+  ],
+  "human_example_selection": "Two frames with most human labels; ties use first filename",
+  "human_example_images": [
+    "0000000067_0000000059__f0000629.jpg",
+    "0000000067_0000000059__f0000630.jpg"
+  ],
+  "limitations": [
+    "Development validation threshold selection is optimistic; not official test performance.",
+    "Same 500 candidates, classwise NMS, and 40-detection cap as baseline; sweep only filters retained boxes.",
+    "FP categories are label-overlap heuristics, not visually confirmed causes.",
+    "No training or inference defaults changed."
+  ]
+}

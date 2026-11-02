@@ -1,14 +1,19 @@
 # ThermalScout-Net
 
-## Latest measured results — October 29, 2026
+## Latest development results — November 2, 2026
 
-Completed a 10-epoch real-image custom-detector baseline on 2,001 training and 334 video-separated development-validation images. Best checkpoint: epoch 7, validation loss 0.7148.
+Two matched ten-epoch training runs compared the existing human class weight of 2 with weight 4. Only that weight changed; the fresh control exactly reproduced the historical model tensors.
 
-| Precision | Recall | mAP@0.50 | mAP@0.50:0.95 | CPU inference + postprocessing |
-|---:|---:|---:|---:|---:|
-| 3.29% | 43.11% | 8.11% | 2.44% | 7.11 FPS |
+| Metric | Control (weight 2) | Variant (weight 4) |
+|---|---:|---:|
+| Human detections | 12/62 | 21/62 |
+| Human recall | 19.35% | 33.87% |
+| Human false positives | 187 | 492 |
+| Overall mAP@0.50 | 8.11% | 15.54% |
 
-These are development-validation results; official TestReal remains held out. The model has many false positives and needs improvement before drone use. See [results, limitations and saved evidence](docs/RESULTS_2026-10-29.md). Earlier status snapshots in the project describe progress before this experiment.
+Weight 4 found more humans but made more false human detections. These are single-seed development-validation results, not final test accuracy; official TestReal remains held out. Defaults remain unchanged. See the [concise finding](docs/HUMAN_WEIGHT_FINDING_2026-11-02.md), [controlled experiment](docs/HUMAN_WEIGHT_EXPERIMENT_2026-11-02.md), and [living report](report/Living_Project_Report.html).
+
+**Sharing:** [Folder guide and ZIP instructions](docs/SHARING_AND_ORGANIZATION.md). This repository and the shareable ZIP contain code, reports and metrics; datasets, checkpoints and image caches stay local. Run `py -3.12 scripts/package_project.py` to build a fresh ZIP.
 
 **Navigation:** [Start Here - folder labels and VS Code guide](START_HERE.md). Open `ThermalScout-Net.code-workspace` for labeled Explorer folders.
 ### Custom AI-Based Human and Wildlife Detection Using Thermal Drone Imagery
@@ -374,7 +379,7 @@ Ensure that PowerShell is selected.
 Run:
 
 ```powershell
-python3.13 --version
+py -3.12 --version
 ```
 
 The project has been developed using Python 3.13.
@@ -384,7 +389,7 @@ The project has been developed using Python 3.13.
 Run:
 
 ```powershell
-python3.13 -m pip install -r requirements-dev.txt
+py -3.12 -m pip install -r requirements-dev.txt
 ```
 
 This installs the required packages, including the development testing tools.
@@ -392,7 +397,7 @@ This installs the required packages, including the development testing tools.
 ### Step 5: Run the Automated Tests
 
 ```powershell
-python3.13 -m pytest -q
+py -3.12 -m pytest -q
 ```
 
 These tests check important components of the project, including data processing and neural-network operations.
@@ -408,13 +413,13 @@ Passing the tests confirms that the checked code components work as expected. It
 To run the completed proof of concept:
 
 ```powershell
-python3.13 demo/thermal_scout_demo.py
+py -3.12 demo/thermal_scout_demo.py
 ```
 
 To retrain the network from scratch:
 
 ```powershell
-python3.13 demo/thermal_scout_demo.py --retrain
+py -3.12 demo/thermal_scout_demo.py --retrain
 ```
 
 This demonstration uses synthetic images and is separate from the full real-image detector.
@@ -426,13 +431,13 @@ The BIRDSAI preparation phase has already been completed.
 If the dataset must be reprocessed, run:
 
 ```powershell
-python3.13 scripts/birdsai_prepare.py --data "FULL_PATH_TO_TrainReal" --mode inspect --previews 0
+py -3.12 scripts/birdsai_prepare.py --data "FULL_PATH_TO_TrainReal" --mode inspect --previews 0
 ```
 
 Then:
 
 ```powershell
-python3.13 scripts/birdsai_prepare.py --data "FULL_PATH_TO_TrainReal" --mode prepare --previews 0
+py -3.12 scripts/birdsai_prepare.py --data "FULL_PATH_TO_TrainReal" --mode prepare --previews 0
 ```
 
 Replace `FULL_PATH_TO_TrainReal` with the actual location of the extracted dataset.
@@ -444,13 +449,13 @@ The `--previews 0` option skips preview-image generation.
 Start with a quick development experiment:
 
 ```powershell
-python3.13 project_manager.py train --mode quick
+py -3.12 project_manager.py train --mode quick
 ```
 
 Evaluate the trained model:
 
 ```powershell
-python3.13 project_manager.py evaluate
+py -3.12 project_manager.py evaluate
 ```
 
 The quick experiment is intended to verify that training and evaluation work correctly.
@@ -458,13 +463,13 @@ The quick experiment is intended to verify that training and evaluation work cor
 For a larger experiment:
 
 ```powershell
-python3.13 project_manager.py train --mode full
+py -3.12 project_manager.py train --mode full
 ```
 
 If the prepared dataset cannot be located automatically, specify its location using:
 
 ```powershell
-python3.13 project_manager.py train --mode quick --data "FULL_PATH_TO_yolo_real"
+py -3.12 project_manager.py train --mode quick --data "FULL_PATH_TO_yolo_real"
 ```
 
 Training results will be stored locally and recorded by the project management system.
@@ -532,13 +537,13 @@ This repository contains a living engineering report that records project accomp
 After completing a milestone, add a progress note:
 
 ```powershell
-python3.13 project_manager.py note --title "Experiment completed" --detail "Describe what was tested and observed" --status Complete
+py -3.12 project_manager.py note --title "Experiment completed" --detail "Describe what was tested and observed" --status Complete
 ```
 
 Update the report:
 
 ```powershell
-python3.13 project_manager.py update
+py -3.12 project_manager.py update
 ```
 
 The latest generated report can be opened at:

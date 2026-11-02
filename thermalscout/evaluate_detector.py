@@ -17,6 +17,7 @@ from .data import BirdsaiDataset, collate
 from .inference import infer
 
 
+# --- Measure geometric overlap using normalized corner coordinates.
 def iou_xyxy(a, b):
     """Calculate overlap between two boxes as a fraction from 0 to 1."""
     x1 = max(a[0], b[0]); y1 = max(a[1], b[1])
@@ -27,12 +28,14 @@ def iou_xyxy(a, b):
     return inter / max(1.e-9, area_a+area_b-inter)
 
 
+# --- Convert center/size labels to the corner format used by prediction matching.
 def xywh_to_xyxy(box):
     """Convert a label from center/size to top-left and bottom-right corners."""
     cls,x,y,w,h = box
     return int(cls), [max(0,x-w/2),max(0,y-h/2),min(1,x+w/2),min(1,y+h/2)]
 
 
+# --- Match predictions to unused same-class labels per image at fixed confidence and IoU thresholds.
 def get_counts(entries, class_id, iou=0.5, conf=.25):
     """Count correct detections and mistakes for precision and recall."""
     hits, false_positives, ground_truths = 0,0,0
@@ -51,6 +54,7 @@ def get_counts(entries, class_id, iou=0.5, conf=.25):
                 recall=hits/max(1,ground_truths))
 
 
+# --- Rank detections by confidence and average interpolated precision over 101 recall levels.
 def ap_101(entries,class_id,threshold):
     """Calculate average precision from the full ranked prediction list."""
     truths={}
@@ -79,6 +83,7 @@ def ap_101(entries,class_id,threshold):
     return float(np.mean([np.max(precision[recall>=r],initial=0.) for r in np.linspace(0.,1.,101)]))
 
 
+# --- Load a checkpoint, predict validation frames, aggregate class metrics and save measured results.
 def main():
     """Load the trained model, measure validation metrics, and save JSON."""
     p=argparse.ArgumentParser()
@@ -102,12 +107,14 @@ def main():
     for n,(img,boxes,_) in enumerate(loader,1):
         tensor=img[0]
         if device=='cuda':torch.cuda.synchronize()
+        # Time inference and postprocessing; loading this frame happened earlier.
         start=time.perf_counter()
         dets=infer(model,tensor,device,threshold=0.001)
         if device=='cuda':torch.cuda.synchronize()
         secs+=time.perf_counter()-start
         entries.append({'ground_truth':boxes[0], 'predictions':dets})
         if n%50==0:print('  evaluated',n,'/',len(ds),flush=True)
+    # Evaluate increasingly strict overlaps; classes with no labels have no AP.
     iou_steps=np.arange(0.5,1.0,0.05)
     class_aps={}
     count_by_class={}

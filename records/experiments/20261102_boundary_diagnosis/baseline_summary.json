@@ -1,0 +1,104 @@
+{
+  "scope": "Development validation only; TestReal not used",
+  "rule": "Discard retained predicted boxes with centers outside the exact letterboxed content rectangle; no margin or tuned cutoff",
+  "checkpoint_sha256": "d4304c9cb1c380978507751e887aa7a41c568d307b1bf71d27cc90a164439897",
+  "cache_sha256": "763f3b5dd17c2f03727ced5e8ad0c7ff339ac13360e2c8e9fd19352ba45b4030",
+  "dataset_sha256": "0529a28e37e7d7c8b6c5c5dc47fe4d173e8020706abba5a071cebeeb4d5a286b",
+  "source_sha256": "b56a17338a1b94c329e8490f9ae8f9bc3ea9b596f94065b1f6421927631a3a33",
+  "images": 334,
+  "image_size": 256,
+  "label_centers_outside_content": 0,
+  "baseline": {
+    "tp": 438,
+    "fp": 12880,
+    "gt": 1016,
+    "precision": 0.032887820994143266,
+    "recall": 0.4311023622047244,
+    "f1": 0.06111343658434491,
+    "classes": {
+      "animal": {
+        "tp": 426,
+        "fp": 12693,
+        "gt": 954,
+        "precision": 0.032471987194145895,
+        "recall": 0.44654088050314467
+      },
+      "human": {
+        "tp": 12,
+        "fp": 187,
+        "gt": 62,
+        "precision": 0.06030150753768844,
+        "recall": 0.1935483870967742
+      }
+    }
+  },
+  "padding_filter": {
+    "tp": 438,
+    "fp": 12878,
+    "gt": 1016,
+    "precision": 0.0328927605887654,
+    "recall": 0.4311023622047244,
+    "f1": 0.06112196483393804,
+    "classes": {
+      "animal": {
+        "tp": 426,
+        "fp": 12693,
+        "gt": 954,
+        "precision": 0.032471987194145895,
+        "recall": 0.44654088050314467
+      },
+      "human": {
+        "tp": 12,
+        "fp": 185,
+        "gt": 62,
+        "precision": 0.06091370558375635,
+        "recall": 0.1935483870967742
+      }
+    }
+  },
+  "boundary_band_pixels": 4,
+  "boundary_band_filter": {
+    "tp": 434,
+    "fp": 11624,
+    "gt": 1016,
+    "precision": 0.035992701940620334,
+    "recall": 0.4271653543307087,
+    "f1": 0.06639131099892917,
+    "classes": {
+      "animal": {
+        "tp": 422,
+        "fp": 11481,
+        "gt": 954,
+        "precision": 0.03545324708056792,
+        "recall": 0.44234800838574423
+      },
+      "human": {
+        "tp": 12,
+        "fp": 143,
+        "gt": 62,
+        "precision": 0.07741935483870968,
+        "recall": 0.1935483870967742
+      }
+    }
+  },
+  "human_overlap_before": {
+    "human_labels": 62,
+    "human_overlap_at_50": 12,
+    "animal_only_overlap_at_50": 10,
+    "no_overlap_at_50": 40,
+    "any_overlap_at_10": 62
+  },
+  "human_overlap_after": {
+    "human_labels": 62,
+    "human_overlap_at_50": 12,
+    "animal_only_overlap_at_50": 10,
+    "no_overlap_at_50": 40,
+    "any_overlap_at_10": 62
+  },
+  "limitations": [
+    "Post-cap filtering cannot recover candidates removed by top-500 or 40-box caps.",
+    "Overlap categories are per label, not one-to-one matched recall or proof of causal class errors.",
+    "Cached predictions were generated at .001; all reported precision/recall use .25 confidence and .50 IoU.",
+    "No retraining, AP, or speed improvement is claimed. Training and inference defaults unchanged."
+  ]
+}

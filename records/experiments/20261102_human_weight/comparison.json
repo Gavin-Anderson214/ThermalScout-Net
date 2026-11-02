@@ -1,0 +1,89 @@
+{
+  "control": {
+    "checkpoint_sha256": "cc238c21f22a70b478cdf81b9d5e003465b94e9eb3f84c3707a574a9b420dc30",
+    "epoch": 7,
+    "human_weight": 2.0,
+    "metrics": {
+      "model": "ThermalScout-Net (real/scratch)",
+      "training": "random initialization",
+      "split": "validation",
+      "scope": "DEVELOPMENT ONLY - official TestReal was not used",
+      "evaluation_images": 334,
+      "image_size": 256,
+      "iou_for_precision_recall": 0.5,
+      "confidence_for_precision_recall": 0.25,
+      "ap_method": "101-point interpolated per class; IoU 0.50..0.95 (step 0.05)",
+      "precision": 0.032887820994143266,
+      "recall": 0.4311023622047244,
+      "map50": 0.08110440138161165,
+      "map5095": 0.024365209500305574,
+      "fps": 20.533985430407384,
+      "fps_measurement": "forward pass + CPU/GPU postprocessing; no file-I/O or dataset-loading time",
+      "class_metrics": {
+        "animal": {
+          "tp": 426,
+          "fp": 12693,
+          "gt": 954,
+          "precision": 0.032471987194145895,
+          "recall": 0.44654088050314467,
+          "ap50": 0.14068306541498196,
+          "map5095": 0.04377212162145695
+        },
+        "human": {
+          "tp": 12,
+          "fp": 187,
+          "gt": 62,
+          "precision": 0.06030150753768844,
+          "recall": 0.1935483870967742,
+          "ap50": 0.02152573734824134,
+          "map5095": 0.004958297379154196
+        }
+      },
+      "notes": "Small prototype; one box per stride-4 cell, predictions capped at 40/image."
+    }
+  },
+  "human4": {
+    "checkpoint_sha256": "5b577284f6877c26562d6cf67f200b5f874e25bd39c731b7f22e1d8f764f21a6",
+    "epoch": 7,
+    "human_weight": 4.0,
+    "metrics": {
+      "model": "ThermalScout-Net (real/scratch)",
+      "training": "random initialization",
+      "split": "validation",
+      "scope": "DEVELOPMENT ONLY - official TestReal was not used",
+      "evaluation_images": 334,
+      "image_size": 256,
+      "iou_for_precision_recall": 0.5,
+      "confidence_for_precision_recall": 0.25,
+      "ap_method": "101-point interpolated per class; IoU 0.50..0.95 (step 0.05)",
+      "precision": 0.04953465118067841,
+      "recall": 0.6338582677165354,
+      "map50": 0.1554201526737146,
+      "map5095": 0.03697393320003205,
+      "fps": 19.879728949365344,
+      "fps_measurement": "forward pass + CPU/GPU postprocessing; no file-I/O or dataset-loading time",
+      "class_metrics": {
+        "animal": {
+          "tp": 623,
+          "fp": 11865,
+          "gt": 954,
+          "precision": 0.04988789237668161,
+          "recall": 0.6530398322851153,
+          "ap50": 0.23970751592635509,
+          "map5095": 0.06091264961344493
+        },
+        "human": {
+          "tp": 21,
+          "fp": 492,
+          "gt": 62,
+          "precision": 0.04093567251461988,
+          "recall": 0.3387096774193548,
+          "ap50": 0.07113278942107408,
+          "map5095": 0.013035216786619156
+        }
+      },
+      "notes": "Small prototype; one box per stride-4 cell, predictions capped at 40/image."
+    }
+  },
+  "control_identical_to_historical_tensors": true
+}

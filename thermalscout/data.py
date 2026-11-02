@@ -19,6 +19,7 @@ from torch.utils.data import Dataset
 # Image formats that the dataset loader understands.
 EXTS = {".jpg", ".jpeg", ".png", ".bmp", ".tif", ".tiff"}
 
+# --- Validate YOLO rows before training: class 0 is animal, class 1 is human; coordinates are normalized.
 def read_boxes(txt: Path):
     """Read an image label file: each row has class, center x/y, width and height."""
     if not txt.exists():
@@ -39,6 +40,7 @@ def read_boxes(txt: Path):
         result.append((c, x, y, w, h))
     return result
 
+# --- Keep quick experiments repeatable while reserving some sample slots for frames containing humans.
 def choose_subset(records, limit: int, seed: int):
     """Sample real images, reserving room for frames with the rarer human class."""
     if limit <= 0 or limit >= len(records):
@@ -52,6 +54,7 @@ def choose_subset(records, limit: int, seed: int):
     rng.shuffle(keep)
     return keep
 
+# --- Connect image files to labels, then letterbox images and boxes into the same square coordinate system.
 class BirdsaiDataset(Dataset):
     """Load images and labels, resize them, and optionally flip training images."""
     def __init__(self, root: Path, split: str, size: int, limit: int, seed: int,
@@ -89,6 +92,8 @@ class BirdsaiDataset(Dataset):
             canvas.paste(im, (off_x, off_y))
             pixels = np.asarray(canvas, dtype=np.float32).copy() / 255.0
 
+        # Padding changes object centers; resizing changes widths and heights.
+        # Apply the same transformation to labels as to image pixels.
         # Letterbox-adjusted boxes: [c, xc, yc, w, h] all normalized to canvas.
         adjusted = []
         for c, x, y, w, h in boxes:
@@ -102,6 +107,7 @@ class BirdsaiDataset(Dataset):
             adjusted = [(c, 1 - x, y, w, h) for c, x, y, w, h in adjusted]
         return torch.from_numpy(pixels[None]), adjusted, str(img_path)
 
+# --- Stack equal-sized images but preserve variable-length object lists for each frame.
 def collate(batch):
     """Combine images into a batch while preserving each image’s list of boxes."""
     imgs, boxes, paths = zip(*batch)

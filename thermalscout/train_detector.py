@@ -9,6 +9,11 @@ Use project_manager.py at the repository root for automatic experiment logging.
 
 import argparse
 import csv
+import json
+import math
+import platform
+import hashlib
+import sys
 import random
 from pathlib import Path
 import numpy as np
@@ -19,6 +24,7 @@ from .data import BirdsaiDataset, collate
 from .training import train_epoch, eval_epoch
 from .inference import create_preview
 
+# --- Parse settings, select development data, train from random weights and save the lowest-validation-loss checkpoint.
 def main():
     """Read training options, train the model, save the best weights and loss history."""
     p = argparse.ArgumentParser(description='Train a custom ThermalScout-Net detector from scratch')
@@ -34,18 +40,24 @@ def main():
     p.add_argument('--threshold', type=float, default=0.25)
     p.add_argument('--device', default='auto', choices=['auto', 'cpu', 'cuda'])
     p.add_argument('--seed', type=int, default=42)
+    p.add_argument('--objectness', choices=['baseline', 'focal'], default='baseline', help='Negative objectness loss for controlled experiment')
+    p.add_argument('--human-weight', type=float, default=2.0, help='Human class cross-entropy weight; animal stays 1')
     args = p.parse_args()
+    if not math.isfinite(args.human_weight) or args.human_weight <= 0:
+        p.error('--human-weight must be finite and positive')
     if args.size < 64 or args.size % 8 != 0 or args.batch < 1:
         p.error('--size must be >=64 and divisible by 8; --batch >=1')
     root = args.data.expanduser().resolve()
     for split in ('train', 'val'):
         if not (root / 'images' / split).is_dir() or not (root / 'labels' / split).is_dir():
             p.error(f"Could not find {split} images/labels under {root}. Run birdsai_prepare.py --mode prepare first.")
+    # Seed sampling and initialization for repeatability; GPU kernels may still vary.
     random.seed(args.seed); np.random.seed(args.seed); torch.manual_seed(args.seed)
     device = 'cuda' if args.device == 'auto' and torch.cuda.is_available() else ('cpu' if args.device == 'auto' else args.device)
     if device == 'cuda' and not torch.cuda.is_available():
         p.error('CUDA unavailable in this PyTorch installation; use --device cpu or install CUDA PyTorch.')
     full = args.full
+    # Quick mode checks the pipeline on a small sample; full uses the prepared split.
     tr_limit, va_limit = (0, 0) if full else (160, 40)
     epochs = args.epochs if args.epochs is not None else (10 if full else 2)
     train = BirdsaiDataset(root, 'train', args.size, tr_limit, args.seed, augment=True)
@@ -58,6 +70,14 @@ def main():
     optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr, weight_decay=1e-4)
     out = args.out.expanduser().resolve()
     out.mkdir(parents=True, exist_ok=True)
+    if (out / 'thermal_scout_real_weights.pt').exists():
+        p.error('Output already contains a checkpoint; choose a fresh --out directory')
+    config = {**vars(args), 'data': str(root), 'out': str(out), 'device': device,
+              'python': platform.python_version(), 'torch': str(torch.__version__), 'numpy': np.__version__,
+              'command': sys.argv, 'optimizer': 'AdamW', 'weight_decay': 1e-4,
+              'train_images': len(train), 'val_images': len(val), 'epochs': epochs,
+              'source_sha256': {str(p): hashlib.sha256(p.read_bytes()).hexdigest() for p in Path('thermalscout').glob('*.py')}}
+    (out / 'config.json').write_text(json.dumps(config, indent=2), encoding='utf-8')
     print(f'Device: {device} | Trainable CUSTOM parameters: {sum(p.numel() for p in model.parameters()):,}')
     print(f'Mode: {"FULL" if full else "QUICK"} | images train={len(train)} val={len(val)} | image size={args.size}')
     print(f'Annotations in selected images: train animal={train.label_counts[0]}, human={train.label_counts[1]}; '
@@ -65,22 +85,25 @@ def main():
     print(f'Unlabeled selected images: train={train.num_empty}; val={val.num_empty}')
     print('This is training from RANDOM INITIALIZATION on real BIRDSAI frames. No pretrained model.')
     print('Validation is for development; this DOES NOT use the official TestReal partition.')
+    print(f'Objectness loss: {args.objectness}; human class weight: {args.human_weight}', flush=True)
     best = float('inf')
     history = []
     for ep in range(1, epochs + 1):
-        tl, tc = train_epoch(model, tr_loader, optimizer, device)
-        vl, vc = eval_epoch(model, va_loader, device)
+        tl, tc = train_epoch(model, tr_loader, optimizer, device, args.objectness, args.human_weight)
+        vl, vc = eval_epoch(model, va_loader, device, args.objectness, args.human_weight)
         print(f'Epoch {ep:02d}/{epochs}: train loss={tl:.4f}, val loss={vl:.4f} '
               f'| same-cell box collisions train={tc}, val={vc}', flush=True)
         history.append((ep, tl, vl, tc, vc))
+        # Select weights by validation loss, not by measured detection mAP.
         if vl < best:
             best = vl
             torch.save({'model': model.state_dict(), 'image_size': args.size,
-                        'classes': CLASSES, 'epoch': ep, 'val_loss': vl}, out / 'thermal_scout_real_weights.pt')
+                        'classes': CLASSES, 'epoch': ep, 'val_loss': vl, 'objectness_loss': args.objectness, 'human_weight': args.human_weight}, out / 'thermal_scout_real_weights.pt')
     with (out / 'loss_history.csv').open('w', newline='', encoding='utf-8') as fp:
         writer = csv.writer(fp)
         writer.writerow(['epoch', 'train_loss', 'val_loss', 'train_box_collisions', 'val_box_collisions'])
         writer.writerows(history)
+    # Reload the best epoch rather than using the final epoch for the preview.
     saved = torch.load(out / 'thermal_scout_real_weights.pt', map_location=device, weights_only=True)
     model.load_state_dict(saved['model'])
     n, name = create_preview(model, val, device, out / 'real_detection_preview.png', args.threshold)

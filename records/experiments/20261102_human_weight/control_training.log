@@ -1,0 +1,22 @@
+Device: cpu | Trainable CUSTOM parameters: 88,503
+Mode: FULL | images train=2001 val=334 | image size=256
+Annotations in selected images: train animal=6691, human=1090; val animal=954, human=62
+Unlabeled selected images: train=0; val=0
+This is training from RANDOM INITIALIZATION on real BIRDSAI frames. No pretrained model.
+Validation is for development; this DOES NOT use the official TestReal partition.
+Objectness loss: baseline; human class weight: 2.0
+Epoch 01/10: train loss=1.0009, val loss=0.8497 | same-cell box collisions train=67, val=2
+Epoch 02/10: train loss=0.6527, val loss=1.6836 | same-cell box collisions train=69, val=2
+Epoch 03/10: train loss=0.5027, val loss=1.0095 | same-cell box collisions train=66, val=2
+Epoch 04/10: train loss=0.4535, val loss=0.7231 | same-cell box collisions train=69, val=2
+Epoch 05/10: train loss=0.3946, val loss=0.8844 | same-cell box collisions train=68, val=2
+Epoch 06/10: train loss=0.3510, val loss=2.0454 | same-cell box collisions train=67, val=2
+Epoch 07/10: train loss=0.3291, val loss=0.7148 | same-cell box collisions train=70, val=2
+Epoch 08/10: train loss=0.3146, val loss=0.9859 | same-cell box collisions train=68, val=2
+Epoch 09/10: train loss=0.2834, val loss=0.8976 | same-cell box collisions train=68, val=2
+Epoch 10/10: train loss=0.2659, val loss=0.9952 | same-cell box collisions train=66, val=2
+Best checkpoint epoch 7, val loss 0.7148
+Preview: D:\College Work\Intro To AI\Intro to AI project\ThermalScout-Net_GitHub_Ready\ThermalScout-Net\training_runs\20261102_classweight_control\real_detection_preview.png (40 detections on 0000000067_0000000059__f0000629.jpg)
+Weights: D:\College Work\Intro To AI\Intro to AI project\ThermalScout-Net_GitHub_Ready\ThermalScout-Net\training_runs\20261102_classweight_control\thermal_scout_real_weights.pt
+History: D:\College Work\Intro To AI\Intro to AI project\ThermalScout-Net_GitHub_Ready\ThermalScout-Net\training_runs\20261102_classweight_control\loss_history.csv
+CAUTION: This is a first custom detector baseline, not a validated mAP result.

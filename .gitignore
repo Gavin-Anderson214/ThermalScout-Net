@@ -36,3 +36,13 @@ examples/BIRDSAI_annotated_example.png
 # Generated figures are reproducible from records
 report/figures/real_training_loss.png
 report/figures/model_comparison.png
+
+# Local cached predictions and BIRDSAI-derived diagnostic images
+records/experiments/*/predictions.json
+records/experiments/*/validation_examples.png
+records/experiments/*/human_examples.png
+
+# Portable releases
+dist/
+!data/README.md
+!training_runs/README.md

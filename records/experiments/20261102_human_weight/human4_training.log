@@ -1,0 +1,22 @@
+Device: cpu | Trainable CUSTOM parameters: 88,503
+Mode: FULL | images train=2001 val=334 | image size=256
+Annotations in selected images: train animal=6691, human=1090; val animal=954, human=62
+Unlabeled selected images: train=0; val=0
+This is training from RANDOM INITIALIZATION on real BIRDSAI frames. No pretrained model.
+Validation is for development; this DOES NOT use the official TestReal partition.
+Objectness loss: baseline; human class weight: 4.0
+Epoch 01/10: train loss=1.0815, val loss=1.0242 | same-cell box collisions train=67, val=2
+Epoch 02/10: train loss=0.7403, val loss=0.8274 | same-cell box collisions train=69, val=2
+Epoch 03/10: train loss=0.5765, val loss=0.8498 | same-cell box collisions train=66, val=2
+Epoch 04/10: train loss=0.5151, val loss=0.9189 | same-cell box collisions train=69, val=2
+Epoch 05/10: train loss=0.4576, val loss=1.2712 | same-cell box collisions train=68, val=2
+Epoch 06/10: train loss=0.4139, val loss=1.1358 | same-cell box collisions train=67, val=2
+Epoch 07/10: train loss=0.3858, val loss=0.7159 | same-cell box collisions train=70, val=2
+Epoch 08/10: train loss=0.3741, val loss=0.9123 | same-cell box collisions train=68, val=2
+Epoch 09/10: train loss=0.3068, val loss=0.7818 | same-cell box collisions train=68, val=2
+Epoch 10/10: train loss=0.2969, val loss=0.8543 | same-cell box collisions train=66, val=2
+Best checkpoint epoch 7, val loss 0.7159
+Preview: D:\College Work\Intro To AI\Intro to AI project\ThermalScout-Net_GitHub_Ready\ThermalScout-Net\training_runs\20261102_classweight_human4\real_detection_preview.png (32 detections on 0000000067_0000000059__f0000629.jpg)
+Weights: D:\College Work\Intro To AI\Intro to AI project\ThermalScout-Net_GitHub_Ready\ThermalScout-Net\training_runs\20261102_classweight_human4\thermal_scout_real_weights.pt
+History: D:\College Work\Intro To AI\Intro to AI project\ThermalScout-Net_GitHub_Ready\ThermalScout-Net\training_runs\20261102_classweight_human4\loss_history.csv
+CAUTION: This is a first custom detector baseline, not a validated mAP result.

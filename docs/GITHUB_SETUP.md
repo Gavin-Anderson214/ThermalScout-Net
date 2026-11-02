@@ -1,6 +1,10 @@
 # Publish ThermalScout-Net to GitHub
 
-Your currently connected GitHub login is **Gavin-Anderson214**. No repository was created or uploaded automatically by this package.
+Existing repository: https://github.com/Gavin-Anderson214/ThermalScout-Net
+
+The repository is already connected. Use **Step C — routine project updates** below for future work; do not create a second repository or add origin again. Build a handoff ZIP with `py -3.12 scripts/package_project.py`; see [sharing and organization](SHARING_AND_ORGANIZATION.md).
+
+The initial setup steps below are retained as a reference for a new clone or a different repository.
 
 ## Step A — create an EMPTY private repository
 
@@ -30,7 +34,7 @@ If Git requests your username/email, set them with `git config --global user.nam
 ## Step C — routine project updates
 
 ```powershell
-python3.13 project_manager.py update
+py -3.12 project_manager.py update
 git add .
 git commit -m "Record new ThermalScout-Net experiment"
 git push

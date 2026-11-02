@@ -1,0 +1,56 @@
+{
+  "run": "20261029_133235_full",
+  "checkpoint_sha256": "d4304c9cb1c380978507751e887aa7a41c568d307b1bf71d27cc90a164439897",
+  "checkpoint_epoch": 7,
+  "images": 334,
+  "baseline": {
+    "threshold": 0.25,
+    "group": "all",
+    "tp": 438,
+    "fp": 12880,
+    "fn": 578,
+    "gt": 1016,
+    "precision": 0.032887820994143266,
+    "recall": 0.4311023622047244,
+    "f1": 0.06111343658434491
+  },
+  "validation_selected_best_micro_f1": {
+    "threshold": 0.99,
+    "group": "all",
+    "tp": 291,
+    "fp": 1574,
+    "fn": 725,
+    "gt": 1016,
+    "precision": 0.15603217158176944,
+    "recall": 0.28641732283464566,
+    "f1": 0.20201318986463035
+  },
+  "baseline_error_categories": {
+    "tp": 438,
+    "duplicate": 61,
+    "wrong_class": 17,
+    "localization": 1512,
+    "background_like": 11290,
+    "missed": 578
+  },
+  "example_selection": "Highest false-positive count frame in each validation video; ties use first filename",
+  "example_images": [
+    "0000000067_0000000012__f0000462.jpg",
+    "0000000067_0000000025__f0000308.jpg",
+    "0000000067_0000000026__f0000178.jpg",
+    "0000000067_0000000031__f0000250.jpg",
+    "0000000067_0000000059__f0000125.jpg",
+    "0000000351_0000000000__f0000105.jpg"
+  ],
+  "limitations": [
+    "Development validation threshold selection is optimistic; not official test performance.",
+    "Same 500 candidates, classwise NMS, and 40-detection cap as baseline; sweep only filters retained boxes.",
+    "FP categories are label-overlap heuristics, not visually confirmed causes.",
+    "No training or inference defaults changed."
+  ],
+  "human_example_selection": "Two frames with most human labels; ties use first filename",
+  "human_example_images": [
+    "0000000067_0000000059__f0000629.jpg",
+    "0000000067_0000000059__f0000630.jpg"
+  ]
+}

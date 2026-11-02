@@ -19,3 +19,8 @@
 - Measured precision 3.29%, recall 43.11%, mAP@0.50 8.11%, mAP@0.50:0.95 2.44%, and CPU inference plus postprocessing at 7.11 FPS.
 - Added portable evaluation JSON and full epoch history under records/experiments, plus a results summary in docs/RESULTS_2026-10-29.md.
 - Results use development validation only. Official TestReal remains held out; high false-positive counts require further work.
+
+## 2026-11-02 — Experiments and handoff
+- Recorded threshold/boundary diagnostics and matched class-weight experiments. Weight 4 found 21/62 humans versus 12/62, with more false human detections.
+- Added experiment evidence, regression checks and current report sections. Defaults retained; TestReal held out.
+- Refreshed portable navigation and Python 3.12 shortcuts; original file locations preserved. Added verified ZIP packaging.

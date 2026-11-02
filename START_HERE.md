@@ -1,45 +1,39 @@
-# Start Here - ThermalScout-Net
+# Start Here — ThermalScout-Net
 
-Use this repository for active development. Folder labels explain the current structure; no Python modules or datasets were moved.
+Open this folder in VS Code or use ThermalScout-Net.code-workspace. Run commands from the folder containing project_manager.py.
 
-## Folder navigation
+## Read or present
 
-| Folder | Label | What belongs here |
-|---|---|---|
-| [thermalscout](thermalscout/README.md) | Real-image detector | Network, data loading, training, predictions and evaluation |
-| [scripts](scripts/README.md) | Dataset preparation | BIRDSAI inspection and export |
-| [demo](demo/README.md) | Synthetic teaching demo | Earlier small CNN demonstration |
-| [data](data/README.md) | Dataset storage | Local datasets; external prepared data can stay where it is |
-| [training_runs](training_runs/README.md) | Generated outputs | Weights, histories and evaluations |
-| [records](records/README.md) | Research evidence | Metrics, run logs, milestones and dataset audit |
-| [report](report/README.md) | Deliverables | Living report, figures and earlier document snapshots |
-| [docs](docs/README.md) | Explanations | Code tour, course explanation and planning |
-| [examples](examples/README.md) | Illustrations | Supplied example images |
-| [tests](tests/README.md) | Verification | Core behavior checks |
+1. Open [the living report](report/Living_Project_Report.html) for current results.
+2. Read [the latest finding](docs/HUMAN_WEIGHT_FINDING_2026-11-02.md).
+3. Review [the experiment](docs/HUMAN_WEIGHT_EXPERIMENT_2026-11-02.md) and [evidence](records/experiments/20261102_human_weight/comparison.json).
+4. Use [README.md](README.md) for project and course context.
 
-## Important root files
+## Work on the project
 
-- [README.md](README.md): full project description and workflow.
-- [project_manager.py](project_manager.py): runs experiments and rebuilds research reports.
-- requirements.txt and requirements-dev.txt: runtime and development dependencies.
-- pyproject.toml: test configuration.
-- RUN_QUICK_AND_UPDATE.bat, EVALUATE_AND_UPDATE.bat, UPDATE_REPORT.bat: existing Windows shortcuts. Read them before running; they can perform experiments or update outputs.
+```powershell
+py -3.12 -m pip install -r requirements-dev.txt
+py -3.12 -m pytest tests -q
+py -3.12 project_manager.py update
+```
 
-## VS Code
+Real-image experiments need the prepared dataset under data/processed/yolo_real or an explicit --data path. Weights and diagnostic images stay under training_runs. Official TestReal remains held out. This is a research prototype with many false positives.
 
-1. Choose **File > Open Workspace from File** and select `ThermalScout-Net.code-workspace` beside this guide.
-2. Explorer shows the labeled **01 - ThermalScout-Net (active project)** root. The other labeled roots show the existing dataset output and earlier preparation/demo projects.
-3. Open this file and press **Ctrl+Shift+V** for Markdown preview. Each main folder has its own README label.
-4. Use **Ctrl+P** to find a filename; right-click the active project root and choose **Open in Integrated Terminal** before running project commands.
-5. Read the main README and docs/CODE_TOUR.md, verify your environment, then follow the existing training/evaluation workflow.
+## Find things
 
-Workspace names are display labels only. The Python package names, file paths and import structure remain unchanged. Opening the workspace does not run training.
+- thermalscout/: detector implementation.
+- docs/: findings, experiments and explanations.
+- records/: measured evidence and logs.
+- report/: current report, figures and historical snapshots.
+- scripts/: preparation and ZIP utilities.
+- demo/, examples/: synthetic teaching demonstration.
+- tests/: verification.
+- data/, training_runs/: local data and model outputs.
 
-## Other folders in the original screenshot
+Root helpers retain their current names and locations. See the [folder map](docs/SHARING_AND_ORGANIZATION.md) for details.
 
-- `birdsai_step2_output`: existing dataset audit, previews and prepared exports. Keep in place; inspect the existing yolo_real export before reusing it.
-- `ThermalScout_BIRDSAI_Step2`: earlier data preparation project. The active repository also contains scripts/birdsai_prepare.py.
-- `ThermalScout_Demo`: earlier synthetic prototype. The active repository also contains demo/thermal_scout_demo.py.
-- `ThermalScout-Net_GitHub_Ready`: delivery wrapper containing this active repository.
+## Share the project
 
-Do not delete earlier projects or duplicate the dataset just to simplify navigation. The workspace uses relative paths to these existing sibling directories. If you relocate the project, update those workspace paths. This navigation cleanup makes no claim about new training or accuracy results.
+Run `py -3.12 scripts/package_project.py` to build a ZIP under dist/. Read [sharing instructions](docs/SHARING_AND_ORGANIZATION.md) for recipient setup and the historical-file inventory. The Windows shortcuts use Python 3.12.
+
+Datasets, weights, prediction caches and temporary outputs are excluded. Earlier sibling projects and original documents remain in place. The portable workspace opens only this active project.

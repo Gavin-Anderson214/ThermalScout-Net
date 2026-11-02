@@ -32,11 +32,13 @@ WEIGHTS_PATH = OUTPUT_DIR / "thermal_scout_demo_weights.pt"
 PREVIEW_PATH = OUTPUT_DIR / "thermal_scout_demo_result.png"
 
 
+# --- Build ellipse-shaped masks for simulated thermal objects.
 def ellipse(xx, yy, cx, cy, rx, ry):
     """Boolean mask for one axis-aligned ellipse."""
     return ((xx - cx) / max(rx, 0.3)) ** 2 + ((yy - cy) / max(ry, 0.3)) ** 2 <= 1.0
 
 
+# --- Generate artificial thermal imagery and pixel labels; these are not real BIRDSAI measurements.
 def generate_thermal_frame(rng: np.random.Generator, n_objects=None):
     """Synthetic warm silhouettes on noisy cooler backgrounds, plus true masks."""
     h = w = SIZE
@@ -87,6 +89,7 @@ def generate_thermal_frame(rng: np.random.Generator, n_objects=None):
     return img.astype(np.float32), labels
 
 
+# --- Supply repeatable synthetic examples to the teaching model.
 class SyntheticThermalDataset(Dataset):
     """Create many simulated frames for introductory CNN training."""
     def __init__(self, count, seed):
@@ -103,6 +106,7 @@ class SyntheticThermalDataset(Dataset):
         return torch.from_numpy(image[None]), torch.from_numpy(mask)
 
 
+# --- Group the small demo network operations into a reusable feature block.
 class ConvBlock(nn.Module):
     """A simple convolution block for extracting local image patterns."""
     def __init__(self, in_channels, out_channels):
@@ -118,6 +122,7 @@ class ConvBlock(nn.Module):
         return self.layers(x)
 
 
+# --- Predict pixel classes in the synthetic segmentation demo, separate from the real-image detector.
 class ThermalScoutNetDemo(nn.Module):
     """Small custom encoder-decoder CNN; class masks become detection boxes.
 
@@ -144,6 +149,7 @@ class ThermalScoutNetDemo(nn.Module):
         return self.classifier(d1)
 
 
+# --- Optimize the teaching network against synthetic pixel labels.
 def train_model(model, device, epochs, samples):
     """Teach the synthetic CNN over a number of training epochs."""
     loader = DataLoader(SyntheticThermalDataset(samples, seed=123), batch_size=20, shuffle=True, num_workers=0)
@@ -168,6 +174,7 @@ def train_model(model, device, epochs, samples):
     return history
 
 
+# --- Group connected foreground pixels into candidate objects.
 def connected_components(binary_mask, min_area=14):
     """Find objects without additional packages such as OpenCV or SciPy."""
     h, w = binary_mask.shape
@@ -192,6 +199,7 @@ def connected_components(binary_mask, min_area=14):
     return components
 
 
+# --- Convert predicted pixel regions into object boxes.
 def get_boxes(label_mask, probs=None):
     """Create bounding boxes around predicted object regions."""
     boxes = []
@@ -207,6 +215,7 @@ def get_boxes(label_mask, probs=None):
     return boxes
 
 
+# --- Draw the demonstration image and object labels for comparison.
 def annotate(ax, image, boxes, title):
     """Draw object labels and boxes for a demonstration figure."""
     ax.imshow(image, cmap="inferno", vmin=0, vmax=1, interpolation="nearest")
@@ -224,6 +233,7 @@ def annotate(ax, image, boxes, title):
     ax.set_yticks([])
 
 
+# --- Configure the demo, train or load its model, and generate the illustrative output.
 def main():
     """Train or load the synthetic demo, then show a sample prediction."""
     parser = argparse.ArgumentParser(description="Custom CNN thermal object detection teaching demo")
