@@ -1,10 +1,16 @@
 # ThermalScout-Net
 
+**My own neural network, eventually running on the drone I am building.**
+
+This Intro to AI project starts with a small custom CNN learning to locate people and animals in thermal images. **BIRDSAI is the main dataset**; BAMBI is a separate diagnostic experiment. The longer-term goal is to run the model on a Raspberry Pi mounted on my drone and show live thermal detections. Raspberry Pi performance and live flight detection have not yet been demonstrated with this CNN.
+
+Start with the [simple project and presentation story](docs/INTRO_AI_DRONE_STORY.md). See the [November 11 project cleanup record](docs/PROJECT_CLEANUP_2026-11-11.md) for what was organized and preserved.
+
 ## Latest BAMBI development results — November 10, 2026
 
 The custom 88,503-parameter CNN is preserved. The 60-frame BAMBI pilot audit verified all 247 annotations and separated training flight 47 from validation flights 6 and 22. Three controlled GPU experiments raised mAP@50 from 0.00% to 4.31%, but **human validation recall remains zero and false positives remain high**. This is a research prototype, not a deployment-ready detector.
 
-See [BAMBI diagnosis, measured results and reproduction commands](docs/BAMBI_REPAIR_2026-11-10.md). Data and original checkpoints stay local. The original TexanDrone presentation has a revised eight-slide AIAA version with measured results and speaker notes.
+See [BAMBI diagnosis, measured results and reproduction commands](docs/BAMBI_REPAIR_2026-11-10.md). Data and original checkpoints stay local. The current introductory presentation explains the custom CNN, BIRDSAI training, and planned Raspberry Pi/drone integration; technical experiment results remain available separately.
 
 ## Historical BIRDSAI results — November 2, 2026
 
