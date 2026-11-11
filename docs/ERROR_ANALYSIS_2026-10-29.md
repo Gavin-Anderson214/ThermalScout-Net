@@ -50,7 +50,7 @@ Do not repeat the identical training configuration as the next experiment; this 
 - Local only: `training_runs/20261029_133235_full/error_analysis/predictions.json`, `validation_examples.png`, `human_examples.png`. These images contain BIRDSAI data and remain inside the Git-ignored run folder.
 
 ```powershell
-py -3.12 -u analyze_validation.py --run training_runs/20261029_133235_full
+py -3.12 -u -m scripts.analyze_validation --run training_runs/20261029_133235_full
 ```
 
 The script uses CPU inference, writes analysis outputs under that run, and never retrains or overwrites weights. Existing five core tests passed. Controlled checks verified duplicate/class/background categorization, confidence filtering and missed-label handling; baseline reproduction and false-positive totals were also asserted during the full analysis.

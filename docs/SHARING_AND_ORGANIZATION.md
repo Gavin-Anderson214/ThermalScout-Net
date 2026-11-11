@@ -1,13 +1,13 @@
 # Sharing and organization
 
-Work from the ThermalScout-Net folder containing project_manager.py. The portable workspace opens that folder only. Existing code and data paths are preserved.
+Work from the ThermalScout-Net folder containing project_manager.py. The portable workspace opens that folder only. CNN, dataset and checkpoint paths are preserved. Supporting experiment tools now live under scripts/; Windows launchers live under scripts/launchers/.
 
 | Location | Purpose | ZIP / GitHub? |
 |---|---|---|
 | START_HERE.md, README.md | Navigation, setup, current results | Yes |
 | thermalscout/ | Detector implementation | Yes |
-| Root experiment scripts | Threshold, boundary and class-weight experiments | Yes |
-| scripts/ | Preparation and ZIP builder | Yes |
+| scripts/ | Preparation, experiment helpers and ZIP builder | Yes |
+| scripts/launchers/ | Windows shortcuts for training, evaluation and reports | Yes |
 | docs/ | Findings, experiments, explanations | Yes |
 | records/ | Metrics, provenance, histories, charts | Yes, excluding caches |
 | report/ | Current living report, figures, older snapshots | Yes |

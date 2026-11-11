@@ -25,7 +25,7 @@ Training has 6,691 animal versus 1,090 human labels; validation has 954 versus 6
 **Reproduce from the repository root.** Use Python 3.12 with the project's installed dependencies. Choose a fresh output directory; explicit `--out` refuses overwriting an existing directory.
 
 ```powershell
-py -3.12 -u analyze_validation.py --run training_runs/20261029_focal_experiment --data data/processed/yolo_real --out training_runs/threshold_repeat_01
+py -3.12 -u -m scripts.analyze_validation --run training_runs/20261029_focal_experiment --data data/processed/yolo_real --out training_runs/threshold_repeat_01
 py -3.12 -m pytest tests -q
 py -3.12 project_manager.py update
 ii .\report\Living_Project_Report.html

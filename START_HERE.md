@@ -28,4 +28,6 @@ A quick run checks the pipeline; it is not a full accuracy experiment. It saves 
 
 ## Need something less common?
 
+[Supporting tools](scripts/README.md) · [Windows launchers](scripts/launchers/)
+
 [Experiment library](docs/EXPERIMENTS.md) · [Full folder guide](docs/SHARING_AND_ORGANIZATION.md) · [Detailed course background](docs/PROJECT_REFERENCE.md)

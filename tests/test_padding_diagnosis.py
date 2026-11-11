@@ -1,4 +1,4 @@
-from diagnose_padding import content_rect, inside, human_overlap
+from scripts.diagnose_padding import content_rect, inside, human_overlap
 
 
 def test_letterbox_rectangle_matches_integer_resize_and_padding():
