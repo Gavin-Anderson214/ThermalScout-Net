@@ -3,6 +3,7 @@ __pycache__/
 *.py[cod]
 .pytest_cache/
 .venv/
+.venv-1/
 venv/
 .env
 .env.*
@@ -20,6 +21,12 @@ data/**
 !data/.gitkeep
 *.zip
 *.crdownload
+*.mp4
+*.avi
+*.mov
+*.7z
+*.tar
+*.gz
 
 # Model outputs can be large: store locally, not in Git history
 training_runs/**

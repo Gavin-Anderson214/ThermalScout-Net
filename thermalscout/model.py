@@ -33,12 +33,16 @@ class ThermalScoutReal(nn.Module):
         self.fuse = nn.Sequential(conv(24 + 56, 48), conv(48, 48))
         self.head = nn.Conv2d(48, 7, kernel_size=1)
 
-    def forward(self, x):
-        """Pass images through the CNN to get prediction maps."""
+    def features(self, x):
+        """Extract the image features shared by pretraining and detection."""
         # Preserve fine detail for small targets, then resize deeper features
         # to the same grid before concatenating their channels.
         low = self.low(x)
         deep = self.deep(low)
         deep = F.interpolate(deep, size=low.shape[-2:], mode="bilinear", align_corners=False)
-        return self.head(self.fuse(torch.cat((low, deep), dim=1)))
+        return self.fuse(torch.cat((low, deep), dim=1))
+
+    def forward(self, x):
+        """Pass images through the CNN to get prediction maps."""
+        return self.head(self.features(x))
 

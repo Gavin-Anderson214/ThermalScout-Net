@@ -13,6 +13,7 @@ import json
 import math
 import platform
 import hashlib
+from io import BytesIO
 import sys
 import random
 from pathlib import Path
@@ -24,10 +25,24 @@ from .data import BirdsaiDataset, collate
 from .training import train_epoch, eval_epoch
 from .inference import create_preview
 
+
+def load_pretrained_features(model, path, size, device):
+    """Load the feature layers while retaining the newly initialized detection head."""
+    content = path.read_bytes()
+    checkpoint = torch.load(BytesIO(content), map_location=device, weights_only=True)
+    state = model.state_dict()
+    expected = {name for name in state if not name.startswith("head.")}
+    features = checkpoint.get("features")
+    if checkpoint.get("image_size") != size or not isinstance(features, dict) or features.keys() != expected:
+        raise ValueError("Feature checkpoint must match the image size and all detector feature layers.")
+    model.load_state_dict({**state, **features})
+    return hashlib.sha256(content).hexdigest()
+
+
 # --- Parse settings, select development data, train from random weights and save the lowest-validation-loss checkpoint.
 def main():
     """Read training options, train the model, save the best weights and loss history."""
-    p = argparse.ArgumentParser(description='Train a custom ThermalScout-Net detector from scratch')
+    p = argparse.ArgumentParser(description='Train a custom ThermalScout-Net detector')
     mode = p.add_mutually_exclusive_group()
     mode.add_argument('--quick', action='store_true', help='Small real-data training smoke test (default)')
     mode.add_argument('--full', action='store_true', help='Use the entire prepared development sample')
@@ -40,11 +55,15 @@ def main():
     p.add_argument('--threshold', type=float, default=0.25)
     p.add_argument('--device', default='auto', choices=['auto', 'cpu', 'cuda'])
     p.add_argument('--seed', type=int, default=42)
-    p.add_argument('--objectness', choices=['baseline', 'focal'], default='baseline', help='Negative objectness loss for controlled experiment')
+    p.add_argument('--objectness', choices=['baseline', 'focal', 'hard-negative'], default='baseline', help='Negative objectness loss for controlled experiment')
     p.add_argument('--human-weight', type=float, default=2.0, help='Human class cross-entropy weight; animal stays 1')
+    p.add_argument('--background-weight', type=float, default=0.25, help='Weight of the negative objectness loss')
+    p.add_argument('--pretrained-features', type=Path, help='Optional weights from thermal patch pretraining')
     args = p.parse_args()
     if not math.isfinite(args.human_weight) or args.human_weight <= 0:
         p.error('--human-weight must be finite and positive')
+    if not math.isfinite(args.background_weight) or args.background_weight <= 0:
+        p.error('--background-weight must be finite and positive')
     if args.size < 64 or args.size % 8 != 0 or args.batch < 1:
         p.error('--size must be >=64 and divisible by 8; --batch >=1')
     root = args.data.expanduser().resolve()
@@ -67,30 +86,44 @@ def main():
     va_loader = DataLoader(val, batch_size=args.batch, shuffle=False,
                            num_workers=0, collate_fn=collate)
     model = ThermalScoutReal().to(device)
+    initialization = {}
+    if args.pretrained_features:
+        path = args.pretrained_features.expanduser().resolve()
+        try:
+            digest = load_pretrained_features(model, path, args.size, device)
+        except (OSError, ValueError, RuntimeError) as error:
+            p.error(f'Cannot load pretrained features: {error}')
+        initialization = {'initialization': 'thermal patch pretraining', 'pretrained_features_sha256': digest}
     optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr, weight_decay=1e-4)
     out = args.out.expanduser().resolve()
     out.mkdir(parents=True, exist_ok=True)
     if (out / 'thermal_scout_real_weights.pt').exists():
         p.error('Output already contains a checkpoint; choose a fresh --out directory')
-    config = {**vars(args), 'data': str(root), 'out': str(out), 'device': device,
+    config = {k: v for k, v in vars(args).items() if k != 'pretrained_features'}
+    config.update({'data': str(root), 'out': str(out), 'device': device,
               'python': platform.python_version(), 'torch': str(torch.__version__), 'numpy': np.__version__,
               'command': sys.argv, 'optimizer': 'AdamW', 'weight_decay': 1e-4,
               'train_images': len(train), 'val_images': len(val), 'epochs': epochs,
-              'source_sha256': {str(p): hashlib.sha256(p.read_bytes()).hexdigest() for p in Path('thermalscout').glob('*.py')}}
+              'source_sha256': {str(p): hashlib.sha256(p.read_bytes()).hexdigest() for p in Path('thermalscout').glob('*.py')}})
+    if initialization:
+        config.update(initialization, pretrained_features=str(path))
     (out / 'config.json').write_text(json.dumps(config, indent=2), encoding='utf-8')
     print(f'Device: {device} | Trainable CUSTOM parameters: {sum(p.numel() for p in model.parameters()):,}')
     print(f'Mode: {"FULL" if full else "QUICK"} | images train={len(train)} val={len(val)} | image size={args.size}')
     print(f'Annotations in selected images: train animal={train.label_counts[0]}, human={train.label_counts[1]}; '
           f'val animal={val.label_counts[0]}, human={val.label_counts[1]}')
     print(f'Unlabeled selected images: train={train.num_empty}; val={val.num_empty}')
-    print('This is training from RANDOM INITIALIZATION on real BIRDSAI frames. No pretrained model.')
-    print('Validation is for development; this DOES NOT use the official TestReal partition.')
+    if initialization:
+        print('Fine-tuning thermal features with labeled human and animal boxes.')
+    else:
+        print('This is training from RANDOM INITIALIZATION on the supplied thermal frames. No pretrained model.')
+    print('Validation uses the supplied development split; this is not an official test score.')
     print(f'Objectness loss: {args.objectness}; human class weight: {args.human_weight}', flush=True)
     best = float('inf')
     history = []
     for ep in range(1, epochs + 1):
-        tl, tc = train_epoch(model, tr_loader, optimizer, device, args.objectness, args.human_weight)
-        vl, vc = eval_epoch(model, va_loader, device, args.objectness, args.human_weight)
+        tl, tc = train_epoch(model, tr_loader, optimizer, device, args.objectness, args.human_weight, args.background_weight)
+        vl, vc = eval_epoch(model, va_loader, device, args.objectness, args.human_weight, args.background_weight)
         print(f'Epoch {ep:02d}/{epochs}: train loss={tl:.4f}, val loss={vl:.4f} '
               f'| same-cell box collisions train={tc}, val={vc}', flush=True)
         history.append((ep, tl, vl, tc, vc))
@@ -98,7 +131,8 @@ def main():
         if vl < best:
             best = vl
             torch.save({'model': model.state_dict(), 'image_size': args.size,
-                        'classes': CLASSES, 'epoch': ep, 'val_loss': vl, 'objectness_loss': args.objectness, 'human_weight': args.human_weight}, out / 'thermal_scout_real_weights.pt')
+                        'classes': CLASSES, 'epoch': ep, 'val_loss': vl, 'objectness_loss': args.objectness,
+                        'human_weight': args.human_weight, 'background_weight': args.background_weight, **initialization}, out / 'thermal_scout_real_weights.pt')
     with (out / 'loss_history.csv').open('w', newline='', encoding='utf-8') as fp:
         writer = csv.writer(fp)
         writer.writerow(['epoch', 'train_loss', 'val_loss', 'train_box_collisions', 'val_box_collisions'])

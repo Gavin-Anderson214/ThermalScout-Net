@@ -1,0 +1,28 @@
+{
+  "scope": "Small source/doc files only; excludes data, checkpoints, environments and Git",
+  "duplicate_groups": [
+    {
+      "sha256": "dce978a554b00caca70d59f539d25c61fcc89681e02d7fec42948cd5c3c0a127",
+      "paths": [
+        "ThermalScout_BIRDSAI_Step2\\BIRDSAI_Step2\\requirements.txt",
+        "ThermalScout_Demo\\ThermalScout_BIRDSAI_Step2\\BIRDSAI_Step2\\requirements.txt"
+      ]
+    },
+    {
+      "sha256": "20674109698e619a8b997a9a55a42b8e1b0bab8523f646bdc8dab63f8f87b251",
+      "paths": [
+        "ThermalScout_BIRDSAI_Step2\\BIRDSAI_Step2\\birdsai_prepare.py",
+        "ThermalScout_Demo\\ThermalScout_BIRDSAI_Step2\\BIRDSAI_Step2\\birdsai_prepare.py"
+      ]
+    },
+    {
+      "sha256": "821f553adf88b952f238ab20143639ba42031659e61c99ac2a147556d2c6dd90",
+      "paths": [
+        "ThermalScout_BIRDSAI_Step2\\BIRDSAI_Step2\\README.txt",
+        "ThermalScout_Demo\\ThermalScout_BIRDSAI_Step2\\BIRDSAI_Step2\\README.txt"
+      ]
+    }
+  ],
+  "removed": [],
+  "decision": "Preserve historical copies: byte equality alone does not establish that imports, relative paths or prior experiments no longer need them."
+}

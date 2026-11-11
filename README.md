@@ -1,6 +1,12 @@
 # ThermalScout-Net
 
-## Latest development results — November 2, 2026
+## Latest BAMBI development results — November 10, 2026
+
+The custom 88,503-parameter CNN is preserved. The 60-frame BAMBI pilot audit verified all 247 annotations and separated training flight 47 from validation flights 6 and 22. Three controlled GPU experiments raised mAP@50 from 0.00% to 4.31%, but **human validation recall remains zero and false positives remain high**. This is a research prototype, not a deployment-ready detector.
+
+See [BAMBI diagnosis, measured results and reproduction commands](docs/BAMBI_REPAIR_2026-11-10.md). Data and original checkpoints stay local. The original TexanDrone presentation has a revised eight-slide AIAA version with measured results and speaker notes.
+
+## Historical BIRDSAI results — November 2, 2026
 
 Two matched ten-epoch training runs compared the existing human class weight of 2 with weight 4. Only that weight changed; the fresh control exactly reproduced the historical model tensors.
 

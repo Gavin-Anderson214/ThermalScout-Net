@@ -1,0 +1,552 @@
+{
+  "source": "https://github.com/bambi-eco/Dataset/blob/main/docs/annotation-format.md",
+  "splits": {
+    "train": {
+      "frames": 30,
+      "flights": [
+        47
+      ],
+      "labels": {
+        "1": 16,
+        "0": 145
+      },
+      "species": {
+        "Homo sapiens (Human)": 16,
+        "Canis lupus familiaris (Dog)": 4,
+        "Sus scrofa (Wild boar)": 141
+      }
+    },
+    "val": {
+      "frames": 30,
+      "flights": [
+        6,
+        22
+      ],
+      "labels": {
+        "1": 16,
+        "0": 70
+      },
+      "species": {
+        "Homo sapiens (Human)": 16,
+        "Cervus elaphus (Red deer)": 70
+      }
+    }
+  },
+  "issues": [],
+  "manifest": [
+    {
+      "split": "train",
+      "image": "flight47_frame000177.png",
+      "flight": 47,
+      "frame": 177,
+      "sha256": "609df79072172677a0ae2ec6efb44acb32d0ae556148d8fa42cf7fd80fcb9f14",
+      "label_sha256": "95ed9ee1181a4b642289b9c87e5ef4311da34988fe41964fae5473c5c8f376c7"
+    },
+    {
+      "split": "train",
+      "image": "flight47_frame000227.png",
+      "flight": 47,
+      "frame": 227,
+      "sha256": "96ed45447d8316552d7fcceaf95a59a8584e0a1cc6d0149a177f1e562662f4a6",
+      "label_sha256": "e03e00d698bec2206fe61e7b0d76698e106490e19b86ead0f988df4e7b0099d9"
+    },
+    {
+      "split": "train",
+      "image": "flight47_frame000267.png",
+      "flight": 47,
+      "frame": 267,
+      "sha256": "bda0da0ffd8535ba2b2c7a4c94c22a62fbe197253ae460def512994fc62d49be",
+      "label_sha256": "6b2f13293213c822bbc82e405aa4feae62006b8c049708337d5bfccd03d7fa8f"
+    },
+    {
+      "split": "train",
+      "image": "flight47_frame000316.png",
+      "flight": 47,
+      "frame": 316,
+      "sha256": "ca06a9c7568d3900813283d9106333ddc57c130bda8e1999245bc64d494649cf",
+      "label_sha256": "2e7c5cdb4acb1af8d192e3579ee6bf25e830a9e9395e1ebf29f630b3c6c1414c"
+    },
+    {
+      "split": "train",
+      "image": "flight47_frame000366.png",
+      "flight": 47,
+      "frame": 366,
+      "sha256": "fdff86d497969ac511e6e7b2e7900e51e2599e761fbd464344cfa36072355c08",
+      "label_sha256": "ba9703d67dade592b2d297d1dccb5514d3f0f209c43dd6f7111a56af54e84dc3"
+    },
+    {
+      "split": "train",
+      "image": "flight47_frame000400.png",
+      "flight": 47,
+      "frame": 400,
+      "sha256": "88685398aa840af666b41e06fa6f0a517c661fd92fb7e5c1c369bcd683f9733b",
+      "label_sha256": "f33e10d05b8a52abb0e3b50514461223a922f1a03c0f4c3c81b30164c0a30fdd"
+    },
+    {
+      "split": "train",
+      "image": "flight47_frame000483.png",
+      "flight": 47,
+      "frame": 483,
+      "sha256": "05f1703bb0a182b830476337a9c14eef9d69ae96b98458a1147f7c0cb0949dff",
+      "label_sha256": "0e362c60bdc091e2b0712e4f2b25376d378c04c563c9be46c34e2c89e97f6b4f"
+    },
+    {
+      "split": "train",
+      "image": "flight47_frame000498.png",
+      "flight": 47,
+      "frame": 498,
+      "sha256": "1cf33a2dc6d9680feccf30f2591588074ca03b48bc8ec3d4e87badd29063e1b1",
+      "label_sha256": "7ba8943f64d58391d85fbf1ced9e8c8f7432b80c53052d827942e9df5b613e42"
+    },
+    {
+      "split": "train",
+      "image": "flight47_frame000503.png",
+      "flight": 47,
+      "frame": 503,
+      "sha256": "f9c265b8a9f151b96eff57f2f47a322f92d3e77dd448b4120af14520fd8ad562",
+      "label_sha256": "a01d5e4d21284a5509b28b6fc6035de17e2cd86d79b6b247541f7bf70ace3589"
+    },
+    {
+      "split": "train",
+      "image": "flight47_frame000516.png",
+      "flight": 47,
+      "frame": 516,
+      "sha256": "3f6609505081b6c1d01b05146fd37f4f83a467f39f707c217e951e6080694870",
+      "label_sha256": "453c8ba14ee71e3c22df2814e7f8e5a81a2d7e2df0c85ca921a8d6d3e48f7a4b"
+    },
+    {
+      "split": "train",
+      "image": "flight47_frame000529.png",
+      "flight": 47,
+      "frame": 529,
+      "sha256": "0a2ca354e921462577b56cc7b146067e3be1c3fd1924e02706389fd2e155f66c",
+      "label_sha256": "3523db8e174fef10a40ef2c6a2c3380860515fcc8f0c5de56fdc11dfea6e1e08"
+    },
+    {
+      "split": "train",
+      "image": "flight47_frame000550.png",
+      "flight": 47,
+      "frame": 550,
+      "sha256": "4a094448a37653dde5143f0c2bd5665ec472c1abebd28f6bcc42e4f511c2db00",
+      "label_sha256": "8ca45cae791c64d7989cada37661d923211e3bb533d84b42436964b7b35f8fcd"
+    },
+    {
+      "split": "train",
+      "image": "flight47_frame000581.png",
+      "flight": 47,
+      "frame": 581,
+      "sha256": "6df8a64c804584aa4396ce47830c28e6745391ef02eb2cf28601d95df03ad2ef",
+      "label_sha256": "75ec7a6375fa7464362afe6b5c554846f9c147b298c97c2003a3921b67b80394"
+    },
+    {
+      "split": "train",
+      "image": "flight47_frame000609.png",
+      "flight": 47,
+      "frame": 609,
+      "sha256": "5172dd86cae750e05d2960fbaebbcbc316c95370d0b257b3ee30f1cd832840e9",
+      "label_sha256": "7615fc4f87d08013d2d68f949aaace8153b2dc246a918c319aad24909f8608bd"
+    },
+    {
+      "split": "train",
+      "image": "flight47_frame000633.png",
+      "flight": 47,
+      "frame": 633,
+      "sha256": "95f1c63a5e35e63d04a66dfe3fa45c164b49f5ae89c68cb58e7ccc3337ed94d9",
+      "label_sha256": "04c4a5c4eaa7c26819113b439e3adf148b698e4ef3e97f220a00c838f7f03c5d"
+    },
+    {
+      "split": "train",
+      "image": "flight47_frame001089.png",
+      "flight": 47,
+      "frame": 1089,
+      "sha256": "3df046bdaa918b923625fa11111e3ee120cafa699eaff22824dc84703cbf66d0",
+      "label_sha256": "53048b4ceede5dad971d79027f42d6f5adf785427fc45879959c1e8ef9fa5dbf"
+    },
+    {
+      "split": "train",
+      "image": "flight47_frame001131.png",
+      "flight": 47,
+      "frame": 1131,
+      "sha256": "6d9dcebda0439420d45d1e70dd2edc245fcd679270f2a55f94e6e546a41c511d",
+      "label_sha256": "3e6b5685c2b0960342af69d42d1dfd865e0f9cece6b600cdd38b85a44478a53e"
+    },
+    {
+      "split": "train",
+      "image": "flight47_frame001159.png",
+      "flight": 47,
+      "frame": 1159,
+      "sha256": "019aad64cf8899061f6f19d5a8c5065353d34148ae954af4d75a5c843392c8d9",
+      "label_sha256": "3e2b9a3dd031d89573b4c7da1e1c059ef3e33e7eb80157e182bdacd924a1ee0c"
+    },
+    {
+      "split": "train",
+      "image": "flight47_frame001193.png",
+      "flight": 47,
+      "frame": 1193,
+      "sha256": "522d5b5b2d3b2e98860d3f4a1a193a516c32d55b99a00e98cfe63fda34eca572",
+      "label_sha256": "b463b6f2a4f9c0657b76c0f5d6bfb001a05c4b94d6109e1c4e6de04f09cbf195"
+    },
+    {
+      "split": "train",
+      "image": "flight47_frame001229.png",
+      "flight": 47,
+      "frame": 1229,
+      "sha256": "ac0e55e97a60bff2ded8737594c771498f46b70935c9c8b3eae5774af53e76e1",
+      "label_sha256": "1830691a94e38dbb2d4126e16f0a7b657e29a031ec651ba112e069fb6b1fe273"
+    },
+    {
+      "split": "train",
+      "image": "flight47_frame001259.png",
+      "flight": 47,
+      "frame": 1259,
+      "sha256": "67c728d59fcb07e2eec34949eb02106ee6bdce52d0158c02123e27750c077dc2",
+      "label_sha256": "3ee606ff17b5dcec1e823bd57a16b90bfc95ef9c576e3d04ea5240e7c824cddb"
+    },
+    {
+      "split": "train",
+      "image": "flight47_frame001292.png",
+      "flight": 47,
+      "frame": 1292,
+      "sha256": "a0fc169186df0973b83835941d86ac01f144a604eca4f8762e2f146cf6f6cfee",
+      "label_sha256": "114c0ddaaed6650ef54b6bfd65e529f7ffa29556cbafd3fca839c2538eec6a78"
+    },
+    {
+      "split": "train",
+      "image": "flight47_frame001316.png",
+      "flight": 47,
+      "frame": 1316,
+      "sha256": "93d3303fe052390a8f28ea40ed6e540888c0c18e8aab1592c96f4b9991917e59",
+      "label_sha256": "3aa03289583c5a5db7db92eb2063c78b31614ee7ec0b98ad7d23ca0fff9042ed"
+    },
+    {
+      "split": "train",
+      "image": "flight47_frame001362.png",
+      "flight": 47,
+      "frame": 1362,
+      "sha256": "745da8d2ef73a6c380cde56465ef80f52081dc0ca71a203ccb2563ed9a9415dc",
+      "label_sha256": "4feb473f037eb37da30707387c0b609b3a34794385c33d06a2865baae38f4c16"
+    },
+    {
+      "split": "train",
+      "image": "flight47_frame001402.png",
+      "flight": 47,
+      "frame": 1402,
+      "sha256": "0f65e17de92864ca081c1652055231e9189d34e210b2014e5f25ceeb98149706",
+      "label_sha256": "4d0a21b1736bbc5134accf87066e9c480f2e8de9b0c99d87225dc1299df419f4"
+    },
+    {
+      "split": "train",
+      "image": "flight47_frame001482.png",
+      "flight": 47,
+      "frame": 1482,
+      "sha256": "9ae142177b854a809db06ab80608a0dc08f9220b04e819be731a80a8f7520c7b",
+      "label_sha256": "13c7a7816ac28a040ae6013ce3edcd7329973ef90274aa85bf0a0225b2f96cfb"
+    },
+    {
+      "split": "train",
+      "image": "flight47_frame001592.png",
+      "flight": 47,
+      "frame": 1592,
+      "sha256": "04ba54a8c30c10680e95c49c3ddf80d0d6b64320bb1147aa64b0ef321501032c",
+      "label_sha256": "8bbdd5a9383c5301a4fa8fba7b8bb16540c51c4938b67a1a77e3f943c15db80f"
+    },
+    {
+      "split": "train",
+      "image": "flight47_frame001883.png",
+      "flight": 47,
+      "frame": 1883,
+      "sha256": "38e57933e38bb43924111e56e693929f46d1c20f3f4aff5f4c6ec575ca76570d",
+      "label_sha256": "190ac1e54a36ff845c9c9a7b8db6aadd4c3d408e70f287768b8afcb47d938958"
+    },
+    {
+      "split": "train",
+      "image": "flight47_frame001916.png",
+      "flight": 47,
+      "frame": 1916,
+      "sha256": "582c698cf1eb7aeb3be256cc15b74295efd0f31e71d6170ba513c69912d5a82a",
+      "label_sha256": "45489df0b7f7c180a86c9e288c855cc04d7e439c9adbcc2bd51cd150b10cb9db"
+    },
+    {
+      "split": "train",
+      "image": "flight47_frame001949.png",
+      "flight": 47,
+      "frame": 1949,
+      "sha256": "30bd07d55d62abd370376498cb4742db5e7c82a314a1410f9811e7721ce08a07",
+      "label_sha256": "68a2bfe73c305335e664329ebc54838861490e565133f683e771697a1b264654"
+    },
+    {
+      "split": "val",
+      "image": "flight22_frame002135.png",
+      "flight": 22,
+      "frame": 2135,
+      "sha256": "246cef9d0fa4d03cb5674ec23e20e077996066b2c5ca087a47ecf5e0bd5416b7",
+      "label_sha256": "aaca4e0800245cc2467721a935995d04cc203e85ddcb2bc52991219faa817504"
+    },
+    {
+      "split": "val",
+      "image": "flight22_frame002650.png",
+      "flight": 22,
+      "frame": 2650,
+      "sha256": "d4f866978f4bb229a733a5406378fb4369c12e05152eac200443cd51faf76c95",
+      "label_sha256": "49a1f5ce6be78f381fbe5bac5b09528807bf771029f00aa3eabee078b4137e2a"
+    },
+    {
+      "split": "val",
+      "image": "flight22_frame002960.png",
+      "flight": 22,
+      "frame": 2960,
+      "sha256": "1f42a236159721dba03c0d2d7cf50968d79770501d63961a0967755f4da2f1eb",
+      "label_sha256": "2d98f2c37eea9c4578b3d5b22887fb327c7862030567be4f8a3b5da78e15a628"
+    },
+    {
+      "split": "val",
+      "image": "flight22_frame003145.png",
+      "flight": 22,
+      "frame": 3145,
+      "sha256": "edc0364f308fbfcc460ba0891495b0207cf9f5038071f3c72d6ccd9bc64f5f1b",
+      "label_sha256": "53c6feb222d032a1857cf6857c2ded15840da95fe9074e0c6e463a334a115b73"
+    },
+    {
+      "split": "val",
+      "image": "flight22_frame005507.png",
+      "flight": 22,
+      "frame": 5507,
+      "sha256": "8f4108f243992ee2a8001bf54b3219179936fbc4f12f3dfe28e7cd9b1b6af879",
+      "label_sha256": "bc0adc718184fc699f3249636402d1ee03358a69b6e3a6ff7caf6b6d662385ab"
+    },
+    {
+      "split": "val",
+      "image": "flight22_frame006548.png",
+      "flight": 22,
+      "frame": 6548,
+      "sha256": "db1148be6a9ca99c94a8fbbccbafa7ab596e541793758adefc5e4e43cc88a35f",
+      "label_sha256": "7ad3e50139193a5d2eb52f201ae24ee1a36140c0554e3cfc8cf81d49267b555d"
+    },
+    {
+      "split": "val",
+      "image": "flight22_frame008957.png",
+      "flight": 22,
+      "frame": 8957,
+      "sha256": "0e537a88c2f8dd0913c928e4222766cee4a33c88e3a524a664f73ccb98415ba5",
+      "label_sha256": "e94d9153132eaa7d61c0c20563390658a1be2bbed963dcf55987c707d337baca"
+    },
+    {
+      "split": "val",
+      "image": "flight22_frame009032.png",
+      "flight": 22,
+      "frame": 9032,
+      "sha256": "9ada2d5569efa5efff523464d8631a5b41d06d6c3bf12de213447c1f624ce693",
+      "label_sha256": "d6cb6c66c26e9307961efb08b5fa352bcb3ea5cc0133cb52c943f83afcd9840b"
+    },
+    {
+      "split": "val",
+      "image": "flight22_frame009071.png",
+      "flight": 22,
+      "frame": 9071,
+      "sha256": "9de3517ecbb102be4f9b17243db33faf5170475fd751a0af100c0944ffcd5fd1",
+      "label_sha256": "1c99adafdce3a283bcf51c449f9dcf0bc29db93ea7db478570a24a1d8a6480d9"
+    },
+    {
+      "split": "val",
+      "image": "flight22_frame009116.png",
+      "flight": 22,
+      "frame": 9116,
+      "sha256": "6911f04393f666cbba160b255086c81f17808570188e6ca1dfa78de0dacfe61d",
+      "label_sha256": "ad59638679756a63fde3d0a90c7828cae06a75a55c4d758c5cda4235a6111304"
+    },
+    {
+      "split": "val",
+      "image": "flight22_frame009154.png",
+      "flight": 22,
+      "frame": 9154,
+      "sha256": "90b18bfdb3a95d6c46bef737856358dadd6319b983cb4c466ff58356ba251435",
+      "label_sha256": "8d914c444d27d9874deb05d3ae0773083eeaaa60537923c11a68baa1058d85a1"
+    },
+    {
+      "split": "val",
+      "image": "flight22_frame009244.png",
+      "flight": 22,
+      "frame": 9244,
+      "sha256": "d314447269f942facd608b2d17c5e4adec54f0e3e109df17ab07792b8f6072db",
+      "label_sha256": "1f896a7096130cdd17c8afbfd8b2e84225444beee93fb36503014feed272994e"
+    },
+    {
+      "split": "val",
+      "image": "flight22_frame016322.png",
+      "flight": 22,
+      "frame": 16322,
+      "sha256": "d7167811a56bad87b04f4382e3e91cc4ade3100c9eaddbdccb07ee1603c4ecab",
+      "label_sha256": "7d8ca0dd06d5aef239b5cbeb35d00f6c67656ce9673c410fefe79a168feb6094"
+    },
+    {
+      "split": "val",
+      "image": "flight22_frame016562.png",
+      "flight": 22,
+      "frame": 16562,
+      "sha256": "3cde91c83f4bfc586e96a6df9be3095879e61159244c9d09b55b724c59bfe9a0",
+      "label_sha256": "75a48c78fd23ee8990232b911e15b550b2201c2218f2917506139fe5d89a0f1e"
+    },
+    {
+      "split": "val",
+      "image": "flight22_frame017212.png",
+      "flight": 22,
+      "frame": 17212,
+      "sha256": "ae4af96a35631622c6d93b3f2ae95b7ff1d27df6d296b000360eb0a19cd51ba2",
+      "label_sha256": "b509632395d678f23ac123bff038dc371eea63cf9bf5c1e52305e35db2bfdc88"
+    },
+    {
+      "split": "val",
+      "image": "flight6_frame000000.png",
+      "flight": 6,
+      "frame": 0,
+      "sha256": "5b25deca8975a3e085c3a9b09cfa0b228b493b948ccd7b5f2616b95d37745a68",
+      "label_sha256": "b4e335d50c11c7e7a6670be32f81ffc811d495e6e3de600e1883b1247ee4593e"
+    },
+    {
+      "split": "val",
+      "image": "flight6_frame000190.png",
+      "flight": 6,
+      "frame": 190,
+      "sha256": "702cc38deedbd5c35e012e9855cfc1503cb1db2bf3bb00dd730d7bed44629393",
+      "label_sha256": "70aef928d9046663cf64b6d94e83f4a9472fb50d2bb6570c81c580b1ac8fdaab"
+    },
+    {
+      "split": "val",
+      "image": "flight6_frame000871.png",
+      "flight": 6,
+      "frame": 871,
+      "sha256": "3f1ce6cf855c33df6e69e049417a2b331be51a7a1674c9c441ca555117eb6dfc",
+      "label_sha256": "001e55f7bd8582b26e25ca4e4bf319cde5a27d1670ea936ecb75b76b0ad51583"
+    },
+    {
+      "split": "val",
+      "image": "flight6_frame000903.png",
+      "flight": 6,
+      "frame": 903,
+      "sha256": "55ec3a69dc43f4b3566befaa3f0d2328c75f9351081ef58692151b5f898ffc13",
+      "label_sha256": "f06c9f64c830e24972ffc15fc9d9732f972f6ef49585df1b1a13ac4847fa1a65"
+    },
+    {
+      "split": "val",
+      "image": "flight6_frame000933.png",
+      "flight": 6,
+      "frame": 933,
+      "sha256": "ac735ce6a09fcb8b46304c14998083e69bc512e3d8aa278d01ae1bc87edc0138",
+      "label_sha256": "d0e5c2b089a00f5f4b485918f7fa0ea9189f4d2e268a2c09926413f2c8a15b58"
+    },
+    {
+      "split": "val",
+      "image": "flight6_frame001048.png",
+      "flight": 6,
+      "frame": 1048,
+      "sha256": "bd5f4413710dcdcc795ad5625761e496faf052383e46bb5b81e54e2d90d8ea01",
+      "label_sha256": "93f4794450fe7fef9e4cde819af3a349628d1c2c97d9d3e9ddfcf97577aff360"
+    },
+    {
+      "split": "val",
+      "image": "flight6_frame001092.png",
+      "flight": 6,
+      "frame": 1092,
+      "sha256": "fa4271d47098021a8cfc69c6a27ae7424433f142c3f7b7d4866b6157a568cb9c",
+      "label_sha256": "75cc9f2fd0bda68a90ee9bdabef50588af78f86f0460203419a8986fa9a0ce95"
+    },
+    {
+      "split": "val",
+      "image": "flight6_frame001205.png",
+      "flight": 6,
+      "frame": 1205,
+      "sha256": "8a0163fae80fb51ffac5393b69edcce734af0944554cfb2d1cd49f11ee2722ab",
+      "label_sha256": "4989c571abf7b94cc8f1baf844a7703cfd0aa5d5014c68cc9d4f72c2e5f5d60f"
+    },
+    {
+      "split": "val",
+      "image": "flight6_frame001249.png",
+      "flight": 6,
+      "frame": 1249,
+      "sha256": "95414ab96656860ef33cfff1760ee1a98cafb738002a989a897b4b971f8a2749",
+      "label_sha256": "aa910efe29a11679bb717667a14e008ede38ee9edc44f6e7c286754d2c7283a7"
+    },
+    {
+      "split": "val",
+      "image": "flight6_frame003036.png",
+      "flight": 6,
+      "frame": 3036,
+      "sha256": "2198a085eac84c788ba669ba95d8ecd3a050c6ba2f87f1bcfaeeb8998be6b0c2",
+      "label_sha256": "c2cd51b4d94c32364e5eda5126add56bcfddcbf88cff886175ce6b211785d996"
+    },
+    {
+      "split": "val",
+      "image": "flight6_frame003095.png",
+      "flight": 6,
+      "frame": 3095,
+      "sha256": "cfb44c88629b29013ec0fb1b09324c47e35b71dd4567d42416c30b4bc1c5a521",
+      "label_sha256": "eebd8f94dc33f6727934b18a5fda5bcd31724e5cdc439d4a51e9a2ba0aa49dd7"
+    },
+    {
+      "split": "val",
+      "image": "flight6_frame003214.png",
+      "flight": 6,
+      "frame": 3214,
+      "sha256": "a701f7164818a374408616329239218bb58ff9d6b84afcc455b5b52a3316e076",
+      "label_sha256": "4538b0be41effaf000e3a90bb605ba5f8ebf6924f17fa2f50c5e4f4e6409533a"
+    },
+    {
+      "split": "val",
+      "image": "flight6_frame003372.png",
+      "flight": 6,
+      "frame": 3372,
+      "sha256": "c5830364f69af185f631b20c94b9dfce46ff5a00061c54468d4af5fa842bccb8",
+      "label_sha256": "1270a731c1e6433e8cc7202147474cd92f21abdb9636e1954c34ba4d643c715b"
+    },
+    {
+      "split": "val",
+      "image": "flight6_frame003962.png",
+      "flight": 6,
+      "frame": 3962,
+      "sha256": "9639c60fad447fb7b0e147946ac1b3f2939e330dc555e33722b5f69ed76c868e",
+      "label_sha256": "507b61aeba9d8356741206afb134bb7b689bd48ea802bc5588c9f166fc81e4e4"
+    },
+    {
+      "split": "val",
+      "image": "flight6_frame004759.png",
+      "flight": 6,
+      "frame": 4759,
+      "sha256": "1007429651167f3cf309fee676f19f45a7f81c7fb91629835a198aeab9aadb02",
+      "label_sha256": "5fd606e404b3c02eeacd5e558fc9a30dd5b9e598ba82333c23f31bf6160a94ce"
+    }
+  ],
+  "flight_overlap": [],
+  "duplicate_images": [],
+  "video_checks": [
+    {
+      "flight": 47,
+      "frame": 177,
+      "shape": [
+        1024,
+        2048,
+        3
+      ],
+      "max_pixel_error": 1
+    },
+    {
+      "flight": 6,
+      "frame": 0,
+      "shape": [
+        1024,
+        2048,
+        3
+      ],
+      "max_pixel_error": 0
+    },
+    {
+      "flight": 22,
+      "frame": 2135,
+      "shape": [
+        1024,
+        2048,
+        3
+      ],
+      "max_pixel_error": 0
+    }
+  ]
+}

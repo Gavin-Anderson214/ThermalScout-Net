@@ -1,0 +1,38 @@
+{
+  "model": "ThermalScout-Net (real/scratch)",
+  "training": "random initialization",
+  "split": "validation",
+  "scope": "DEVELOPMENT ONLY - official TestReal was not used",
+  "evaluation_images": 30,
+  "image_size": 512,
+  "iou_for_precision_recall": 0.5,
+  "confidence_for_precision_recall": 0.25,
+  "ap_method": "101-point interpolated per class; IoU 0.50..0.95 (step 0.05)",
+  "precision": 0.0125,
+  "recall": 0.1744186046511628,
+  "map50": 0.015361381167977648,
+  "map5095": 0.006955733501039207,
+  "fps": 31.851603807732864,
+  "fps_measurement": "forward pass + CPU/GPU postprocessing; no file-I/O or dataset-loading time",
+  "class_metrics": {
+    "animal": {
+      "tp": 15,
+      "fp": 1172,
+      "gt": 70,
+      "precision": 0.012636899747262006,
+      "recall": 0.21428571428571427,
+      "ap50": 0.030722762335955296,
+      "map5095": 0.013911467002078414
+    },
+    "human": {
+      "tp": 0,
+      "fp": 13,
+      "gt": 16,
+      "precision": 0.0,
+      "recall": 0.0,
+      "ap50": 0.0,
+      "map5095": 0.0
+    }
+  },
+  "notes": "Small prototype; one box per stride-4 cell, predictions capped at 40/image."
+}

@@ -35,7 +35,7 @@ def nms(boxes, scores, threshold=0.5):
 
 # --- Run the detector without gradients, decode grid outputs and suppress duplicate predictions per class.
 @torch.no_grad()
-def infer(model, image, device, threshold=0.25):
+def infer(model, image, device, threshold=0.25, *, max_candidates=500, max_detections=40, local_peaks=False):
     """Turn raw CNN maps into scored human/animal bounding boxes."""
     model.eval()
     pred = model(image.unsqueeze(0).to(device))[0].cpu()
@@ -45,14 +45,26 @@ def infer(model, image, device, threshold=0.25):
     clp = pred[5:7].softmax(dim=0)
     cls_prob, cls_id = clp.max(dim=0)
     score = prob * cls_prob
-    ys, xs = torch.where(score >= threshold)
+    if not 0 <= threshold <= 1 or max_candidates < 1 or max_detections < 1:
+        raise ValueError('Invalid threshold or detection limits')
+    selected_mask = score >= threshold
+    if local_peaks:
+        # Optional ablation: retain per-class spatial peaks before box NMS.
+        # Defaults preserve historical evaluation semantics.
+        peaks = torch.zeros_like(selected_mask)
+        for c in range(2):
+            class_scores = score.masked_fill(cls_id != c, -1)
+            pooled = torch.nn.functional.max_pool2d(class_scores[None,None], 3, 1, 1)[0,0]
+            peaks |= (cls_id == c) & (class_scores == pooled)
+        selected_mask &= peaks
+    ys, xs = torch.where(selected_mask)
     if ys.numel() == 0:
         return []
     # Keep the most confident candidates across the whole image, not just
     # the first 500 found when scanning from top to bottom. This avoids a
     # positional bias when the network predicts many low-confidence boxes.
-    if ys.numel() > 500:
-        selected = torch.topk(score[ys, xs], k=500).indices
+    if ys.numel() > max_candidates:
+        selected = torch.topk(score[ys, xs], k=max_candidates).indices
         ys, xs = ys[selected], xs[selected]
     # Sigmoid offsets stay within each cell; exponentials recover positive sizes.
     # Normalize decoded boxes to image coordinates and clip them to the canvas.
@@ -73,7 +85,7 @@ def infer(model, image, device, threshold=0.25):
         for k in nms(box[indices], sc[indices]):
             j = indices[k]
             detections.append((int(c), float(sc[j]), box[j].tolist()))
-    return sorted(detections, key=lambda r: -r[1])[:40]
+    return sorted(detections, key=lambda r: -r[1])[:max_detections]
 
 # --- Compare ground-truth boxes and predictions on the same letterboxed validation image.
 def create_preview(model, ds, device, output: Path, threshold: float):
@@ -97,7 +109,7 @@ def create_preview(model, ds, device, output: Path, threshold: float):
     canvas = Image.new('RGB', (w * 2, h + 28), '#141925')
     canvas.paste(truth, (0, 28)); canvas.paste(pred_im, (w, 28))
     label = ImageDraw.Draw(canvas)
-    label.text((8, 8), 'BIRDSAI labels (validation)', fill='white')
+    label.text((8, 8), 'Ground-truth labels (validation)', fill='white')
     label.text((w + 8, 8), 'Custom ThermalScout predictions', fill='white')
     output.parent.mkdir(parents=True, exist_ok=True)
     canvas.save(output)

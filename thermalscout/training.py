@@ -33,10 +33,12 @@ def make_targets(batch_boxes, shape, device):
     return obj, cls, loc, collisions
 
 # --- Combine objectness, box regression and class losses; empty images still teach background rejection.
-def criterion(pred, boxes, objectness="baseline", human_weight=2.0):
+def criterion(pred, boxes, objectness="baseline", human_weight=2.0, background_weight=0.25):
     """Measure how wrong the object presence, class, and box predictions are."""
     if not math.isfinite(human_weight) or human_weight <= 0:
         raise ValueError("human_weight must be finite and positive")
+    if not math.isfinite(background_weight) or background_weight <= 0:
+        raise ValueError("background_weight must be finite and positive")
     obj, classes, target_box, collisions = make_targets(boxes, pred.shape, pred.device)
     positive = obj.bool()
     raw_obj = pred[:, 0]
@@ -61,13 +63,19 @@ def criterion(pred, boxes, objectness="baseline", human_weight=2.0):
     if objectness == "focal":
         # Emphasize confident false positives while reducing easy background loss.
         negative_obj = (F.binary_cross_entropy_with_logits(raw_obj[negative], obj[negative], reduction="none") * raw_obj[negative].sigmoid().pow(2)).mean() if negative.any() else pred.sum() * 0.0
+    elif objectness == "hard-negative":
+        # Averaging over every background cell dilutes rare confident mistakes.
+        # Mine at least 32 cells, or three negatives per positive, per batch.
+        losses = F.binary_cross_entropy_with_logits(raw_obj[negative], obj[negative], reduction="none")
+        count = min(losses.numel(), max(32, 3 * int(positive.sum())))
+        negative_obj = losses.topk(count).values.mean() if count else pred.sum() * 0.0
     elif objectness != "baseline":
         raise ValueError(f"Unknown objectness loss: {objectness}")
-    total = positive_obj + 0.25 * negative_obj + 5.0 * reg + class_loss
+    total = positive_obj + background_weight * negative_obj + 5.0 * reg + class_loss
     return total, collisions
 
 # --- Enable training behavior, clear old gradients, backpropagate loss and update model weights batch by batch.
-def train_epoch(model, loader, optimizer, device, objectness="baseline", human_weight=2.0):
+def train_epoch(model, loader, optimizer, device, objectness="baseline", human_weight=2.0, background_weight=0.25):
     """Show all batches to the model and update weights using backpropagation."""
     model.train()
     cumulative, collisions = 0.0, 0
@@ -75,7 +83,7 @@ def train_epoch(model, loader, optimizer, device, objectness="baseline", human_w
         images = images.to(device)
         optimizer.zero_grad(set_to_none=True)
         pred = model(images)
-        loss, overlaps = criterion(pred, boxes, objectness, human_weight)
+        loss, overlaps = criterion(pred, boxes, objectness, human_weight, background_weight)
         loss.backward()
         nn.utils.clip_grad_norm_(model.parameters(), 5.0)
         optimizer.step()
@@ -85,13 +93,13 @@ def train_epoch(model, loader, optimizer, device, objectness="baseline", human_w
 
 # --- Measure validation loss without gradients or weight updates; this is development feedback.
 @torch.no_grad()
-def eval_epoch(model, loader, device, objectness="baseline", human_weight=2.0):
+def eval_epoch(model, loader, device, objectness="baseline", human_weight=2.0, background_weight=0.25):
     """Measure validation loss without changing the learned weights."""
     model.eval()
     total, collisions = 0.0, 0
     for images, boxes, _ in loader:
         pred = model(images.to(device))
-        loss, overlaps = criterion(pred, boxes, objectness, human_weight)
+        loss, overlaps = criterion(pred, boxes, objectness, human_weight, background_weight)
         total += loss.item()
         collisions += overlaps
     return total / len(loader), collisions

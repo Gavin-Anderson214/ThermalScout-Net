@@ -6,6 +6,7 @@ This is a DEVELOPMENT evaluation, not an untouched official-test score.
 """
 from __future__ import annotations
 import argparse
+import hashlib
 import json
 import time
 from pathlib import Path
@@ -131,10 +132,14 @@ def main():
     total_fp=sum(x['fp'] for x in count_by_class.values())
     total_gt=sum(x['gt'] for x in count_by_class.values())
     out={
-        'model':'ThermalScout-Net (real/scratch)',
-        'training':'random initialization',
+        'model':'ThermalScout-Net (real/pretrained)' if ck.get('initialization') else 'ThermalScout-Net (real/scratch)',
+        'training':ck.get('initialization','random initialization'),
         'split':'validation',
-        'scope':'DEVELOPMENT ONLY - official TestReal was not used',
+        'scope':'DEVELOPMENT ONLY - caller-provided validation split; not an official test score',
+        'checkpoint_sha256':hashlib.sha256(args.checkpoint.read_bytes()).hexdigest(),
+        'checkpoint_epoch':ck.get('epoch'),
+        'data_root':str(args.data.resolve()),
+        'inference_settings':{'minimum_score':0.001,'max_candidates':500,'max_detections':40,'local_peaks':False},
         'evaluation_images':len(ds),'image_size':size,'iou_for_precision_recall':0.5,
         'confidence_for_precision_recall':0.25,
         'ap_method':'101-point interpolated per class; IoU 0.50..0.95 (step 0.05)',
