@@ -1,5 +1,7 @@
 # ThermalScout-Net: teaching my drone to see heat
 
+[← Project home](../README.md) · [Measured results](RESULTS.md)
+
 ## The idea
 
 I am building a drone, and I want to build its thermal detection model myself. For Intro to AI, I am training a small custom convolutional neural network using BIRDSAI thermal imagery. My longer-term goal is to put that model on a Raspberry Pi and display live detections from a thermal camera on the drone.
@@ -19,6 +21,6 @@ I am building a drone, and I want to build its thermal detection model myself. F
 
 The Raspberry Pi deployment and live drone demonstration are goals, not completed results. GPU training performance does not establish Raspberry Pi frame rate. BIRDSAI is the main project dataset; BAMBI is a diagnostic study with different data and splits.
 
-The BAMBI controlled experiments reached 4.31% mAP@50 on a small development-validation pilot, with zero human recall and many false positives. These results do not establish deployment readiness. Historical BIRDSAI results are reported separately in the [README](../README.md) and linked experiment records; they should not be combined with BAMBI as one accuracy score.
+The BAMBI controlled experiments reached 4.31% mAP@50 on a small development-validation pilot, with zero human recall and many false positives. These results do not establish deployment readiness. BIRDSAI results are reported separately in the [results summary](RESULTS.md) and linked experiment records; they should not be combined with BAMBI as one accuracy score.
 
 The local introductory PowerPoint contains the visual version of this story. This text outline can be shared without distributing dataset images or model checkpoints.

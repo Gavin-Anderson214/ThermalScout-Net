@@ -1,39 +1,31 @@
-# Start Here — ThermalScout-Net
+# Start here
 
-Open this folder in VS Code or use ThermalScout-Net.code-workspace. Run commands from the folder containing project_manager.py.
+[← Project home](README.md)
 
-## Read or present
+## Read, present or build
 
-1. Open [the living report](report/Living_Project_Report.html) for current results.
-2. Read [the latest finding](docs/HUMAN_WEIGHT_FINDING_2026-11-02.md).
-3. Review [the experiment](docs/HUMAN_WEIGHT_EXPERIMENT_2026-11-02.md) and [evidence](records/experiments/20261102_human_weight/comparison.json).
-4. Use [README.md](README.md) for project and course context.
+- **Understand my idea:** [the presentation story](docs/INTRO_AI_DRONE_STORY.md).
+- **See my network:** [model.py](thermalscout/model.py).
+- **Check measured performance:** [results](docs/RESULTS.md).
+- **Try a saved model:** [image demo instructions](docs/IMAGE_DEMO.md).
 
-## Work on the project
+## Run the project
+
+Open a terminal in the repository folder. These commands use Python 3.12 on Windows:
 
 ```powershell
 py -3.12 -m pip install -r requirements-dev.txt
 py -3.12 -m pytest tests -q
-py -3.12 project_manager.py update
 ```
 
-Real-image experiments need the prepared dataset under data/processed/yolo_real or an explicit --data path. Weights and diagnostic images stay under training_runs. Official TestReal remains held out. This is a research prototype with many false positives.
+Training additionally requires your locally prepared BIRDSAI data. A new clone does not include images or weights. See [data setup](data/README.md).
 
-## Find things
+```powershell
+py -3.12 project_manager.py train --mode quick --data data/processed/yolo_real --device auto
+```
 
-- thermalscout/: detector implementation.
-- docs/: findings, experiments and explanations.
-- records/: measured evidence and logs.
-- report/: current report, figures and historical snapshots.
-- scripts/: preparation and ZIP utilities.
-- demo/, examples/: synthetic teaching demonstration.
-- tests/: verification.
-- data/, training_runs/: local data and model outputs.
+A quick run checks the pipeline; it is not a full accuracy experiment. It saves a new run locally under `training_runs`. Official TestReal remains held out.
 
-Root helpers retain their current names and locations. See the [folder map](docs/SHARING_AND_ORGANIZATION.md) for details.
+## Need something less common?
 
-## Share the project
-
-Run `py -3.12 scripts/package_project.py` to build a ZIP under dist/. Read [sharing instructions](docs/SHARING_AND_ORGANIZATION.md) for recipient setup and the historical-file inventory. The Windows shortcuts use Python 3.12.
-
-Datasets, weights, prediction caches and temporary outputs are excluded. Earlier sibling projects and original documents remain in place. The portable workspace opens only this active project.
+[Experiment library](docs/EXPERIMENTS.md) · [Full folder guide](docs/SHARING_AND_ORGANIZATION.md) · [Detailed course background](docs/PROJECT_REFERENCE.md)

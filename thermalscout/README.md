@@ -1,5 +1,19 @@
-# Real-image detector source
+# My CNN
 
-data.py loads images and labels; model.py defines the network; training.py handles learning; inference.py decodes predictions; train_detector.py runs training; evaluate_detector.py measures performance. Preserve package and module names for imports.
+[← Project home](../README.md)
+
+This is my custom 88,503-parameter detector. It takes a grayscale thermal image and predicts animal/human classes, confidence scores and bounding boxes.
+
+| I want to understand… | Open |
+|---|---|
+| The neural network I built | [model.py](model.py) |
+| How images and labels enter the model | [data.py](data.py) |
+| How the network learns from mistakes | [training.py](training.py) |
+| How predictions become boxes | [inference.py](inference.py) |
+| How to start training | [train_detector.py](train_detector.py) |
+| How performance is measured | [evaluate_detector.py](evaluate_detector.py) |
+| How to run one thermal image | [predict_image.py](predict_image.py) |
+
+Start with `model.py`, then follow an image through `data.py`, `training.py` and `inference.py`. Keep these package and module names unchanged so imports continue to work.
 
 [Back to Start Here](../START_HERE.md)
