@@ -2,6 +2,12 @@
 
 [← Project home](../README.md)
 
+## Data and tools
+
+The main dataset is **BIRDSAI**, a thermal drone imagery dataset distributed through the Conservation Drones / LILA Science project. The prepared project data uses its labeled animal and human frames; the original source data and large image folders stay local because of size and dataset terms. BAMBI is a separate pilot dataset used for diagnosis, not mixed into the BIRDSAI score below.
+
+The model is implemented in **PyTorch** because it gives the project a direct way to define the custom CNN, train it with CUDA on the RTX 4070, inspect the loss and predictions, and save/reload the learned weights. PyTorch is the framework used to implement and train this model; it is not a pretrained detector replacing the custom architecture.
+
 ## Main project: BIRDSAI
 
 The existing custom CNN with human class weight 4 was checked again on the GPU on November 11, 2026. This was evaluation of an existing checkpoint, not a new training run.

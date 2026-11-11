@@ -22,6 +22,10 @@ The future target is a Raspberry Pi mounted on the drone. GPU speed cannot be us
 
 Training uses labeled BIRDSAI thermal frames. The loader converts each frame to grayscale, keeps its aspect ratio, pads it to 256 × 256, and scales pixels to 0–1. The same preprocessing is used by `predict_image.py`, so a still-image test follows the training path.
 
+### Where the data comes from
+
+BIRDSAI is the main project dataset, distributed through the Conservation Drones / LILA Science dataset project. Its labels provide the animal and human examples used by this detector. BAMBI is a separate pilot used to diagnose training behavior. The project keeps original imagery and large derived folders local because they are large and subject to source dataset terms; the repository documents the preparation code and measured evidence without uploading the image collection.
+
 ## 4. Inference
 
 During inference, the CNN produces a prediction map. `thermalscout/inference.py` converts the map into confidence-scored boxes and applies class-specific non-maximum suppression. `thermalscout/predict_image.py` maps those boxes back to the original image and saves an annotated preview.
