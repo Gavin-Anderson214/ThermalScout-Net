@@ -53,6 +53,8 @@ py -3.12 -m scripts.prepare_verified_backgrounds --review-csv training_runs/empt
 
 For a reference architecture, install `requirements-reference.txt` and run the optional pretrained YOLO26n comparison on the *same* train and validation videos. `scripts.reference_yolo` writes an updated local dataset path so a stale path in `data.yaml` cannot redirect it. It evaluates the resulting predictions with the project's AP and count routines. YOLO26n has about 2.5 million parameters versus 88,503 for the custom CNN, and its training recipe and augmentation differ, so compare quality and throughput as a reference rather than an isolated architecture ablation. This keeps ThermalScout-Net's architecture intact.
 
+The 10-epoch reference run measured 44.56% project-scored mAP@50 and 69.89% animal AP50, with only 219 false animal boxes at confidence .25. It found 4/62 humans at that cutoff, versus 31/62 for the 512-pixel custom CNN. This suggests investigating class-specific thresholds and background mistakes next; a threshold change must be evaluated against human recall and false alarms on independent footage. [Full reference record](../records/experiments/20261112_reference_yolo26n/README.md).
+
 ```powershell
 py -3.12 -m pip install -r requirements-reference.txt
 py -3.12 -u -m scripts.reference_yolo --data data/processed/yolo_real --out training_runs/NEW_REFERENCE_RUN --epochs 10 --device 0

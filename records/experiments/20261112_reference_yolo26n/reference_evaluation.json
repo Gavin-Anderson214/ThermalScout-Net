@@ -1,0 +1,32 @@
+{
+  "model": "YOLO26n reference",
+  "ultralytics_version": "8.4.211",
+  "split": "BIRDSAI video-held-out development validation",
+  "evaluation_images": 334,
+  "image_size": 512,
+  "confidence_for_counts": 0.25,
+  "iou_for_counts": 0.5,
+  "map50": 0.44563083106568546,
+  "class_metrics": {
+    "animal": {
+      "tp": 704,
+      "fp": 219,
+      "gt": 954,
+      "precision": 0.7627302275189599,
+      "recall": 0.7379454926624738,
+      "ap50": 0.698914696342355,
+      "map5095": 0.26570150327131126
+    },
+    "human": {
+      "tp": 4,
+      "fp": 0,
+      "gt": 62,
+      "precision": 1.0,
+      "recall": 0.06451612903225806,
+      "ap50": 0.1923469657890159,
+      "map5095": 0.10869039877484839
+    }
+  },
+  "fps_end_to_end": 106.17627722516636,
+  "fps_scope": "image loading, model prediction and postprocessing"
+}

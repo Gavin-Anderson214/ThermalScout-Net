@@ -1,0 +1,7 @@
+# Optional pretrained detector reference
+
+YOLO26n pretrained weights were fine-tuned locally for 10 epochs with Ultralytics 8.4.211, 512-pixel inputs, batch 4, seed 42, automatic mixed precision, and the same 2,001 BIRDSAI training / 334 development-validation frames. The training code was `scripts/reference_yolo.py`; `args.yaml` records the library settings. The model has about 2.5 million trainable parameters versus the custom CNN's 88,503. The best model was selected by Ultralytics' validation fitness. Its weights stay local under `training_runs/20261112_reference_yolo26n_v2/weights/best.pt`.
+
+The separate `reference_evaluation.json` scores original validation frames with ThermalScout-Net's 101-point AP calculation, 0.25 confidence for TP/FP counts, 0.50 IoU, and 40 detections per frame. It measures 44.56% mAP@50: animal AP50 69.89%, human AP50 19.23%. At confidence .25: animal 704 TP / 219 FP of 954 labels; human 4 TP / 0 FP of 62 labels. The tool measured 106 original frames/second including image loading and postprocessing on the desktop RTX 4070. The custom evaluator's FPS excludes loading, so those FPS numbers have different timing scopes.
+
+Ultralytics' built-in mAP50 for its own best checkpoint was 55.9%, calculated with different inference/evaluation settings. Use the project-scored 44.56% to compare with ThermalScout-Net's project-scored results. Different architecture, pretraining, augmentations, and optimizer settings mean this is a practical reference, not a controlled single-variable test. The official TestReal split was not read.

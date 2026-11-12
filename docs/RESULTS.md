@@ -16,6 +16,12 @@ A separate 256-pixel continuous run was stopped after 97 epochs. Its best checkp
 
 [Size experiment evidence](../records/experiments/20261112_resolution512_human4/evaluation.json) · [Stopped run evidence](../records/experiments/20261112_025045_full/evaluation.json) · [Next controlled experiments](NEXT_DETECTOR_EXPERIMENTS_2026-11-12.md)
 
+## Pretrained reference on the same videos
+
+A separate YOLO26n model was fine-tuned locally for 10 epochs at 512 pixels. With the project's original-frame AP calculation and 40-detection cap, it reached **44.56% mAP@50**: animal AP50 **69.89%**, human AP50 **19.23%**. At confidence 0.25 it found 704/954 animal boxes with 219 false animal boxes, but only 4/62 human boxes with zero false human boxes. Your 512-pixel custom CNN had higher human AP50 (35.35%) and found 31 human boxes at the same threshold; it also generated many more animal false boxes. The reference has about 2.5 million parameters, compared with 88,503 in your CNN, and uses pretrained weights and a different training recipe. Its own built-in metric is not directly comparable to the project's scorer. Both results use one development split, with human labels from one video.
+
+[Reference settings and evidence](../records/experiments/20261112_reference_yolo26n/README.md)
+
 ## Previous BIRDSAI training: CUDA, 12 epochs
 
 The new `gpu_run1` completed on **CUDA** using the RTX 4070 setup, with batch size 16 and 256-pixel inputs. These results are transcribed from the supplied terminal log, not independently rerun here.
