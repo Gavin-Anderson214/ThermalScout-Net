@@ -19,7 +19,9 @@ For the video-style explanation of the project, read [Local AI flow](docs/LOCAL_
 
 ## Where it stands
 
-The **88,503-parameter custom CNN** trains and runs inference on thermal images. The latest BIRDSAI GPU check reached **15.54% mAP@50** on development validation. It found **21 of 62 human boxes**, with **492 false human detections**. Detection quality still needs improvement.
+The **88,503-parameter custom CNN** trains and runs inference on thermal images. The latest training run completed **12 epochs on CUDA**, with a best development-validation loss of **0.7075 at epoch 3**. Detection accuracy for this new checkpoint has not yet been measured.
+
+An earlier BIRDSAI GPU evaluation reached **15.54% mAP@50** on development validation. It found **21 of 62 human boxes**, with **492 false human detections**. Detection quality still needs improvement.
 
 **Raspberry Pi deployment and live drone detection are the next goals, not completed features.**
 

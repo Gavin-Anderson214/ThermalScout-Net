@@ -6,7 +6,8 @@ Use this page when you want the technical detail behind the short project overvi
 
 | Topic | Read |
 |---|---|
-| Current BIRDSAI GPU check and image inference | [Image demo and verification](IMAGE_DEMO.md) |
+| New CUDA training run: 12 epochs, best validation loss 0.7075 | [GPU run evidence](../records/experiments/gpu_run1/README.md) |
+| Earlier BIRDSAI GPU check and image inference | [Image demo and verification](IMAGE_DEMO.md) |
 | Effect of weighting human examples more strongly | [Controlled class-weight experiment](HUMAN_WEIGHT_EXPERIMENT_2026-11-02.md) |
 | BAMBI training and inference diagnosis | [BAMBI repair record](BAMBI_REPAIR_2026-11-10.md) |
 | Machine-readable experiment evidence | [Saved records](../records/experiments/) |

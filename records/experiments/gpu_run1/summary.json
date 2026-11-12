@@ -1,0 +1,34 @@
+{
+  "run": "gpu_run1",
+  "source": "User-provided Windows terminal output; not independently rerun in this workspace",
+  "command": "py -3.12 -m thermalscout.train_detector --full --epochs 12 --batch 16 --out training_runs/gpu_run1 --device cuda",
+  "device": "cuda",
+  "parameters": 88503,
+  "image_size": 256,
+  "batch_size": 16,
+  "epochs_completed": 12,
+  "train_images": 2001,
+  "val_images": 334,
+  "annotations": {
+    "train": {
+      "animal": 6691,
+      "human": 1090
+    },
+    "val": {
+      "animal": 954,
+      "human": 62
+    }
+  },
+  "initialization": "random",
+  "objectness": "baseline",
+  "human_weight": 2.0,
+  "best_epoch": 3,
+  "best_val_loss": 0.7075,
+  "final_train_loss": 0.2077,
+  "final_val_loss": 0.8889,
+  "preview_detections": 40,
+  "preview_note": "Count on one image, not an accuracy measure",
+  "map50": null,
+  "runtime_seconds": null,
+  "weights_included": false
+}
