@@ -336,6 +336,12 @@ def report_update():
     class_weight = ROOT / 'docs' / 'HUMAN_WEIGHT_EXPERIMENT_2026-11-02.md'
     if class_weight.exists():
         lines += [''] + class_weight.read_text(encoding='utf-8').replace('# Human class-weight experiment — November 2, 2026', '## 13. Human class-weight experiment — November 2, 2026').splitlines()
+    dataset_mix = ROOT / 'docs' / 'DATASET_MIX_EXPERIMENT_2026-11-08.md'
+    if dataset_mix.exists():
+        lines += [''] + dataset_mix.read_text(encoding='utf-8').replace('# Thermal training data experiment', '## 14. Thermal training data experiment', 1).splitlines()
+    pretraining = ROOT / 'docs' / 'THERMAL_PRETRAINING_EXPERIMENT_2026-11-10.md'
+    if pretraining.exists():
+        lines += [''] + pretraining.read_text(encoding='utf-8').replace('# Thermal pretraining experiment', '## 15. Thermal pretraining experiment', 1).splitlines()
     md = '\n'.join(lines)
     (REPORT / 'Living_Project_Report.md').write_text(md, encoding='utf-8')
     # Simple, offline and dependency-free HTML rendering for the same report.
@@ -413,6 +419,13 @@ def main():
     train.add_argument('--data', type=Path)
     train.add_argument('--device', default='auto', choices=['auto','cpu','cuda'])
     train.add_argument('--epochs', type=int)
+    train.add_argument('--continuous', action='store_true', help='Train until Ctrl+C')
+    train.add_argument('--tile', action='store_true', help='Train with overlapping native-resolution tiles')
+    train.add_argument('--patience', type=int, help='Stop when validation loss has not improved')
+    train.add_argument('--verified-backgrounds', type=Path, help='Reviewed empty training frames')
+    train.add_argument('--size', type=int, default=256)
+    train.add_argument('--batch', type=int, default=4)
+    train.add_argument('--human-weight', type=float, default=2.0)
     args = p.parse_args()
     initialize()
     if args.command == 'note':
@@ -466,8 +479,13 @@ def main():
         stamp = datetime.now().strftime('%Y%m%d_%H%M%S')
         out = RUNS / f'{stamp}_{args.mode}'
         cmd = [sys.executable, '-m', 'thermalscout.train_detector',
-               f'--{args.mode}', '--data', str(data), '--out', str(out), '--device',args.device]
+               f'--{args.mode}', '--data', str(data), '--out', str(out), '--device',args.device,
+               '--size',str(args.size),'--batch',str(args.batch),'--human-weight',str(args.human_weight)]
+        if args.continuous: cmd += ['--continuous']
         if args.epochs: cmd += ['--epochs',str(args.epochs)]
+        if args.tile: cmd += ['--tile']
+        if args.patience: cmd += ['--patience',str(args.patience)]
+        if args.verified_backgrounds: cmd += ['--verified-backgrounds',str(args.verified_backgrounds)]
         print('Starting custom detector training:', ' '.join(cmd), flush=True)
         result = subprocess.run(cmd)
         if result.returncode:

@@ -1,0 +1,51 @@
+{
+  "20261102_classweight_human4": {
+    "checkpoint_epoch": 7,
+    "checkpoint_sha256": "5b577284f6877c26562d6cf67f200b5f874e25bd39c731b7f22e1d8f764f21a6",
+    "human": {
+      "tp": 21,
+      "fp": 492,
+      "gt": 62,
+      "precision": 0.04093567251461988,
+      "recall": 0.3387096774193548,
+      "ap50": 0.07113278942107408,
+      "map5095": 0.013035216786619156
+    },
+    "animal": {
+      "tp": 623,
+      "fp": 11865,
+      "gt": 954,
+      "precision": 0.04988789237668161,
+      "recall": 0.6530398322851153,
+      "ap50": 0.23970751592635509,
+      "map5095": 0.06091264961344493
+    },
+    "map50": 0.1554201526737146
+  },
+  "20261110_thermal_pretraining": {
+    "checkpoint_epoch": 7,
+    "checkpoint_sha256": "1102aac8460531102eeb9a9951cddef663fca263b5785e5d4b502fa4615808e7",
+    "human": {
+      "tp": 6,
+      "fp": 256,
+      "gt": 62,
+      "precision": 0.022900763358778626,
+      "recall": 0.0967741935483871,
+      "ap50": 0.004859826642004859,
+      "map5095": 0.0005994555499505994
+    },
+    "animal": {
+      "tp": 408,
+      "fp": 12690,
+      "gt": 954,
+      "precision": 0.031149793861658268,
+      "recall": 0.4276729559748428,
+      "ap50": 0.1292462463343266,
+      "map5095": 0.03167147528962196
+    },
+    "map50": 0.06705303648816573
+  },
+  "dataset_sha256": "c664ff428d8a9c28e68241a8f753def8f4be6c4e352679bc896d87c241628c23",
+  "pretrained_features_sha256": "f7386a93df03e704dc2b33eb7ced00fcc552c63fa0cb489bbfec1cf7db989088",
+  "reference_evaluation": "records/experiments/20261102_human_weight/human4_evaluation.json"
+}

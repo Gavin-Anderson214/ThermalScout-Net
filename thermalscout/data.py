@@ -58,7 +58,7 @@ def choose_subset(records, limit: int, seed: int):
 class BirdsaiDataset(Dataset):
     """Load images and labels, resize them, and optionally flip training images."""
     def __init__(self, root: Path, split: str, size: int, limit: int, seed: int,
-                 augment: bool = False):
+                 augment: bool = False, background_dir: Path | None = None):
         """Find matching image and label files and select a repeatable sample."""
         self.size = size
         self.augment = augment
@@ -69,6 +69,17 @@ class BirdsaiDataset(Dataset):
         records = [(p, root / "labels" / split / (p.stem + ".txt"),
                     read_boxes(root / "labels" / split / (p.stem + ".txt"))) for p in imgs]
         self.records = choose_subset(records, limit, seed)
+        if background_dir is not None:
+            if split != 'train':
+                raise ValueError('Verified backgrounds may only be added to training')
+            background_dir = background_dir.expanduser().resolve()
+            if not background_dir.is_dir() or 'testreal' in str(background_dir).casefold():
+                raise ValueError('Supply a reviewed training-background directory, never TestReal')
+            backgrounds = sorted(p for p in background_dir.iterdir()
+                                 if p.is_file() and p.suffix.lower() in EXTS)
+            if not backgrounds:
+                raise ValueError(f'No verified background images found in {background_dir}')
+            self.records += [(p, None, []) for p in backgrounds]
         self.label_counts = [sum(sum(b[0] == c for b in r[2]) for r in self.records)
                              for c in (0, 1)]
         self.num_empty = sum(not r[2] for r in self.records)
@@ -112,4 +123,61 @@ def collate(batch):
     """Combine images into a batch while preserving each image’s list of boxes."""
     imgs, boxes, paths = zip(*batch)
     return torch.stack(imgs), boxes, paths
+
+
+def tile_positions(length: int, side: int, overlap: float = 0.25):
+    """Cover an image axis with overlapping native-resolution windows."""
+    if side < 1 or length < side or not 0 <= overlap < 1:
+        raise ValueError("Tile side must fit the image and overlap must be in [0, 1)")
+    step = max(1, round(side * (1 - overlap)))
+    return sorted(set([*range(0, length - side + 1, step), length - side]))
+
+
+def tile_boxes(boxes, width, height, left, top, side):
+    """Clip source-normalized boxes to a square tile, rejecting severe fragments."""
+    result = []
+    for c, x, y, bw, bh in boxes:
+        x1, x2 = (x - bw / 2) * width, (x + bw / 2) * width
+        y1, y2 = (y - bh / 2) * height, (y + bh / 2) * height
+        a, b = max(x1, left), min(x2, left + side)
+        d, e = max(y1, top), min(y2, top + side)
+        if b <= a or e <= d or (b-a)*(e-d) < 0.5*bw*width*bh*height:
+            continue
+        result.append((c, ((a+b)/2-left)/side, ((d+e)/2-top)/side,
+                       (b-a)/side, (e-d)/side))
+    return result
+
+
+class TiledBirdsaiDataset(BirdsaiDataset):
+    """Train at native pixel scale, including empty crops from labeled frames."""
+    def __init__(self, root, split, side, limit, seed, augment=False, background_dir=None):
+        super().__init__(root, split, side, limit, seed, augment, background_dir)
+        self.tiles = []
+        self.label_counts = [0, 0]
+        self.num_empty = 0
+        for path, _, boxes in self.records:
+            with Image.open(path) as im:
+                width, height = im.size
+            if min(width, height) < side:
+                raise ValueError(f"Tile side {side} exceeds source image dimensions: {path}")
+            for top in tile_positions(height, side):
+                for left in tile_positions(width, side):
+                    labels = tile_boxes(boxes, width, height, left, top, side)
+                    self.tiles.append((path, left, top, labels))
+                    self.num_empty += not labels
+                    for label in labels:
+                        self.label_counts[int(label[0])] += 1
+
+    def __len__(self):
+        return len(self.tiles)
+
+    def __getitem__(self, idx):
+        path, left, top, labels = self.tiles[idx]
+        with Image.open(path) as im:
+            crop = im.convert('L').crop((left, top, left+self.size, top+self.size))
+            pixels = np.asarray(crop, dtype=np.float32).copy() / 255.0
+        if self.augment and random.random() < 0.5:
+            pixels = np.ascontiguousarray(pixels[:, ::-1])
+            labels = [(c, 1-x, y, w, h) for c, x, y, w, h in labels]
+        return torch.from_numpy(pixels[None]), labels, f"{path}#tile={left},{top}"
 

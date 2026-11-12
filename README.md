@@ -17,6 +17,8 @@ Built for **COSC 2345 — Introduction to AI, Tarleton State University**.
 
 For the video-style explanation of the project, read [Local AI flow](docs/LOCAL_AI_FLOW.md).
 
+For a full refresher before working on the code or presenting, read the [project refresher](docs/PROJECT_REFRESHER.md).
+
 ## Where it stands
 
 The **88,503-parameter custom CNN** trains and runs inference on thermal images. The latest BIRDSAI GPU check reached **15.54% mAP@50** on development validation. It found **21 of 62 human boxes**, with **492 false human detections**. Detection quality still needs improvement.

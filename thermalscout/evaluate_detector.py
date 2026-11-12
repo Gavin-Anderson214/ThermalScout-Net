@@ -12,10 +12,11 @@ import time
 from pathlib import Path
 import numpy as np
 import torch
+from PIL import Image
 from torch.utils.data import DataLoader
 from .model import ThermalScoutReal, CLASSES
-from .data import BirdsaiDataset, collate
-from .inference import infer
+from .data import BirdsaiDataset, collate, tile_positions
+from .inference import infer, nms
 
 
 # --- Measure geometric overlap using normalized corner coordinates.
@@ -84,6 +85,31 @@ def ap_101(entries,class_id,threshold):
     return float(np.mean([np.max(precision[recall>=r],initial=0.) for r in np.linspace(0.,1.,101)]))
 
 
+def infer_tiled(model, image_path, side, device):
+    """Merge tile detections into the original frame's normalized coordinates."""
+    with Image.open(image_path) as im:
+        gray = im.convert('L')
+        width, height = gray.size
+        if min(width, height) < side:
+            raise ValueError(f'Tile side {side} exceeds source image dimensions: {image_path}')
+        detections = []
+        for top in tile_positions(height, side):
+            for left in tile_positions(width, side):
+                crop = gray.crop((left, top, left+side, top+side))
+                tensor = torch.from_numpy(np.asarray(crop, dtype=np.float32).copy()[None] / 255.0)
+                for cls, score, (x1,y1,x2,y2) in infer(model, tensor, device, threshold=0.001):
+                    detections.append((cls, score, [(left+x1*side)/width, (top+y1*side)/height,
+                                                     (left+x2*side)/width, (top+y2*side)/height]))
+    merged = []
+    for cls in range(len(CLASSES)):
+        group = [d for d in detections if d[0] == cls]
+        if group:
+            boxes = torch.tensor([d[2] for d in group])
+            scores = torch.tensor([d[1] for d in group])
+            merged.extend(group[i] for i in nms(boxes, scores))
+    return sorted(merged, key=lambda d: -d[1])[:40]
+
+
 # --- Load a checkpoint, predict validation frames, aggregate class metrics and save measured results.
 def main():
     """Load the trained model, measure validation metrics, and save JSON."""
@@ -93,28 +119,39 @@ def main():
     p.add_argument('--out',type=Path,required=True)
     p.add_argument('--device',choices=['auto','cpu','cuda'],default='auto')
     p.add_argument('--limit',type=int,default=0,help='0 = entire development validation subset')
+    p.add_argument('--tile',action='store_true',help='Evaluate overlapping tiles merged on original frames')
     args=p.parse_args()
     device='cuda' if args.device=='auto' and torch.cuda.is_available() else ('cpu' if args.device=='auto' else args.device)
     if device=='cuda' and not torch.cuda.is_available():p.error('CUDA not available')
     if not args.checkpoint.exists():p.error('Training checkpoint not found')
     ck=torch.load(args.checkpoint,map_location=device,weights_only=True)
+    tiled = args.tile or bool(ck.get('tile', False))
     size=int(ck.get('image_size',256))
     model=ThermalScoutReal().to(device)
     model.load_state_dict(ck['model']);model.eval()
     ds=BirdsaiDataset(args.data,'val',size,args.limit,42,augment=False)
-    loader=DataLoader(ds,batch_size=1,shuffle=False,num_workers=0,collate_fn=collate)
+    loader=DataLoader(ds,batch_size=1,shuffle=False,num_workers=0,collate_fn=collate) if not tiled else None
     entries=[]; secs=0.
     print(f'Evaluating {len(ds)} video-held-out DEVELOPMENT validation frames on {device}...')
-    for n,(img,boxes,_) in enumerate(loader,1):
-        tensor=img[0]
-        if device=='cuda':torch.cuda.synchronize()
-        # Time inference and postprocessing; loading this frame happened earlier.
-        start=time.perf_counter()
-        dets=infer(model,tensor,device,threshold=0.001)
-        if device=='cuda':torch.cuda.synchronize()
-        secs+=time.perf_counter()-start
-        entries.append({'ground_truth':boxes[0], 'predictions':dets})
-        if n%50==0:print('  evaluated',n,'/',len(ds),flush=True)
+    if tiled:
+        for n, (path, _, boxes) in enumerate(ds.records, 1):
+            if device=='cuda':torch.cuda.synchronize()
+            start=time.perf_counter()
+            dets=infer_tiled(model,path,size,device)
+            if device=='cuda':torch.cuda.synchronize()
+            secs+=time.perf_counter()-start
+            entries.append({'ground_truth':boxes, 'predictions':dets})
+            if n%50==0:print('  evaluated',n,'/',len(ds),flush=True)
+    else:
+        for n,(img,boxes,_) in enumerate(loader,1):
+            tensor=img[0]
+            if device=='cuda':torch.cuda.synchronize()
+            start=time.perf_counter()
+            dets=infer(model,tensor,device,threshold=0.001)
+            if device=='cuda':torch.cuda.synchronize()
+            secs+=time.perf_counter()-start
+            entries.append({'ground_truth':boxes[0], 'predictions':dets})
+            if n%50==0:print('  evaluated',n,'/',len(ds),flush=True)
     # Evaluate increasingly strict overlaps; classes with no labels have no AP.
     iou_steps=np.arange(0.5,1.0,0.05)
     class_aps={}
@@ -139,7 +176,8 @@ def main():
         'checkpoint_sha256':hashlib.sha256(args.checkpoint.read_bytes()).hexdigest(),
         'checkpoint_epoch':ck.get('epoch'),
         'data_root':str(args.data.resolve()),
-        'inference_settings':{'minimum_score':0.001,'max_candidates':500,'max_detections':40,'local_peaks':False},
+        'inference_settings':{'minimum_score':0.001,'max_candidates':500,'max_detections':40,'local_peaks':False,
+                              'tile':tiled,'tile_side':size if tiled else None,'tile_overlap':0.25 if tiled else None},
         'evaluation_images':len(ds),'image_size':size,'iou_for_precision_recall':0.5,
         'confidence_for_precision_recall':0.25,
         'ap_method':'101-point interpolated per class; IoU 0.50..0.95 (step 0.05)',
@@ -147,7 +185,8 @@ def main():
         'recall':total_tp/max(1,total_gt),
         'map50':map50,'map5095':map5095,
         'fps':len(ds)/max(1.e-9,secs),
-        'fps_measurement':'forward pass + CPU/GPU postprocessing; no file-I/O or dataset-loading time',
+        'fps_measurement':('tile image decoding + all tile forward passes + merging; no dataset setup time'
+                           if tiled else 'forward pass + CPU/GPU postprocessing; no file-I/O or dataset-loading time'),
         'class_metrics':class_aps,
         'notes':'Small prototype; one box per stride-4 cell, predictions capped at 40/image.'
     }

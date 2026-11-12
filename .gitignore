@@ -39,6 +39,8 @@ training_runs/**
 
 # Local preview of a dataset frame: check dataset redistribution terms
 examples/BIRDSAI_annotated_example.png
+lessons/bambi_preview/
+thermalscout/*.bak
 
 # Generated figures are reproducible from records
 report/figures/real_training_loss.png

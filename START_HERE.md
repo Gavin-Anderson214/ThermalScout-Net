@@ -5,8 +5,10 @@
 ## Read, present or build
 
 - **Understand my idea:** [the presentation story](docs/INTRO_AI_DRONE_STORY.md).
+- **Refresh the whole project:** [project refresher](docs/PROJECT_REFRESHER.md).
 - **See my network:** [model.py](thermalscout/model.py).
 - **Check measured performance:** [results](docs/RESULTS.md).
+- **Improve small-object predictions:** [next detector experiments](docs/NEXT_DETECTOR_EXPERIMENTS_2026-11-12.md).
 - **Try a saved model:** [image demo instructions](docs/IMAGE_DEMO.md).
 
 ## Run the project

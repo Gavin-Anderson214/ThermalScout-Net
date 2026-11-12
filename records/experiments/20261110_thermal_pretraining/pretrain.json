@@ -1,0 +1,17 @@
+{
+  "data": "D:\\College Work\\Intro To AI\\Intro to AI project\\ThermalScout-Net_GitHub_Ready\\ThermalScout-Net\\data\\processed\\yolo_real",
+  "out": "D:\\College Work\\Intro To AI\\Intro to AI project\\ThermalScout-Net_GitHub_Ready\\ThermalScout-Net\\training_runs\\20261110_thermal_pretraining\\pretrain",
+  "size": 256,
+  "batch": 4,
+  "epochs": 1,
+  "limit": 0,
+  "device": "cpu",
+  "seed": 42,
+  "training_images": 2001,
+  "torch": "2.15.0+cpu",
+  "patch_size": 16,
+  "mask_probability": 0.25,
+  "masked_pixel_error": [
+    0.06332167467732598
+  ]
+}

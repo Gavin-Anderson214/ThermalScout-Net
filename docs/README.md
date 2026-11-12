@@ -5,6 +5,8 @@ CODE_TOUR.md explains Python file roles. CLASS_EXPLANATION.md explains the cours
 ## Experiment findings
 
 - [Human classification weight: experiment finding](HUMAN_WEIGHT_FINDING_2026-11-02.md) — concise results and interpretation for the project report or presentation.
+- [Thermal training data experiment](DATASET_MIX_EXPERIMENT_2026-11-08.md) compares the original training data with two mixes that add examples of people.
+- [Thermal pretraining experiment](THERMAL_PRETRAINING_EXPERIMENT_2026-11-10.md) walks through the five stages and shows how to reproduce the rebuild.
 
 [Back to Start Here](../START_HERE.md)
 

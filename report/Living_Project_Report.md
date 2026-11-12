@@ -1,7 +1,7 @@
 # ThermalScout-Net | Living Research Report
 **Course:** COSC 2345 - Introduction to Artificial Intelligence  
 **Application:** conservation and potential anti-poaching support through thermal aerial object detection.  
-**Report rebuilt locally:** 2026-11-02 13:16  
+**Report rebuilt locally:** 2026-11-12 03:13  
 **Status:** Completed: scratch/focal development evaluations and controlled threshold analysis. In progress: improving human detection and background rejection.
 
 ## 1. The problem and AI approach
@@ -45,6 +45,14 @@ The project designs and tests a custom convolutional neural network (CNN) to loc
 | 2026-11-02T11:49:17 | ThermalScout-Net (real/scratch) | full | 10 | 0.25 | 0.60 |
 | 2026-11-02T12:42:03 | ThermalScout-Net (real/scratch) | full-control | 10 | 0.27 | 0.71 |
 | 2026-11-02T12:42:03 | ThermalScout-Net (real/scratch) | full-human4 | 10 | 0.30 | 0.72 |
+| 2026-11-09T00:04:29 | ThermalScout-Net (real/scratch) | human4-hit-uav-mix | 10 | 0.39 | 0.56 |
+| 2026-11-09T00:04:29 | ThermalScout-Net (real/scratch) | human4-birdsai-people-mix | 10 | 0.25 | 0.86 |
+| 2026-11-10T02:39:29 | ThermalScout-Net (real/scratch) | thermal-pretraining | 10 | 0.31 | 0.67 |
+| 2026-11-10T20:26:20 | ThermalScout-Net (real/scratch) | quick | 2 | 1.23 | 1.51 |
+| 2026-11-10T23:25:30 | ThermalScout-Net (real/scratch) | quick | 2 | 1.23 | 2.05 |
+| 2026-11-11T19:03:40 | ThermalScout-Net (real/scratch) | quick | 2 | 1.24 | 1.52 |
+| 2026-11-12T03:13:48 | ThermalScout-Net (real/scratch) | full | 9 | 0.30 | 0.50 |
+| 2026-11-12T03:13:55 | ThermalScout-Net (real/scratch) | full | 97 | 0.05 | 0.76 |
 
 ![Measured synthetic-loss curve](figures/synthetic_training_loss.png)
 
@@ -74,6 +82,21 @@ The project designs and tests a custom convolutional neural network (CNN) to loc
 | ThermalScout-Net (real/scratch) (full-human4) | random initialization | validation | 5.0% | 63.4% | 15.5% | 3.7% | 19.88 | D:\College Work\Intro To AI\Intro to AI project\ThermalScout-Net_GitHub_Ready\ThermalScout-Net\training_runs\20261102_classweight_human4\evaluation.json |
 | ThermalScout-Net (real/scratch) (full-human4) — animal | random initialization | validation | 5.0% | 65.3% | 24.0% | 6.1% | Not measured | D:\College Work\Intro To AI\Intro to AI project\ThermalScout-Net_GitHub_Ready\ThermalScout-Net\training_runs\20261102_classweight_human4\evaluation.json #class=animal |
 | ThermalScout-Net (real/scratch) (full-human4) — human | random initialization | validation | 4.1% | 33.9% | 7.1% | 1.3% | Not measured | D:\College Work\Intro To AI\Intro to AI project\ThermalScout-Net_GitHub_Ready\ThermalScout-Net\training_runs\20261102_classweight_human4\evaluation.json #class=human |
+| ThermalScout-Net (real/scratch) (human4-hit-uav-mix) | random initialization | validation | 3.3% | 43.0% | 6.5% | 1.2% | 17.29 | D:\College Work\Intro To AI\Intro to AI project\ThermalScout-Net_GitHub_Ready\ThermalScout-Net\records\experiments\20261108_dataset_mix\20261108_hit_uav_mix\evaluation.json |
+| ThermalScout-Net (real/scratch) (human4-hit-uav-mix) — animal | random initialization | validation | 3.5% | 45.3% | 13.0% | 2.4% | Not measured | D:\College Work\Intro To AI\Intro to AI project\ThermalScout-Net_GitHub_Ready\ThermalScout-Net\records\experiments\20261108_dataset_mix\20261108_hit_uav_mix\evaluation.json #class=animal |
+| ThermalScout-Net (real/scratch) (human4-hit-uav-mix) — human | random initialization | validation | 0.4% | 8.1% | 0.0% | 0.0% | Not measured | D:\College Work\Intro To AI\Intro to AI project\ThermalScout-Net_GitHub_Ready\ThermalScout-Net\records\experiments\20261108_dataset_mix\20261108_hit_uav_mix\evaluation.json #class=human |
+| ThermalScout-Net (real/scratch) (human4-birdsai-people-mix) | random initialization | validation | 2.0% | 26.5% | 2.7% | 0.4% | 20.36 | D:\College Work\Intro To AI\Intro to AI project\ThermalScout-Net_GitHub_Ready\ThermalScout-Net\records\experiments\20261108_dataset_mix\20261108_birdsai_people_mix\evaluation.json |
+| ThermalScout-Net (real/scratch) (human4-birdsai-people-mix) — animal | random initialization | validation | 2.1% | 26.5% | 3.8% | 0.6% | Not measured | D:\College Work\Intro To AI\Intro to AI project\ThermalScout-Net_GitHub_Ready\ThermalScout-Net\records\experiments\20261108_dataset_mix\20261108_birdsai_people_mix\evaluation.json #class=animal |
+| ThermalScout-Net (real/scratch) (human4-birdsai-people-mix) — human | random initialization | validation | 1.2% | 25.8% | 1.5% | 0.3% | Not measured | D:\College Work\Intro To AI\Intro to AI project\ThermalScout-Net_GitHub_Ready\ThermalScout-Net\records\experiments\20261108_dataset_mix\20261108_birdsai_people_mix\evaluation.json #class=human |
+| ThermalScout-Net (real/pretrained) (thermal-pretraining) | thermal patch pretraining | validation | 3.1% | 40.7% | 6.7% | 1.6% | 17.06 | D:\College Work\Intro To AI\Intro to AI project\ThermalScout-Net_GitHub_Ready\ThermalScout-Net\records\experiments\20261110_thermal_pretraining\evaluation.json |
+| ThermalScout-Net (real/pretrained) (thermal-pretraining) — animal | thermal patch pretraining | validation | 3.1% | 42.8% | 12.9% | 3.2% | Not measured | D:\College Work\Intro To AI\Intro to AI project\ThermalScout-Net_GitHub_Ready\ThermalScout-Net\records\experiments\20261110_thermal_pretraining\evaluation.json #class=animal |
+| ThermalScout-Net (real/pretrained) (thermal-pretraining) — human | thermal patch pretraining | validation | 2.3% | 9.7% | 0.5% | 0.1% | Not measured | D:\College Work\Intro To AI\Intro to AI project\ThermalScout-Net_GitHub_Ready\ThermalScout-Net\records\experiments\20261110_thermal_pretraining\evaluation.json #class=human |
+| ThermalScout-Net (real/scratch) (full) | random initialization | validation | 5.4% | 70.3% | 29.1% | 6.3% | 20.66 | D:\College Work\Intro To AI\Intro to AI project\ThermalScout-Net_GitHub_Ready\ThermalScout-Net\training_runs\20261112_resolution512_human4\evaluation.json |
+| ThermalScout-Net (real/scratch) (full) — animal | random initialization | validation | 5.2% | 71.6% | 22.9% | 4.5% | Not measured | D:\College Work\Intro To AI\Intro to AI project\ThermalScout-Net_GitHub_Ready\ThermalScout-Net\training_runs\20261112_resolution512_human4\evaluation.json #class=animal |
+| ThermalScout-Net (real/scratch) (full) — human | random initialization | validation | 36.9% | 50.0% | 35.3% | 8.2% | Not measured | D:\College Work\Intro To AI\Intro to AI project\ThermalScout-Net_GitHub_Ready\ThermalScout-Net\training_runs\20261112_resolution512_human4\evaluation.json #class=human |
+| ThermalScout-Net (real/scratch) (full) | random initialization | validation | 4.0% | 52.0% | 7.1% | 1.5% | 17.60 | D:\College Work\Intro To AI\Intro to AI project\ThermalScout-Net_GitHub_Ready\ThermalScout-Net\training_runs\20261112_025045_full\evaluation.json |
+| ThermalScout-Net (real/scratch) (full) — animal | random initialization | validation | 4.0% | 54.6% | 12.7% | 2.7% | Not measured | D:\College Work\Intro To AI\Intro to AI project\ThermalScout-Net_GitHub_Ready\ThermalScout-Net\training_runs\20261112_025045_full\evaluation.json #class=animal |
+| ThermalScout-Net (real/scratch) (full) — human | random initialization | validation | 8.5% | 11.3% | 1.6% | 0.3% | Not measured | D:\College Work\Intro To AI\Intro to AI project\ThermalScout-Net_GitHub_Ready\ThermalScout-Net\training_runs\20261112_025045_full\evaluation.json #class=human |
 
 ![Measured model comparison](figures/model_comparison.png)
 
@@ -127,7 +150,7 @@ Training has 6,691 animal versus 1,090 human labels; validation has 954 versus 6
 **Reproduce from the repository root.** Use Python 3.12 with the project's installed dependencies. Choose a fresh output directory; explicit `--out` refuses overwriting an existing directory.
 
 ```powershell
-py -3.12 -u analyze_validation.py --run training_runs/20261029_focal_experiment --data data/processed/yolo_real --out training_runs/threshold_repeat_01
+py -3.12 -u -m scripts.analyze_validation --run training_runs/20261029_focal_experiment --data data/processed/yolo_real --out training_runs/threshold_repeat_01
 py -3.12 -m pytest tests -q
 py -3.12 project_manager.py update
 ii .\report\Living_Project_Report.html
@@ -178,13 +201,13 @@ Retain the original baseline as the human-detection reference. Do not replace de
 Run from the repository root. Use a fresh output folder each time:
 
 ```powershell
-py -3.12 diagnose_padding.py --cache records/experiments/20261102_focal_threshold_sweep/predictions.json --checkpoint training_runs/20261029_focal_experiment/thermal_scout_real_weights.pt --out training_runs/my_boundary_check
+py -3.12 -m scripts.diagnose_padding --cache records/experiments/20261102_focal_threshold_sweep/predictions.json --checkpoint training_runs/20261029_focal_experiment/thermal_scout_real_weights.pt --out training_runs/my_boundary_check
 py -3.12 -m pytest tests -q
 py -3.12 project_manager.py update
 ii .\training_runs\my_boundary_check\human_padding_comparison.png
 ```
 
-For baseline, use cache `training_runs/20261029_133235_full/error_analysis/predictions.json` and checkpoint `training_runs/20261029_133235_full/thermal_scout_real_weights.pt`. If a cache is missing, regenerate it with `analyze_validation.py` for that checkpoint first. This analysis uses the existing frozen caches; it does not independently regenerate model outputs or prove a cache/checkpoint association beyond reproducing saved metrics and recording their hashes.
+For baseline, use cache `training_runs/20261029_133235_full/error_analysis/predictions.json` and checkpoint `training_runs/20261029_133235_full/thermal_scout_real_weights.pt`. If a cache is missing, regenerate it with `scripts/analyze_validation.py` for that checkpoint first. This analysis uses the existing frozen caches; it does not independently regenerate model outputs or prove a cache/checkpoint association beyond reproducing saved metrics and recording their hashes.
 
 [Focal evidence](../records/experiments/20261102_boundary_diagnosis/focal_summary.json) and [baseline evidence](../records/experiments/20261102_boundary_diagnosis/baseline_summary.json) include exact counts and checkpoint, source, cache and current dataset hashes. Ten tests passed, including content-rectangle boundaries and human-versus-animal overlap categories. Analysis reruns reproduced the same counts. Report section 12 persists on rebuild.
 
@@ -201,13 +224,13 @@ Human detections changed by +9 out of 62 labels. Human recall rose from 19.35% t
 
 ![Class-weight comparison](../records/experiments/20261102_human_weight/class_weight_comparison.png)
 
-View the same two human-heavy frames with `py -3.12 preview_class_weight.py`, then `ii .\training_runs\20261102_classweight_comparison.png`. Columns show labels, the weight-2 control and the weight-4 variant, all at confidence .25. Blue is human; green is animal. These adjacent, deliberately selected frames are illustrative, not representative accuracy evidence.
+View the same two human-heavy frames with `py -3.12 -m scripts.preview_class_weight`, then `ii .\training_runs\20261102_classweight_comparison.png`. Columns show labels, the weight-2 control and the weight-4 variant, all at confidence .25. Blue is human; green is animal. These adjacent, deliberately selected frames are illustrative, not representative accuracy evidence.
 
 Checkpoint selection uses each run's minimum validation loss. Those losses are not directly comparable because class weighting differs; this evaluates the full training-plus-selection procedure. Metrics use confidence .25, IoU .50, the existing 500-candidate/40-detection cap and classwise NMS. AP uses ranked predictions at confidence floor .001. No boundary filtering or threshold tuning was applied. Small human sample, correlated video frames and one seed limit generalization; no final test accuracy claim or causal guarantee.
 
 The new control's tensors match the historical baseline: **True**. Historical records were preserved; these two folders represent newly executed training runs, not imported checkpoints.
 
-The two original human-heavy example frames remain difficult and still lack correct human detections. Aggregate gains occur on other frames. To view deliberately selected successes, run `py -3.12 preview_class_weight.py --gains` and open `training_runs/20261102_classweight_gains.png`. This selects the largest per-frame human TP gain from each video (up to two), not a representative sample.
+The two original human-heavy example frames remain difficult and still lack correct human detections. Aggregate gains occur on other frames. To view deliberately selected successes, run `py -3.12 -m scripts.preview_class_weight --gains` and open `training_runs/20261102_classweight_gains.png`. This selects the largest per-frame human TP gain from each video (up to two), not a representative sample.
 
 ## Label and size audit
 
@@ -225,6 +248,116 @@ py -3.12 -m thermalscout.evaluate_detector --checkpoint training_runs/human4_rep
 py -3.12 -m pytest tests -q
 ```
 
-Repeat the same commands with --human-weight 2 and a separate output folder for the control. To summarize these original completed runs again: `py -3.12 summarize_class_weight.py`. To rebuild the report: `py -3.12 project_manager.py update`.
+Repeat the same commands with --human-weight 2 and a separate output folder for the control. To summarize these original completed runs again: `py -3.12 -m scripts.summarize_class_weight`. To rebuild the report: `py -3.12 project_manager.py update`.
 
 [Comparison and checkpoint hashes](../records/experiments/20261102_human_weight/comparison.json), [dataset audit](../records/experiments/20261102_human_weight/dataset_audit.json), [control configuration](../records/experiments/20261102_human_weight/control_config.json), [variant configuration](../records/experiments/20261102_human_weight/human4_config.json). Weights and BIRDSAI previews remain local under training_runs. Eleven tests passed, including unchanged default behavior, relative human-gradient effect and invalid-weight rejection.
+
+## 14. Thermal training data experiment
+
+This experiment asks whether adding more labeled people during training helps ThermalScout-Net on the project's nighttime wildlife footage. Both new mixes replace the same 200 animal-only frames. They retain the original human-containing frames and footage from all 26 training videos.
+
+| Training mix | Training frames | Human boxes | Animal boxes |
+|---|---:|---:|---:|
+| Original BIRDSAI | 2,001 | 1,090 | 6,691 |
+| BIRDSAI with HIT-UAV | 2,001 | 2,378 | 5,668 |
+| BIRDSAI with extra TrainReal frames | 2,001 | 1,462 | 5,668 |
+
+The HIT-UAV mix adds 200 frames from the source's training split. Each frame has at least one human label and comes from a nighttime capture. The selection spans recording dates, flight heights, and camera angles. The preparation script converts the source's Person boxes to the project's human class. [HIT-UAV paper and data description](https://pmc.ncbi.nlm.nih.gov/articles/PMC10119175/) · [Source revision and CC BY 4.0 license](https://github.com/suojiashun/HIT-UAV-Infrared-Thermal-Dataset/tree/669259659b21a2737ca9f5e4bc81892acbe6ecd8)
+
+The BIRDSAI mix adds 40 unused frames from each of the five TrainReal training videos with human labels. The selection favors frames farther in time from frames already selected. The same people can appear in several frames, so box counts describe labeled instances. [BIRDSAI dataset and license](https://lila.science/datasets/conservationdrones)
+
+All runs use 10 epochs, seed 42, batch size 4, 256-pixel inputs, learning rate 0.001, and human weight 4. Checkpoints are selected by the same validation loss rule. All three evaluations use the same 334 BIRDSAI development validation frames. Image and label bytes match across variants. The fixed confidence cutoff is 0.25 for counts and the bounding box match threshold is IoU 0.50. The official TestReal split remains held out.
+
+### Validation results
+
+| Training mix | Correct human detections | False human detections | Human precision | Human AP50 | Animal AP50 | Overall mAP50 |
+|---|---:|---:|---:|---:|---:|---:|
+| Original BIRDSAI | 21/62 | 492 | 4.09% | 7.11% | 23.97% | 15.54% |
+| BIRDSAI with HIT-UAV | 5/62 | 1,111 | 0.45% | 0.04% | 13.01% | 6.53% |
+| BIRDSAI with extra TrainReal frames | 16/62 | 1,333 | 1.19% | 1.50% | 3.83% | 2.66% |
+
+The original dataset gave the highest human and animal AP50 on these validation frames. Both variants used more human labels and fewer animal labels. The experiment measures the effect of each complete mix under the fixed training settings.
+
+The validation-loss rule selected epoch 7 for the original, epoch 7 for the HIT-UAV mix, and epoch 2 for the extra BIRDSAI mix. The human validation labels all come from a single video, so the comparison is specific to this development split and seed. More independent nighttime videos with labeled people would make a stronger follow-up.
+
+### Repeat a run
+
+Open PowerShell in the project root. Build either mix in a fresh folder. The HIT-UAV builder retrieves only the selected source images. The BIRDSAI builder uses the original local TrainReal folder.
+
+```powershell
+py -3.12 -m scripts.prepare_hit_uav_mix --out data/processed/yolo_hit_uav_repeat
+
+$raw = '..\..\ThermalScout_BIRDSAI_Step2\BIRDSAI_Step2\conservation_drones_train_real\TrainReal'
+py -3.12 -m scripts.prepare_birdsai_people_mix --train-real $raw --out data/processed/yolo_birdsai_people_repeat
+```
+
+Set `$data` to the mix you built and `$run` to a fresh run folder. Train the model and evaluate against the original validation set.
+
+```powershell
+$data = 'data/processed/yolo_birdsai_people_repeat'
+$run = 'training_runs/birdsai_people_repeat_01'
+py -3.12 -u -m thermalscout.train_detector --full --data $data --out $run --epochs 10 --size 256 --batch 4 --lr .001 --seed 42 --device cpu --objectness baseline --human-weight 4
+py -3.12 -m thermalscout.evaluate_detector --checkpoint "$run/thermal_scout_real_weights.pt" --data data/processed/yolo_real --out "$run/evaluation.json" --device cpu
+```
+
+Open the run's `evaluation.json`. Under `class_metrics.human`, `tp` counts correct human detections and `fp` counts false human detections. Compare them with the original run's 21 correct and 492 false detections. Check `class_metrics.animal.ap50` for the wildlife result.
+
+[Saved dataset manifests, training settings, and evaluation results](../records/experiments/20261108_dataset_mix/)
+
+## 15. Thermal pretraining experiment
+
+This rebuild adapts Ray Fu's five stages for building a language model to ThermalScout-Net's job of finding humans and animals in nighttime drone images. The detector gets a practice task with pixels first, then learns to draw boxes from labeled examples. [Ray Fu's video](https://www.youtube.com/shorts/TvbtVey8SbA) · [Research behind the hidden-patch idea](https://arxiv.org/abs/2111.06377)
+
+| Stage in the video | What it means for this project |
+|---|---|
+| Pretraining | Hide some 16 by 16 pixel patches in a thermal image. Train the feature layers to help fill those patches in using the visible parts. The original pixels provide the answers. |
+| Data | Use the 2,001 original BIRDSAI training frames and keep 334 validation frames from separate videos for comparison. The images and labels match the earlier weight-4 run byte for byte. |
+| Scaling | Try the practice task on 32 frames, check that it produces features the detector can load, then run one full pass on the training frames. |
+| Post-training | Start the detector with those visual features and a fresh box prediction head. Train on the labeled boxes for 10 epochs using seed 42 and human weight 4. |
+| Evaluation and systems | Save the model, its settings, a detection preview, and scores from the same validation footage used for the earlier model. |
+
+### Measured results
+
+The two models were scored on the same 334 development validation images. Human counts use confidence 0.25 and box overlap IoU 0.50.
+
+| Model | Correct human boxes | False human boxes | Human AP50 | Animal AP50 | Overall mAP50 |
+|---|---:|---:|---:|---:|---:|
+| Original weight 4 | 21 of 62 | 492 | 7.11% | 23.97% | 15.54% |
+| Thermal pretraining | 6 of 62 | 256 | 0.49% | 12.92% | 6.71% |
+
+The rebuild produced fewer human alarms and missed more labeled people. The original scored higher for both humans and animals. The pretraining recipe added one pass over the training pixels, followed by the same ten rounds of labeled training as the original. This comparison measures one run of each recipe, and the human validation labels come from a single video.
+
+### Try it in PowerShell
+
+Open PowerShell and switch to the folder that contains `thermalscout`. On the project computer, use the path below. If you moved the project, use its new path. Check that `Get-Location` prints the project folder before running Python.
+
+```powershell
+Set-Location -LiteralPath 'D:\College Work\Intro To AI\Intro to AI project\ThermalScout-Net_GitHub_Ready\ThermalScout-Net'
+Get-Location
+```
+
+Use a fresh run folder for each repeat. Start with the pilot, which prints the average error on the hidden pixels and ends with `Saved visual features`.
+
+```powershell
+$data = 'data/processed/yolo_real'
+$run = 'training_runs/thermal_rebuild_repeat_01'
+py -3.12 -u -m thermalscout.pretrain_detector --data $data --out "$run/pilot" --limit 32
+```
+
+After the pilot succeeds, run the full practice pass, labeled training, and evaluation one command at a time. Fix any error before continuing. Labeled training creates the preview, and evaluation creates `evaluation.json`.
+
+```powershell
+py -3.12 -u -m thermalscout.pretrain_detector --data $data --out "$run/pretrain" --epochs 1
+py -3.12 -u -m thermalscout.train_detector --full --data $data --out $run --epochs 10 --size 256 --batch 4 --lr .001 --seed 42 --device cpu --objectness baseline --human-weight 4 --pretrained-features "$run/pretrain/thermal_features.pt"
+py -3.12 -u -m thermalscout.evaluate_detector --checkpoint "$run/thermal_scout_real_weights.pt" --data $data --out "$run/evaluation.json" --device cpu
+```
+
+Open the preview, then read the counts from all the validation frames. In the output, `tp` counts correctly matched human boxes, `fp` counts false human boxes, and `gt` counts the labeled human boxes.
+
+```powershell
+Invoke-Item -LiteralPath "$run/real_detection_preview.png"
+$scores = Get-Content -LiteralPath "$run/evaluation.json" -Raw | ConvertFrom-Json
+$scores.class_metrics.human | Format-List tp,fp,gt
+```
+
+[Saved settings and measured results](../records/experiments/20261110_thermal_pretraining/)

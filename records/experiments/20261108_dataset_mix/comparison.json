@@ -1,0 +1,77 @@
+{
+  "20261102_classweight_human4": {
+    "label": "Original BIRDSAI",
+    "checkpoint_epoch": 7,
+    "checkpoint_sha256": "5b577284f6877c26562d6cf67f200b5f874e25bd39c731b7f22e1d8f764f21a6",
+    "evaluation": "records/experiments/20261102_human_weight/human4_evaluation.json",
+    "human": {
+      "tp": 21,
+      "fp": 492,
+      "gt": 62,
+      "precision": 0.04093567251461988,
+      "recall": 0.3387096774193548,
+      "ap50": 0.07113278942107408,
+      "map5095": 0.013035216786619156
+    },
+    "animal": {
+      "tp": 623,
+      "fp": 11865,
+      "gt": 954,
+      "precision": 0.04988789237668161,
+      "recall": 0.6530398322851153,
+      "ap50": 0.23970751592635509,
+      "map5095": 0.06091264961344493
+    },
+    "map50": 0.1554201526737146
+  },
+  "20261108_hit_uav_mix": {
+    "label": "BIRDSAI with HIT-UAV",
+    "checkpoint_epoch": 7,
+    "checkpoint_sha256": "b77636281ffb80f3fe8137d6d216b072b04e7e21e1ef7a70c4ca9f309cf7a073",
+    "evaluation": "records/experiments/20261108_dataset_mix/20261108_hit_uav_mix/evaluation.json",
+    "human": {
+      "tp": 5,
+      "fp": 1111,
+      "gt": 62,
+      "precision": 0.004480286738351254,
+      "recall": 0.08064516129032258,
+      "ap50": 0.0004247326543903199,
+      "map5095": 5.855915887145386e-05
+    },
+    "animal": {
+      "tp": 432,
+      "fp": 11812,
+      "gt": 954,
+      "precision": 0.035282587389741916,
+      "recall": 0.4528301886792453,
+      "ap50": 0.1300817841867111,
+      "map5095": 0.024350163684111123
+    },
+    "map50": 0.06525325842055071
+  },
+  "20261108_birdsai_people_mix": {
+    "label": "BIRDSAI with extra TrainReal frames",
+    "checkpoint_epoch": 2,
+    "checkpoint_sha256": "cae3d2c1c81dc3dff1af97821c52bd6d6b204afa471bff0298b2bf5cf11dd5c0",
+    "evaluation": "records/experiments/20261108_dataset_mix/20261108_birdsai_people_mix/evaluation.json",
+    "human": {
+      "tp": 16,
+      "fp": 1333,
+      "gt": 62,
+      "precision": 0.011860637509266123,
+      "recall": 0.25806451612903225,
+      "ap50": 0.014969971393567877,
+      "map5095": 0.002622300451623465
+    },
+    "animal": {
+      "tp": 253,
+      "fp": 11758,
+      "gt": 954,
+      "precision": 0.02106402464407626,
+      "recall": 0.26519916142557654,
+      "ap50": 0.038327351034080394,
+      "map5095": 0.00611170482208497
+    },
+    "map50": 0.026648661213824136
+  }
+}
