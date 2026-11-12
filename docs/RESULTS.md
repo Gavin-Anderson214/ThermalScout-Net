@@ -8,7 +8,26 @@ The main dataset is **BIRDSAI**, a thermal drone imagery dataset distributed thr
 
 The model is implemented in **PyTorch** because it gives the project a direct way to define the custom CNN, train it with CUDA on the RTX 4070, inspect the loss and predictions, and save/reload the learned weights. PyTorch is the framework used to implement and train this model; it is not a pretrained detector replacing the custom architecture.
 
-## Main project: BIRDSAI
+## Latest BIRDSAI training: CUDA, 12 epochs
+
+The new `gpu_run1` completed on **CUDA** using the RTX 4070 setup, with batch size 16 and 256-pixel inputs. These results are transcribed from the supplied terminal log, not independently rerun here.
+
+| Measurement | Result |
+|---|---:|
+| Model parameters | 88,503 |
+| Training / development-validation images | 2,001 / 334 |
+| Completed epochs | 12 |
+| Best validation loss | **0.7075 at epoch 3** |
+| Final training loss | 0.2077 |
+| Final validation loss | 0.8889 |
+
+The trainer saved epoch 3 as the best checkpoint. Lower loss is better, but loss is not an accuracy percentage. Validation did not beat epoch 3 during the remaining epochs. New detection mAP, precision, and recall have **not** been measured. The 40 detections reported in the preview are a count on one image, not a quality score.
+
+The earlier CPU run's best validation loss was 0.7148. Batch size also changed from 4 to 16, so this comparison cannot establish that the GPU improved accuracy. No elapsed times were reported, so no speedup is claimed.
+
+[Run details and evidence](../records/experiments/gpu_run1/README.md) · [All 12 epochs](../records/experiments/gpu_run1/loss_history.csv)
+
+## Earlier detection evaluation: BIRDSAI
 
 The existing custom CNN with human class weight 4 was checked again on the GPU on November 11, 2026. This was evaluation of an existing checkpoint, not a new training run.
 
