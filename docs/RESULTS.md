@@ -8,7 +8,15 @@ The main dataset is **BIRDSAI**, a thermal drone imagery dataset distributed thr
 
 The model is implemented in **PyTorch** because it gives the project a direct way to define the custom CNN, train it with CUDA on the RTX 4070, inspect the loss and predictions, and save/reload the learned weights. PyTorch is the framework used to implement and train this model; it is not a pretrained detector replacing the custom architecture.
 
-## Latest BIRDSAI training: CUDA, 12 epochs
+## New BIRDSAI size experiment: 512 pixels
+
+On November 12, a bounded CUDA run used all 2,001 training frames, 334 development-validation frames, human class weight 4, seed 42, batch size 4 and 512-pixel input. Early stopping ended at epoch 9 and retained the epoch-4 checkpoint. Evaluation on the same 334 original frames measured **29.11% mAP@50**: 31 of 62 human boxes detected with 53 false human boxes; 683 of 954 animal boxes detected with 12,561 false animal boxes at confidence 0.25 and IoU 0.50. Human AP50 was 35.35% and animal AP50 was 22.87%. Animal false alarms remain high. The 256-pixel weight-4 model below reached 15.54% mAP@50, 21 human hits, 492 false human boxes, and 23.97% animal AP50. This is a single-seed development comparison; the human labels come from one validation video.
+
+A separate 256-pixel continuous run was stopped after 97 epochs. Its best checkpoint was epoch 5, and evaluation found 7.15% mAP@50 with 7 human hits. Continuing to 97 epochs did not improve its best validation loss. This run used human weight 2, so it is not an isolated size comparison with the 512-pixel run.
+
+[Size experiment evidence](../records/experiments/20261112_resolution512_human4/evaluation.json) · [Stopped run evidence](../records/experiments/20261112_025045_full/evaluation.json) · [Next controlled experiments](NEXT_DETECTOR_EXPERIMENTS_2026-11-12.md)
+
+## Previous BIRDSAI training: CUDA, 12 epochs
 
 The new `gpu_run1` completed on **CUDA** using the RTX 4070 setup, with batch size 16 and 256-pixel inputs. These results are transcribed from the supplied terminal log, not independently rerun here.
 

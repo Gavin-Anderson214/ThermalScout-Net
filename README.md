@@ -21,9 +21,9 @@ For a full refresher before working on the code or presenting, read the [project
 
 ## Where it stands
 
-The **88,503-parameter custom CNN** trains and runs inference on thermal images. The latest training run completed **12 epochs on CUDA**, with a best development-validation loss of **0.7075 at epoch 3**. Detection accuracy for this new checkpoint has not yet been measured.
+The **88,503-parameter custom CNN** trains and runs inference on thermal images. A new 512-pixel CUDA experiment reached **29.11% mAP@50** on development validation, finding **31 of 62 human boxes** with **53 false human detections**. Animal false detections remain high. The run stopped early and retained its best epoch-4 checkpoint.
 
-An earlier BIRDSAI GPU evaluation reached **15.54% mAP@50** on development validation. It found **21 of 62 human boxes**, with **492 false human detections**. Detection quality still needs improvement.
+An earlier 256-pixel BIRDSAI GPU evaluation reached **15.54% mAP@50** on the same development frames. Both are single-seed research results; detection quality still needs improvement.
 
 **Raspberry Pi deployment and live drone detection are the next goals, not completed features.**
 
