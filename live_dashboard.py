@@ -59,7 +59,9 @@ function draw(points,total){
  for(let i=0;i<=4;i++){let y=bottom-i*(bottom-top)/4;el('line',{x1:left,y1:y,x2:right,y2:y,stroke:'#293a50'});el('text',{x:left-10,y:y+4,'text-anchor':'end'},(max*i/4).toFixed(2))}
  const x=n=>left+(n-1)/Math.max(1,total-1)*(right-left), y=v=>bottom-v/max*(bottom-top);
  el('text',{x:520,y:343,'text-anchor':'middle'},'Completed epoch');
- for(let i=1;i<=total;i++){if(total<=20||i===1||i===total||i%5===0)el('text',{x:x(i),y:318,'text-anchor':'middle'},i)}
+ const tickStep=Math.max(1,Math.ceil(total/10));
+ for(let i=1;i<=total;i+=tickStep)el('text',{x:x(i),y:318,'text-anchor':'middle'},i);
+ if((total-1)%tickStep!==0)el('text',{x:x(total),y:318,'text-anchor':'middle'},total);
  for(const [key,color]of [['train','#8bf3b8'],['val','#68b9ff']]){
  el('polyline',{points:points.map(p=>`${x(p.epoch)},${y(p[key])}`).join(' '),fill:'none',stroke:color,'stroke-width':3});
  for(const p of points){const dot=el('circle',{cx:x(p.epoch),cy:y(p[key]),r:4,fill:color});const title=document.createElementNS(ns,'title');title.textContent=`Epoch ${p.epoch}: ${key} loss ${p[key]}`;dot.appendChild(title)} }
@@ -74,14 +76,15 @@ async function poll(){try{
  document.getElementById('footer').textContent='Local dashboard · Watching the files from an existing run. Its PowerShell window controls training.';
  document.getElementById('chartHelp').textContent='This chart uses the epoch measurements saved in the run folder at the end of training.';
  }
+ const continuous=s.total==='continuous';
  const recorded=s.watching&&!s.points.length?'—':s.points.length;
- document.getElementById('epoch').textContent=`${recorded} / ${s.total}`;
+ document.getElementById('epoch').textContent=continuous?`${recorded} completed`:`${recorded} / ${s.total}`;
  const last=s.points.at(-1);document.getElementById('train').textContent=last?last.train.toFixed(4):'—';
  document.getElementById('best').textContent=last?Math.min(...s.points.map(p=>p.val)).toFixed(4):'—';
  const secs=Math.floor(s.elapsed);document.getElementById('elapsed').textContent=`${Math.floor(secs/60)}m ${secs%60}s`;
- document.getElementById('progress').style.width=`${100*s.points.length/s.total}%`;
+ document.getElementById('progress').style.width=continuous?'100%':`${100*s.points.length/s.total}%`;
  const log=document.getElementById('log');log.textContent=s.lines.join('\n');if(document.getElementById('follow').checked)log.scrollTop=log.scrollHeight;
- draw(s.points,s.total);if(s.preview){document.getElementById('imagePanel').hidden=false;document.getElementById('preview').src='/preview'}
+ draw(s.points,continuous?Math.max(10,last?.epoch||1):s.total);if(s.preview){document.getElementById('imagePanel').hidden=false;document.getElementById('preview').src='/preview'}
  }catch(e){document.getElementById('status').textContent='Disconnected — check PowerShell'}finally{setTimeout(poll,1200)}}
 document.getElementById('download').onclick=()=>{if(!latest)return;const a=document.createElement('a');const url=URL.createObjectURL(new Blob([latest.lines.join('\n')],{type:'text/plain'}));a.href=url;a.download='thermalscout-console.txt';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)};poll();
 </script></html>'''
@@ -112,7 +115,7 @@ class Monitor:
             match = EPOCH.search(line)
             if match:
                 epoch, total, train, val = match.groups()
-                self.total = 100000 if total == 'continuous' else int(total)
+                self.total = 'continuous' if total == 'continuous' else int(total)
                 self.points.append(dict(epoch=int(epoch), train=float(train), val=float(val)))
                 self.stage = (f'Training epoch {int(epoch) + 1} of continuous'
                               if total == 'continuous' else
@@ -137,7 +140,8 @@ class SavedRunMonitor:
     def __init__(self, run):
         self.run = run
         config = run / 'config.json'
-        self.total = int(json.loads(config.read_text(encoding='utf-8'))['epochs'])
+        settings = json.loads(config.read_text(encoding='utf-8'))
+        self.total = 'continuous' if settings.get('continuous') else int(settings['epochs'])
         self.started = config.stat().st_mtime
         self.preview = run / 'real_detection_preview.png'
 
@@ -153,7 +157,7 @@ class SavedRunMonitor:
             except (OSError, KeyError, TypeError, ValueError):
                 # The trainer may still be writing the final history.
                 points = []
-        complete = len(points) == self.total and self.preview.is_file()
+        complete = self.total != 'continuous' and len(points) == self.total and self.preview.is_file()
         checkpoint = self.run / 'thermal_scout_real_weights.pt'
         lines = [f'Run: {self.run.name}']
         if checkpoint.is_file():
@@ -163,7 +167,7 @@ class SavedRunMonitor:
             lines.extend(f"Epoch {point['epoch']}: train loss {point['train']:.4f}, validation loss {point['val']:.4f}"
                          for point in points)
         else:
-            lines.append('Training prints each epoch in PowerShell. The loss history is saved at the end.')
+            lines.append('Waiting for the first saved epoch; the trainer writes history after each epoch.')
         return dict(total=self.total, points=points, lines=lines, watching=True,
                     status='Complete' if complete else 'Watching run',
                     stage='Training complete' if complete else 'Waiting for training results',
@@ -206,7 +210,7 @@ def main():
     else:
         if not all((data / kind / split).is_dir() for kind in ('images', 'labels') for split in ('train', 'val')):
             parser.error(f'Prepared images/labels not found under {data}; supply --data with the yolo_real path')
-        monitor = Monitor(100000 if args.continuous else (args.epochs or (2 if args.mode == 'quick' else 10)))
+        monitor = Monitor('continuous' if args.continuous else (args.epochs or (2 if args.mode == 'quick' else 10)))
 
     # Bind only to this computer. The browser reads state; it cannot execute commands.
     class Handler(BaseHTTPRequestHandler):

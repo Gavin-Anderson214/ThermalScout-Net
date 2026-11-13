@@ -1,7 +1,7 @@
 # ThermalScout-Net | Living Research Report
 **Course:** COSC 2345 - Introduction to Artificial Intelligence  
 **Application:** conservation and potential anti-poaching support through thermal aerial object detection.  
-**Report rebuilt locally:** 2026-11-12 03:13  
+**Report rebuilt locally:** 2026-11-12 19:13  
 **Status:** Completed: scratch/focal development evaluations and controlled threshold analysis. In progress: improving human detection and background rejection.
 
 ## 1. The problem and AI approach
@@ -53,6 +53,10 @@ The project designs and tests a custom convolutional neural network (CNN) to loc
 | 2026-11-11T19:03:40 | ThermalScout-Net (real/scratch) | quick | 2 | 1.24 | 1.52 |
 | 2026-11-12T03:13:48 | ThermalScout-Net (real/scratch) | full | 9 | 0.30 | 0.50 |
 | 2026-11-12T03:13:55 | ThermalScout-Net (real/scratch) | full | 97 | 0.05 | 0.76 |
+| 2026-11-12T15:23:10 | ThermalScout-Net (real/scratch) | full | 549 | 0.04 | 0.50 |
+| 2026-11-12T19:13:12 | ThermalScout-Net (real/scratch) | full | 10 | 0.28 | 0.56 |
+| 2026-11-12T19:13:13 | ThermalScout-Net (real/scratch) | full | 6 | 0.39 | 0.60 |
+| 2026-11-12T19:13:14 | ThermalScout-Net (real/scratch) | full | 8 | 0.34 | 0.50 |
 
 ![Measured synthetic-loss curve](figures/synthetic_training_loss.png)
 
@@ -97,6 +101,18 @@ The project designs and tests a custom convolutional neural network (CNN) to loc
 | ThermalScout-Net (real/scratch) (full) | random initialization | validation | 4.0% | 52.0% | 7.1% | 1.5% | 17.60 | D:\College Work\Intro To AI\Intro to AI project\ThermalScout-Net_GitHub_Ready\ThermalScout-Net\training_runs\20261112_025045_full\evaluation.json |
 | ThermalScout-Net (real/scratch) (full) — animal | random initialization | validation | 4.0% | 54.6% | 12.7% | 2.7% | Not measured | D:\College Work\Intro To AI\Intro to AI project\ThermalScout-Net_GitHub_Ready\ThermalScout-Net\training_runs\20261112_025045_full\evaluation.json #class=animal |
 | ThermalScout-Net (real/scratch) (full) — human | random initialization | validation | 8.5% | 11.3% | 1.6% | 0.3% | Not measured | D:\College Work\Intro To AI\Intro to AI project\ThermalScout-Net_GitHub_Ready\ThermalScout-Net\training_runs\20261112_025045_full\evaluation.json #class=human |
+| ThermalScout-Net (real/scratch) (full) | random initialization | validation | 4.6% | 60.3% | 12.0% | 2.8% | 20.74 | D:\College Work\Intro To AI\Intro to AI project\ThermalScout-Net_GitHub_Ready\ThermalScout-Net\training_runs\20261112_132439_full\evaluation.json |
+| ThermalScout-Net (real/scratch) (full) — animal | random initialization | validation | 4.5% | 61.7% | 21.0% | 4.7% | Not measured | D:\College Work\Intro To AI\Intro to AI project\ThermalScout-Net_GitHub_Ready\ThermalScout-Net\training_runs\20261112_132439_full\evaluation.json #class=animal |
+| ThermalScout-Net (real/scratch) (full) — human | random initialization | validation | 7.2% | 38.7% | 2.9% | 0.9% | Not measured | D:\College Work\Intro To AI\Intro to AI project\ThermalScout-Net_GitHub_Ready\ThermalScout-Net\training_runs\20261112_132439_full\evaluation.json #class=human |
+| ThermalScout-Net (real/scratch) (full) | random initialization | validation | 4.6% | 59.9% | 11.4% | 3.0% | 28.14 | D:\College Work\Intro To AI\Intro to AI project\ThermalScout-Net_GitHub_Ready\ThermalScout-Net\training_runs\20261112_monet200_512\evaluation.json |
+| ThermalScout-Net (real/scratch) (full) — animal | random initialization | validation | 4.5% | 61.5% | 19.4% | 5.4% | Not measured | D:\College Work\Intro To AI\Intro to AI project\ThermalScout-Net_GitHub_Ready\ThermalScout-Net\training_runs\20261112_monet200_512\evaluation.json #class=animal |
+| ThermalScout-Net (real/scratch) (full) — human | random initialization | validation | 6.9% | 35.5% | 3.4% | 0.6% | Not measured | D:\College Work\Intro To AI\Intro to AI project\ThermalScout-Net_GitHub_Ready\ThermalScout-Net\training_runs\20261112_monet200_512\evaluation.json #class=human |
+| ThermalScout-Net (real/scratch) (full) | random initialization | validation | 4.3% | 56.0% | 7.8% | 1.8% | 22.27 | D:\College Work\Intro To AI\Intro to AI project\ThermalScout-Net_GitHub_Ready\ThermalScout-Net\training_runs\20261112_wageningen200_512\evaluation.json |
+| ThermalScout-Net (real/scratch) (full) — animal | random initialization | validation | 4.2% | 57.2% | 9.3% | 1.7% | Not measured | D:\College Work\Intro To AI\Intro to AI project\ThermalScout-Net_GitHub_Ready\ThermalScout-Net\training_runs\20261112_wageningen200_512\evaluation.json #class=animal |
+| ThermalScout-Net (real/scratch) (full) — human | random initialization | validation | 7.0% | 37.1% | 6.3% | 1.9% | Not measured | D:\College Work\Intro To AI\Intro to AI project\ThermalScout-Net_GitHub_Ready\ThermalScout-Net\training_runs\20261112_wageningen200_512\evaluation.json #class=human |
+| ThermalScout-Net (real/scratch) (full) | random initialization | validation | 3.9% | 51.9% | 13.5% | 3.4% | 18.74 | D:\College Work\Intro To AI\Intro to AI project\ThermalScout-Net_GitHub_Ready\ThermalScout-Net\training_runs\20261112_monet200_wageningen200_512\evaluation.json |
+| ThermalScout-Net (real/scratch) (full) — animal | random initialization | validation | 3.9% | 53.8% | 19.5% | 4.8% | Not measured | D:\College Work\Intro To AI\Intro to AI project\ThermalScout-Net_GitHub_Ready\ThermalScout-Net\training_runs\20261112_monet200_wageningen200_512\evaluation.json #class=animal |
+| ThermalScout-Net (real/scratch) (full) — human | random initialization | validation | 14.7% | 22.6% | 7.5% | 2.0% | Not measured | D:\College Work\Intro To AI\Intro to AI project\ThermalScout-Net_GitHub_Ready\ThermalScout-Net\training_runs\20261112_monet200_wageningen200_512\evaluation.json #class=human |
 
 ![Measured model comparison](figures/model_comparison.png)
 
