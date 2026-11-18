@@ -1,0 +1,78 @@
+{
+  "date": "2026-11-18",
+  "tests": {
+    "command": "python -m pytest -q",
+    "passed": 35,
+    "exit_code": 0
+  },
+  "cuda_available": true,
+  "gpu": "NVIDIA GeForce RTX 4070",
+  "parameters": 88503,
+  "architecture_changed": false,
+  "checkpoint_save_smoke": {
+    "mode": "quick",
+    "image_size": 64,
+    "epochs": 1,
+    "selection": "map50",
+    "passed_save_reload_preview": true,
+    "scope": "Software saving check only; not comparable detection quality"
+  },
+  "presentation": {
+    "slides": 18,
+    "sha256": "2cbd912dfacee4fd832d975999117f93d51f1bb932ab93b1fbe9721721fc15a4",
+    "structural_and_layout_checks": "pass",
+    "opened_in_PowerPoint": true,
+    "native_visual_checks": [
+      "results slide 11",
+      "human detection slide 14"
+    ],
+    "all_slides_rendered_and_visually_reviewed": true
+  },
+  "source_sha256": {
+    "thermalscout\\__init__.py": "08b65382f4c51f4cbce0200f6ba3b900cbc45c806995dcb8c8ba26045f23f9fa",
+    "thermalscout\\data.py": "19d60d528dc4447aa8fc2416942effb10538c62ec8834801b599eb75709470b6",
+    "thermalscout\\evaluate_detector.py": "363a159d13565c322b1e80defb6f9da37af3f1febb9c6b4048e3a2169e9c6cb8",
+    "thermalscout\\inference.py": "46a223d72914eabe69afc7c4d6cf3f33205c8b20c04b5ebefcf1785df410a320",
+    "thermalscout\\model.py": "8c3a689e8a4dc9f52fc2d74557d4a6dec2ef5501db7f3818733c4113e0786364",
+    "thermalscout\\train_detector.py": "f25cabed11b304f597b2b6d0490ad72462d0cc706499797c121c61f7e53c246b",
+    "thermalscout\\training.py": "c4ebe2add212348d5487fc0cdd9449f3ffb9b0c618e83321f9681470b8c4b96d",
+    "thermalscout\\pretrain_detector.py": "8ac348e1b48bdbde5e5712437fbc9d8f47db4fa25e03f2e24eae9fc011d8a3fa",
+    "thermalscout\\predict_image.py": "0c98eb08a4d094f0d4fefd3b692c39636d50dc17551cc5276d35c56afb0d62fe",
+    "thermalscout\\checkpoint.py": "a31589708541a384f6cff95ec1baccb260949e574680cb620896c8f4a9723b69",
+    "scripts\\birdsai_prepare.py": "2694390ef74507d94af2f6b105d3a6672ffa897db3c8597650a2a0ca478ac53f",
+    "scripts\\package_project.py": "75c293477116748affb02249fb72da5b541253e80f04396a000614b840ccd702",
+    "scripts\\prepare_hit_uav_mix.py": "49b7832f616ce9684606b7d2f76b1a40c0fe94021ccbf4cfd47e09bc3493aea8",
+    "scripts\\prepare_birdsai_people_mix.py": "978daaf987b65f1e5239a4564d655468f7bc4608a0ed913a020abc8689b770f1",
+    "scripts\\diagnose_bambi.py": "b3237ed0db58120460f29030e10e5b18daf6865d11dbeea71889fafd543e242a",
+    "scripts\\audit_bambi.py": "caa9a65be125308cecb73d4c95684d50ed8758968de5c056d736bc125a6b711e",
+    "scripts\\evaluate_bambi_experiments.py": "9d3235f94ab822a2e162744c88c874b7373b541ed895f26a8b4ec420c19b74a5",
+    "scripts\\audit_project_duplicates.py": "33fa8f97e158832581789cbe07fa8f3dce036bd2cc42dd71277701a02e751d34",
+    "scripts\\analyze_validation.py": "a23faa262e775297021bcc9e06713bd3c11f0a60a28fd655b16a61983ece3d1f",
+    "scripts\\diagnose_padding.py": "5e2e13874583fb5040beedf385ea4a3a7b9f3cf94f74aa7407905eb303c7025e",
+    "scripts\\preview_class_weight.py": "f986dc4e21fbf3edf84e822467433bd7124a001b859fc96e78f0fa142623e2d5",
+    "scripts\\run_class_weight_experiment.py": "109927401e181248bb4887a88af05a3cfe0a0b65292bda619c69d115db42619b",
+    "scripts\\summarize_class_weight.py": "2454c8f75856edee4ae7da80667dcb4ff1f69dbc64dc8282fc0c7c7386ecd35e",
+    "scripts\\rank_training_frames.py": "0b0268b5f0525f1b91704aece0b4791cd372d2b7c28d254961d217c8c3fae250",
+    "scripts\\reference_yolo.py": "795dbaa928ec85e89ac6db72728285f8567ffcbcd9e25be53a995043f9e21ea8",
+    "scripts\\find_empty_frame_candidates.py": "3c05aef0155ec52e86213849d07b26081960bf684a4f79629368ef410233e3b6",
+    "scripts\\prepare_verified_backgrounds.py": "d40098b0f089bc6c49d71a78f973830d6cb9661f6dc374bb05e33e96d493c3ec",
+    "scripts\\prepare_monet_wageningen_mix.py": "04040854b8a03e05191b9eab0c3acf6210418468d81b1b14257643252aab6f42",
+    "scripts\\verify_pipeline.py": "3e61c9e7f25747aa5ca70d906b53bc67a87c63d9d8c552725d859b662c9d1787",
+    "scripts\\final_examples.py": "fc0ec8260ae6e248cfabd12e790c71801066530df5028a5e80465e090ce85bcb",
+    "scripts\\select_desktop_checkpoint.py": "b71408a0efb0643718ae96b5999f157081b8ba627dd6ec194d168c97f28f8454",
+    "tests\\test_core.py": "1332bd1af6eefc47b0dd7a2f80d572e10c9e7c9d8ad750d666e04de4afb723da",
+    "tests\\test_experiment.py": "528ddd344a63b5f47a98052d24d46040a1ba363ed1e96aba88f37f862e930e69",
+    "tests\\test_class_weight.py": "c5d09124c07033510757735c753916839b83763746d4f4d5d7b56c6d0a1f2a6d",
+    "tests\\test_packaging.py": "8015d8b111c5f1c62c1931cb34490d3fc28f1b379fd18f677b6efc72f0c52b02",
+    "tests\\test_bambi_repair.py": "1cbdad9633bf464818183cb965f264ef0de34a940794d3d6703005627d492700",
+    "tests\\test_predict_image.py": "eb16d40de6982e441e60855e22efb733c29f4fe585368fc05168889f3732d854",
+    "tests\\test_padding_diagnosis.py": "ca57a0c250be149e45cfd35c14c262f89b4a977097332eee62f802e98ad5c2e1",
+    "tests\\test_tiling.py": "2cbc8796122126e04a20cb21500638c9ee32ec37467af8d97bfe178834b7d7f7",
+    "tests\\test_pipeline_contract.py": "17169ad1e53bddcbed176809ebef1cf2ccf5770a0d571db1ec02d578ea53be6b"
+  },
+  "staged_safety_check": {
+    "datasets_checkpoints_environments_excluded": true,
+    "largest_allowed_bytes": 5000000,
+    "files_reviewed": 34
+  }
+}

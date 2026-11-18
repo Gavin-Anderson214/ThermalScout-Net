@@ -6,7 +6,9 @@ This guide is a plain-language tour of the project. Read it before opening indiv
 
 ThermalScout-Net is my own small object-detection CNN that learns from labeled thermal drone images and predicts where animals and humans appear in a frame.
 
-The larger goal is to train and test the model on my desktop, then measure whether it can run on a Raspberry Pi connected to the thermal camera on my drone.
+The current course goal, due December 2, 2026, is to train and evaluate the model on my desktop. Raspberry Pi deployment, thermal-camera integration, drone mounting and flight testing are future work.
+
+The [November 18 desktop verification](DESKTOP_FINAL_2026-11-18.md) contains the current audit, 16-image memorization evidence, controlled GPU comparisons and final checkpoint instructions. The original CNN architecture remains unchanged.
 
 ## What problem is the AI solving?
 
@@ -112,9 +114,9 @@ PyTorch is the framework used to implement and train the CNN. It gives the proje
 
 PyTorch does not replace the custom architecture. `model.py` defines the architecture; PyTorch supplies the machinery that executes and trains it.
 
-## What the current BIRDSAI result means
+## What the earlier 256-pixel BIRDSAI result means
 
-The existing human-weight-4 checkpoint was reevaluated on 334 development-validation images:
+The earlier 256-pixel human-weight-4 checkpoint was reevaluated on 334 development-validation images:
 
 - 15.54% mAP@50 overall.
 - 21 of 62 labeled human boxes matched.
@@ -126,7 +128,7 @@ This means the pipeline is working, but the detector is not yet reliable. A high
 
 The BAMBI pilot reached 4.31% mAP@50 in its best controlled experiment, with zero human validation recall. That result is separate because it uses different footage, labels and splits.
 
-## The local-AI deployment path
+## Future local-AI deployment path
 
 The video's local-AI idea maps to this project as:
 
@@ -144,7 +146,7 @@ CNN inference on a computer or Raspberry Pi
 animal/human boxes on a display
 ```
 
-The current desktop GPU throughput measurement was about 17.54 frames per second for model inference and postprocessing, excluding file loading. That number is not a Raspberry Pi result.
+The earlier 256-pixel desktop measurement was about 17.54 frames per second for model inference and postprocessing, excluding file loading. Throughput varies with input size, predictions and postprocessing. No Raspberry Pi speed has been measured.
 
 ## What is finished and what is next
 
@@ -157,7 +159,9 @@ Finished:
 - Still-image inference command.
 - GitHub documentation and a simple presentation.
 
-Next:
+Before the course submission, use the measured checkpoint, inspect correct detections and errors, run the tests, and present the limitations. The final instructions and evidence are in the [desktop verification](DESKTOP_FINAL_2026-11-18.md).
+
+Future work after the desktop submission:
 
 1. Improve performance on independent thermal footage.
 2. Test recorded-video inference.

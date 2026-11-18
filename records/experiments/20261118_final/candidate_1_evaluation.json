@@ -1,0 +1,52 @@
+{
+  "model": "ThermalScout-Net (real/scratch)",
+  "training": "random initialization",
+  "split": "validation",
+  "scope": "DEVELOPMENT ONLY - caller-provided validation split; not an official test score",
+  "checkpoint_sha256": "fdc89789dfd506f6a1176ebbe163cf45096faeacdb6d93638e5cb3411bf99cd4",
+  "checkpoint_epoch": 5,
+  "data_root": "D:\\College Work\\Intro To AI\\Intro to AI project\\ThermalScout-Net_GitHub_Ready\\ThermalScout-Net\\data\\processed\\yolo_real",
+  "inference_settings": {
+    "minimum_score": 0.001,
+    "max_candidates": 500,
+    "max_detections": 40,
+    "local_peaks": false,
+    "tile": false,
+    "tile_side": null,
+    "tile_overlap": null
+  },
+  "evaluation_images": 334,
+  "image_size": 512,
+  "iou_for_precision_recall": 0.5,
+  "confidence_for_precision_recall": 0.25,
+  "ap_method": "101-point interpolated per class; IoU 0.50..0.95 (step 0.05)",
+  "precision": 0.055251518104805455,
+  "recall": 0.7253937007874016,
+  "map50": 0.2169342122999194,
+  "map5095": 0.052930128992087155,
+  "fps": 34.70475114789396,
+  "fps_measurement": "forward pass + CPU/GPU postprocessing; no file-I/O or dataset-loading time",
+  "class_metrics": {
+    "animal": {
+      "tp": 723,
+      "fp": 12471,
+      "fn": 231,
+      "gt": 954,
+      "precision": 0.05479763528876762,
+      "recall": 0.7578616352201258,
+      "ap50": 0.4070440325269816,
+      "map5095": 0.10065318497537286
+    },
+    "human": {
+      "tp": 14,
+      "fp": 131,
+      "fn": 48,
+      "gt": 62,
+      "precision": 0.09655172413793103,
+      "recall": 0.22580645161290322,
+      "ap50": 0.026824392072857216,
+      "map5095": 0.005207073008801447
+    }
+  },
+  "notes": "Small prototype; one box per stride-4 cell, predictions capped at 40/image."
+}

@@ -1,0 +1,155 @@
+{
+  "classes": [
+    "animal",
+    "human"
+  ],
+  "format": "class normalized_center_x center_y width height",
+  "split_metadata": {
+    "seed": 42,
+    "video_level_split": true,
+    "train_videos": [
+      "0000000010_0000000000",
+      "0000000054_0000000000",
+      "0000000056_0000000000",
+      "0000000062_0000000000",
+      "0000000067_0000000005",
+      "0000000067_0000000014",
+      "0000000067_0000000015",
+      "0000000067_0000000019",
+      "0000000067_0000000024",
+      "0000000067_0000000027",
+      "0000000067_0000000028",
+      "0000000067_0000000029",
+      "0000000067_0000000032",
+      "0000000067_0000000040",
+      "0000000067_0000000041",
+      "0000000067_0000000045",
+      "0000000067_0000000046",
+      "0000000067_0000000050",
+      "0000000067_0000000052",
+      "0000000067_0000000055",
+      "0000000067_0000000058",
+      "0000000354_0000000000",
+      "0000000359_0000000000",
+      "0000000363_0000000000",
+      "0000000364_0000000000",
+      "0000000367_0000000000"
+    ],
+    "validation_videos": [
+      "0000000067_0000000012",
+      "0000000067_0000000025",
+      "0000000067_0000000026",
+      "0000000067_0000000031",
+      "0000000067_0000000059",
+      "0000000351_0000000000"
+    ],
+    "official_TestReal_used": false,
+    "selection": {
+      "max_frames_per_video": 120,
+      "stride": 5
+    }
+  },
+  "issues": [],
+  "splits": {
+    "train": {
+      "images": 2001,
+      "label_files": 2001,
+      "boxes": {
+        "animal": 6691,
+        "human": 1090
+      },
+      "empty_images": 0,
+      "videos": {
+        "0000000010_0000000000": 69,
+        "0000000054_0000000000": 47,
+        "0000000056_0000000000": 27,
+        "0000000062_0000000000": 84,
+        "0000000067_0000000005": 39,
+        "0000000067_0000000014": 93,
+        "0000000067_0000000015": 92,
+        "0000000067_0000000019": 95,
+        "0000000067_0000000024": 13,
+        "0000000067_0000000027": 48,
+        "0000000067_0000000028": 32,
+        "0000000067_0000000029": 23,
+        "0000000067_0000000032": 85,
+        "0000000067_0000000040": 119,
+        "0000000067_0000000041": 120,
+        "0000000067_0000000045": 30,
+        "0000000067_0000000046": 52,
+        "0000000067_0000000050": 120,
+        "0000000067_0000000052": 91,
+        "0000000067_0000000055": 75,
+        "0000000067_0000000058": 120,
+        "0000000354_0000000000": 120,
+        "0000000359_0000000000": 47,
+        "0000000363_0000000000": 120,
+        "0000000364_0000000000": 120,
+        "0000000367_0000000000": 120
+      },
+      "human_boxes_by_video": {
+        "0000000067_0000000050": 175,
+        "0000000067_0000000052": 91,
+        "0000000354_0000000000": 361,
+        "0000000363_0000000000": 343,
+        "0000000364_0000000000": 120
+      },
+      "duplicate_annotations": 0,
+      "out_of_bounds": 0,
+      "manifest_count_mismatches": 0,
+      "preprocessing_mismatches": 0,
+      "same_cell_collisions": 0,
+      "orphan_labels": [],
+      "source_frames_checked": 2001,
+      "source_mismatches": 0
+    },
+    "val": {
+      "images": 334,
+      "label_files": 334,
+      "boxes": {
+        "animal": 954,
+        "human": 62
+      },
+      "empty_images": 0,
+      "videos": {
+        "0000000067_0000000012": 17,
+        "0000000067_0000000025": 89,
+        "0000000067_0000000026": 54,
+        "0000000067_0000000031": 27,
+        "0000000067_0000000059": 118,
+        "0000000351_0000000000": 29
+      },
+      "human_boxes_by_video": {
+        "0000000067_0000000059": 62
+      },
+      "duplicate_annotations": 0,
+      "out_of_bounds": 0,
+      "manifest_count_mismatches": 0,
+      "preprocessing_mismatches": 0,
+      "same_cell_collisions": 0,
+      "orphan_labels": [],
+      "source_frames_checked": 334,
+      "source_mismatches": 0
+    }
+  },
+  "original_TrainReal": {
+    "images": 40661,
+    "sequences": 32,
+    "annotation_counts": {
+      "animal": 74668,
+      "human": 12531
+    },
+    "duplicate_annotation_rows": 0
+  },
+  "shared_video_ids": [],
+  "shared_filename_prefixes": [
+    "0000000067"
+  ],
+  "flight_separation": "Video IDs are disjoint. Flight identities are not supplied by the manifest. Shared filename prefixes mean independence across flights is unproven.",
+  "duplicate_image_files": [],
+  "duplicate_decoded_images": [],
+  "cross_split_decoded_duplicates": [],
+  "dataset_digest": "888d45b9b1b75fd00ea45fac1ae7f2a1f8dd3336e8a535b9be7457853d6b21a4",
+  "data_yaml": "path: 'E:\\College Work\\Intro To AI\\Intro to AI project\\ThermalScout-Net_GitHub_Ready\\ThermalScout-Net\\data\\processed\\yolo_real'\ntrain: images/train\nval: images/val\nnc: 2\nnames: [animal, human]\n",
+  "source": "D:\\College Work\\Intro To AI\\Intro to AI project\\ThermalScout_BIRDSAI_Step2\\BIRDSAI_Step2\\conservation_drones_train_real\\TrainReal"
+}

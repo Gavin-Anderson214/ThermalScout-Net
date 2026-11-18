@@ -14,9 +14,10 @@ import numpy as np
 import torch
 from PIL import Image
 from torch.utils.data import DataLoader
-from .model import ThermalScoutReal, CLASSES
+from .model import CLASSES
 from .data import BirdsaiDataset, collate, tile_positions
 from .inference import infer, nms
+from .checkpoint import load_detector
 
 
 # --- Measure geometric overlap using normalized corner coordinates.
@@ -51,7 +52,7 @@ def get_counts(entries, class_id, iou=0.5, conf=.25):
             score,j=max(choices,default=(0.,-1))
             if j>=0 and score>=iou: used.add(j); hits+=1
             else: false_positives+=1
-    return dict(tp=hits,fp=false_positives,gt=ground_truths,
+    return dict(tp=hits,fp=false_positives,fn=ground_truths-hits,gt=ground_truths,
                 precision=hits/max(1,hits+false_positives),
                 recall=hits/max(1,ground_truths))
 
@@ -120,15 +121,14 @@ def main():
     p.add_argument('--device',choices=['auto','cpu','cuda'],default='auto')
     p.add_argument('--limit',type=int,default=0,help='0 = entire development validation subset')
     p.add_argument('--tile',action='store_true',help='Evaluate overlapping tiles merged on original frames')
+    p.add_argument('--predictions', type=Path, help='Optional local JSON cache for error-analysis examples')
     args=p.parse_args()
     device='cuda' if args.device=='auto' and torch.cuda.is_available() else ('cpu' if args.device=='auto' else args.device)
     if device=='cuda' and not torch.cuda.is_available():p.error('CUDA not available')
     if not args.checkpoint.exists():p.error('Training checkpoint not found')
-    ck=torch.load(args.checkpoint,map_location=device,weights_only=True)
+    model, ck = load_detector(args.checkpoint, device)
     tiled = args.tile or bool(ck.get('tile', False))
     size=int(ck.get('image_size',256))
-    model=ThermalScoutReal().to(device)
-    model.load_state_dict(ck['model']);model.eval()
     ds=BirdsaiDataset(args.data,'val',size,args.limit,42,augment=False)
     loader=DataLoader(ds,batch_size=1,shuffle=False,num_workers=0,collate_fn=collate) if not tiled else None
     entries=[]; secs=0.
@@ -140,17 +140,17 @@ def main():
             dets=infer_tiled(model,path,size,device)
             if device=='cuda':torch.cuda.synchronize()
             secs+=time.perf_counter()-start
-            entries.append({'ground_truth':boxes, 'predictions':dets})
+            entries.append({'path':str(path),'ground_truth':boxes, 'predictions':dets})
             if n%50==0:print('  evaluated',n,'/',len(ds),flush=True)
     else:
-        for n,(img,boxes,_) in enumerate(loader,1):
+        for n,(img,boxes,paths) in enumerate(loader,1):
             tensor=img[0]
             if device=='cuda':torch.cuda.synchronize()
             start=time.perf_counter()
             dets=infer(model,tensor,device,threshold=0.001)
             if device=='cuda':torch.cuda.synchronize()
             secs+=time.perf_counter()-start
-            entries.append({'ground_truth':boxes[0], 'predictions':dets})
+            entries.append({'path':paths[0],'ground_truth':boxes[0], 'predictions':dets})
             if n%50==0:print('  evaluated',n,'/',len(ds),flush=True)
     # Evaluate increasingly strict overlaps; classes with no labels have no AP.
     iou_steps=np.arange(0.5,1.0,0.05)
@@ -192,6 +192,9 @@ def main():
     }
     args.out.parent.mkdir(parents=True,exist_ok=True)
     args.out.write_text(json.dumps(out,indent=2),encoding='utf-8')
+    if args.predictions:
+        args.predictions.parent.mkdir(parents=True, exist_ok=True)
+        args.predictions.write_text(json.dumps(entries), encoding='utf-8')
     print('Saved metrics:',args.out)
     print('micro precision:',round(out['precision'],4),'micro recall:',round(out['recall'],4),
           'mAP50:',round(map50,4),'mAP50:95:',round(map5095,4),'fps:',round(out['fps'],2))

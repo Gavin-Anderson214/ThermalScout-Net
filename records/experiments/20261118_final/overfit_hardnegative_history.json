@@ -1,0 +1,137 @@
+[
+  {
+    "epoch": 1,
+    "train_loss": 2.6608346104621887,
+    "eval_loss": 2.900326907634735,
+    "collisions": 0,
+    "map50": 0.0,
+    "class_metrics": {
+      "animal": {
+        "tp": 0,
+        "fp": 0,
+        "gt": 29,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap50": 0.0,
+        "fn": 29
+      },
+      "human": {
+        "tp": 0,
+        "fp": 0,
+        "gt": 15,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap50": 0.0,
+        "fn": 15
+      }
+    }
+  },
+  {
+    "epoch": 20,
+    "train_loss": 0.6571299135684967,
+    "eval_loss": 0.7440291196107864,
+    "collisions": 0,
+    "map50": 0.5040025345369356,
+    "class_metrics": {
+      "animal": {
+        "tp": 21,
+        "fp": 567,
+        "gt": 29,
+        "precision": 0.03571428571428571,
+        "recall": 0.7241379310344828,
+        "ap50": 0.43929996326917303,
+        "fn": 8
+      },
+      "human": {
+        "tp": 10,
+        "fp": 42,
+        "gt": 15,
+        "precision": 0.19230769230769232,
+        "recall": 0.6666666666666666,
+        "ap50": 0.5687051058046981,
+        "fn": 5
+      }
+    }
+  },
+  {
+    "epoch": 40,
+    "train_loss": 0.49298206716775894,
+    "eval_loss": 0.43610449880361557,
+    "collisions": 0,
+    "map50": 1.0,
+    "class_metrics": {
+      "animal": {
+        "tp": 29,
+        "fp": 456,
+        "gt": 29,
+        "precision": 0.05979381443298969,
+        "recall": 1.0,
+        "ap50": 1.0,
+        "fn": 0
+      },
+      "human": {
+        "tp": 15,
+        "fp": 140,
+        "gt": 15,
+        "precision": 0.0967741935483871,
+        "recall": 1.0,
+        "ap50": 1.0,
+        "fn": 0
+      }
+    }
+  },
+  {
+    "epoch": 60,
+    "train_loss": 0.24531611800193787,
+    "eval_loss": 0.24617182835936546,
+    "collisions": 0,
+    "map50": 1.0,
+    "class_metrics": {
+      "animal": {
+        "tp": 29,
+        "fp": 540,
+        "gt": 29,
+        "precision": 0.050966608084358524,
+        "recall": 1.0,
+        "ap50": 1.0,
+        "fn": 0
+      },
+      "human": {
+        "tp": 15,
+        "fp": 56,
+        "gt": 15,
+        "precision": 0.2112676056338028,
+        "recall": 1.0,
+        "ap50": 1.0,
+        "fn": 0
+      }
+    }
+  },
+  {
+    "epoch": 80,
+    "train_loss": 0.08734708651900291,
+    "eval_loss": 0.08452988415956497,
+    "collisions": 0,
+    "map50": 1.0,
+    "class_metrics": {
+      "animal": {
+        "tp": 29,
+        "fp": 0,
+        "gt": 29,
+        "precision": 1.0,
+        "recall": 1.0,
+        "ap50": 1.0,
+        "fn": 0
+      },
+      "human": {
+        "tp": 15,
+        "fp": 0,
+        "gt": 15,
+        "precision": 1.0,
+        "recall": 1.0,
+        "ap50": 1.0,
+        "fn": 0
+      }
+    }
+  }
+]

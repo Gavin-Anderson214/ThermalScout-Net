@@ -1,0 +1,248 @@
+{
+  "criterion": "Highest development mAP50 across named candidates; human AP50 breaks ties",
+  "selected_run": "training_runs/20261112_resolution512_human4",
+  "evaluation": {
+    "model": "ThermalScout-Net (real/scratch)",
+    "training": "random initialization",
+    "split": "validation",
+    "scope": "DEVELOPMENT ONLY - caller-provided validation split; not an official test score",
+    "checkpoint_sha256": "863a403942fe8345c3ae486e399c88b705a38fe019b9d9ab131ec54f517c4d57",
+    "checkpoint_epoch": 4,
+    "data_root": "D:\\College Work\\Intro To AI\\Intro to AI project\\ThermalScout-Net_GitHub_Ready\\ThermalScout-Net\\data\\processed\\yolo_real",
+    "inference_settings": {
+      "minimum_score": 0.001,
+      "max_candidates": 500,
+      "max_detections": 40,
+      "local_peaks": false,
+      "tile": false,
+      "tile_side": null,
+      "tile_overlap": null
+    },
+    "evaluation_images": 334,
+    "image_size": 512,
+    "iou_for_precision_recall": 0.5,
+    "confidence_for_precision_recall": 0.25,
+    "ap_method": "101-point interpolated per class; IoU 0.50..0.95 (step 0.05)",
+    "precision": 0.05357142857142857,
+    "recall": 0.702755905511811,
+    "map50": 0.29106284538944627,
+    "map5095": 0.0634575852848554,
+    "fps": 21.6410188954482,
+    "fps_measurement": "forward pass + CPU/GPU postprocessing; no file-I/O or dataset-loading time",
+    "class_metrics": {
+      "animal": {
+        "tp": 683,
+        "fp": 12561,
+        "fn": 271,
+        "gt": 954,
+        "precision": 0.051570522500755056,
+        "recall": 0.7159329140461216,
+        "ap50": 0.22867293456229393,
+        "map5095": 0.045264982664271765
+      },
+      "human": {
+        "tp": 31,
+        "fp": 53,
+        "fn": 31,
+        "gt": 62,
+        "precision": 0.36904761904761907,
+        "recall": 0.5,
+        "ap50": 0.35345275621659866,
+        "map5095": 0.08165018790543903
+      }
+    },
+    "notes": "Small prototype; one box per stride-4 cell, predictions capped at 40/image."
+  },
+  "comparison": [
+    {
+      "label": "Historical 512px",
+      "run": "training_runs/20261112_resolution512_human4",
+      "index": 0,
+      "model": "ThermalScout-Net (real/scratch)",
+      "training": "random initialization",
+      "split": "validation",
+      "scope": "DEVELOPMENT ONLY - caller-provided validation split; not an official test score",
+      "checkpoint_sha256": "863a403942fe8345c3ae486e399c88b705a38fe019b9d9ab131ec54f517c4d57",
+      "checkpoint_epoch": 4,
+      "data_root": "D:\\College Work\\Intro To AI\\Intro to AI project\\ThermalScout-Net_GitHub_Ready\\ThermalScout-Net\\data\\processed\\yolo_real",
+      "inference_settings": {
+        "minimum_score": 0.001,
+        "max_candidates": 500,
+        "max_detections": 40,
+        "local_peaks": false,
+        "tile": false,
+        "tile_side": null,
+        "tile_overlap": null
+      },
+      "evaluation_images": 334,
+      "image_size": 512,
+      "iou_for_precision_recall": 0.5,
+      "confidence_for_precision_recall": 0.25,
+      "ap_method": "101-point interpolated per class; IoU 0.50..0.95 (step 0.05)",
+      "precision": 0.05357142857142857,
+      "recall": 0.702755905511811,
+      "map50": 0.29106284538944627,
+      "map5095": 0.0634575852848554,
+      "fps": 21.6410188954482,
+      "fps_measurement": "forward pass + CPU/GPU postprocessing; no file-I/O or dataset-loading time",
+      "class_metrics": {
+        "animal": {
+          "tp": 683,
+          "fp": 12561,
+          "fn": 271,
+          "gt": 954,
+          "precision": 0.051570522500755056,
+          "recall": 0.7159329140461216,
+          "ap50": 0.22867293456229393,
+          "map5095": 0.045264982664271765
+        },
+        "human": {
+          "tp": 31,
+          "fp": 53,
+          "fn": 31,
+          "gt": 62,
+          "precision": 0.36904761904761907,
+          "recall": 0.5,
+          "ap50": 0.35345275621659866,
+          "map5095": 0.08165018790543903
+        }
+      },
+      "notes": "Small prototype; one box per stride-4 cell, predictions capped at 40/image."
+    },
+    {
+      "label": "New baseline",
+      "run": "training_runs/20261118_baseline_map50",
+      "index": 1,
+      "model": "ThermalScout-Net (real/scratch)",
+      "training": "random initialization",
+      "split": "validation",
+      "scope": "DEVELOPMENT ONLY - caller-provided validation split; not an official test score",
+      "checkpoint_sha256": "fdc89789dfd506f6a1176ebbe163cf45096faeacdb6d93638e5cb3411bf99cd4",
+      "checkpoint_epoch": 5,
+      "data_root": "D:\\College Work\\Intro To AI\\Intro to AI project\\ThermalScout-Net_GitHub_Ready\\ThermalScout-Net\\data\\processed\\yolo_real",
+      "inference_settings": {
+        "minimum_score": 0.001,
+        "max_candidates": 500,
+        "max_detections": 40,
+        "local_peaks": false,
+        "tile": false,
+        "tile_side": null,
+        "tile_overlap": null
+      },
+      "evaluation_images": 334,
+      "image_size": 512,
+      "iou_for_precision_recall": 0.5,
+      "confidence_for_precision_recall": 0.25,
+      "ap_method": "101-point interpolated per class; IoU 0.50..0.95 (step 0.05)",
+      "precision": 0.055251518104805455,
+      "recall": 0.7253937007874016,
+      "map50": 0.2169342122999194,
+      "map5095": 0.052930128992087155,
+      "fps": 34.70475114789396,
+      "fps_measurement": "forward pass + CPU/GPU postprocessing; no file-I/O or dataset-loading time",
+      "class_metrics": {
+        "animal": {
+          "tp": 723,
+          "fp": 12471,
+          "fn": 231,
+          "gt": 954,
+          "precision": 0.05479763528876762,
+          "recall": 0.7578616352201258,
+          "ap50": 0.4070440325269816,
+          "map5095": 0.10065318497537286
+        },
+        "human": {
+          "tp": 14,
+          "fp": 131,
+          "fn": 48,
+          "gt": 62,
+          "precision": 0.09655172413793103,
+          "recall": 0.22580645161290322,
+          "ap50": 0.026824392072857216,
+          "map5095": 0.005207073008801447
+        }
+      },
+      "notes": "Small prototype; one box per stride-4 cell, predictions capped at 40/image."
+    },
+    {
+      "label": "Hard-negative",
+      "run": "training_runs/20261118_hardnegative_map50",
+      "index": 2,
+      "model": "ThermalScout-Net (real/scratch)",
+      "training": "random initialization",
+      "split": "validation",
+      "scope": "DEVELOPMENT ONLY - caller-provided validation split; not an official test score",
+      "checkpoint_sha256": "63c2870287b7d248f3629cd68440dd7439299afd0c5d08b6952a230f9957c8eb",
+      "checkpoint_epoch": 10,
+      "data_root": "D:\\College Work\\Intro To AI\\Intro to AI project\\ThermalScout-Net_GitHub_Ready\\ThermalScout-Net\\data\\processed\\yolo_real",
+      "inference_settings": {
+        "minimum_score": 0.001,
+        "max_candidates": 500,
+        "max_detections": 40,
+        "local_peaks": false,
+        "tile": false,
+        "tile_side": null,
+        "tile_overlap": null
+      },
+      "evaluation_images": 334,
+      "image_size": 512,
+      "iou_for_precision_recall": 0.5,
+      "confidence_for_precision_recall": 0.25,
+      "ap_method": "101-point interpolated per class; IoU 0.50..0.95 (step 0.05)",
+      "precision": 0.05149700598802395,
+      "recall": 0.6771653543307087,
+      "map50": 0.22977436568156331,
+      "map5095": 0.06685193358878994,
+      "fps": 29.788415294256605,
+      "fps_measurement": "forward pass + CPU/GPU postprocessing; no file-I/O or dataset-loading time",
+      "class_metrics": {
+        "animal": {
+          "tp": 688,
+          "fp": 12671,
+          "fn": 266,
+          "gt": 954,
+          "precision": 0.05150086084287746,
+          "recall": 0.7211740041928721,
+          "ap50": 0.45954873136312663,
+          "map5095": 0.13370386717757987
+        },
+        "human": {
+          "tp": 0,
+          "fp": 1,
+          "fn": 62,
+          "gt": 62,
+          "precision": 0.0,
+          "recall": 0.0,
+          "ap50": 0.0,
+          "map5095": 0.0
+        }
+      },
+      "notes": "Small prototype; one box per stride-4 cell, predictions capped at 40/image."
+    }
+  ],
+  "threshold_scope": "Exploratory operating points on the same development set. Optimistic after selection; no independent test.",
+  "best_development_f1_by_class": {
+    "animal": {
+      "threshold": 0.995,
+      "class_name": "animal",
+      "tp": 499,
+      "fp": 1250,
+      "fn": 455,
+      "gt": 954,
+      "precision": 0.28530588907947396,
+      "recall": 0.5230607966457023,
+      "f1": 0.36921938586755454
+    },
+    "human": {
+      "threshold": 0.65,
+      "class_name": "human",
+      "tp": 30,
+      "fp": 23,
+      "fn": 32,
+      "gt": 62,
+      "precision": 0.5660377358490566,
+      "recall": 0.4838709677419355,
+      "f1": 0.5217391304347827
+    }
+  }
+}

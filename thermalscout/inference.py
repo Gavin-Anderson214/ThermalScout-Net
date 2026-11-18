@@ -88,7 +88,7 @@ def infer(model, image, device, threshold=0.25, *, max_candidates=500, max_detec
     return sorted(detections, key=lambda r: -r[1])[:max_detections]
 
 # --- Compare ground-truth boxes and predictions on the same letterboxed validation image.
-def create_preview(model, ds, device, output: Path, threshold: float):
+def create_preview(model, ds, device, output: Path, threshold: float, split_label='validation'):
     # Show what it predicts on one held-out validation frame.
     """Draw dataset labels beside model predictions on a validation frame."""
     preferred = next((i for i, r in enumerate(ds.records) if any(b[0] == 1 for b in r[2])), 0)
@@ -109,7 +109,7 @@ def create_preview(model, ds, device, output: Path, threshold: float):
     canvas = Image.new('RGB', (w * 2, h + 28), '#141925')
     canvas.paste(truth, (0, 28)); canvas.paste(pred_im, (w, 28))
     label = ImageDraw.Draw(canvas)
-    label.text((8, 8), 'Ground-truth labels (validation)', fill='white')
+    label.text((8, 8), f'Ground-truth labels ({split_label})', fill='white')
     label.text((w + 8, 8), 'Custom ThermalScout predictions', fill='white')
     output.parent.mkdir(parents=True, exist_ok=True)
     canvas.save(output)
