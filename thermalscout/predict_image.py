@@ -11,7 +11,8 @@ from PIL import Image, ImageDraw
 import torch
 
 from .inference import infer
-from .model import CLASSES, COLORS, ThermalScoutReal
+from .model import CLASSES, COLORS
+from .checkpoint import load_detector
 
 
 def prepare_image(image, size):
@@ -62,9 +63,9 @@ def main():
     device = ('cuda' if torch.cuda.is_available() else 'cpu') if args.device == 'auto' else args.device
     if device == 'cuda' and not torch.cuda.is_available():
         parser.error('CUDA is unavailable; use --device cpu')
-    checkpoint = torch.load(args.checkpoint, map_location='cpu', weights_only=True)
-    model = ThermalScoutReal().to(device)
-    model.load_state_dict(checkpoint['model'])
+    model, checkpoint = load_detector(args.checkpoint, device)
+    if checkpoint.get('tile', False):
+        parser.error('This checkpoint requires tiled inference. Use evaluate_detector --tile.')
     with Image.open(args.image) as source:
         image = source.convert('RGB')
     tensor, geometry = prepare_image(image, int(checkpoint.get('image_size', 256)))

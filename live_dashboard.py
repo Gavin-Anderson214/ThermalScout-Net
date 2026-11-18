@@ -42,9 +42,10 @@ svg{display:block;width:100%;height:auto}svg text{font:13px system-ui;fill:#9aac
 @media(max-width:700px){.cards{grid-template-columns:repeat(2,1fr)}header{align-items:flex-start;flex-direction:column}h1{font-size:26px}}
 </style><main>
 <header><div><div class="tag">THERMALSCOUT-NET / LIVE TRAINING</div><h1>Training mission control</h1><small>Real BIRDSAI images · Custom CNN · Development validation</small></div><div id="status">Connecting…</div></header>
-<section class="cards"><div class="card"><small>Completed epochs</small><div class="value" id="epoch">—</div></div><div class="card"><small>Latest training loss</small><div class="value train" id="train">—</div></div><div class="card"><small>Best validation loss</small><div class="value val" id="best">—</div></div><div class="card"><small>Elapsed time</small><div class="value" id="elapsed">—</div></div></section>
+<section class="cards"><div class="card"><small>Completed epochs</small><div class="value" id="epoch">—</div></div><div class="card"><small>Latest training loss</small><div class="value train" id="train">—</div></div><div class="card"><small id="bestLabel">Best validation loss</small><div class="value val" id="best">—</div></div><div class="card"><small>Elapsed time</small><div class="value" id="elapsed">—</div></div></section>
 <section class="panel"><h2 id="stage">Preparing training…</h2><div class="bar"><span id="progress" style="width:0%"></span></div><small id="details">Waiting for model and dataset details.</small></section>
 <section class="panel"><h2>Learning curve</h2><div class="row"><span class="train">● Training loss</span><span class="val">● Validation loss</span></div><svg id="chart" viewBox="0 0 1000 350" role="img" aria-label="Training and validation loss by completed epoch"></svg><small id="chartHelp">Lower loss means fewer errors under the training objective. It is not an accuracy percentage. Points appear after each epoch, not after each batch.</small></section>
+<section class="panel" id="measuredPanel" hidden><h2>Detections on images kept out of training</h2><p id="measured"></p><p class="muted">An epoch is one pass through the training images. Training loss measures the errors used to update weights. Validation uses separate video IDs and freezes the weights. mAP@50 summarizes ranked box detections across the two classes. Confidence 0.25 and box overlap 0.50 define the counts shown here.</p><p class="muted">This experiment changes how training penalizes its strongest background mistakes. The CNN architecture stays the same. All validation human labels come from one video, and flight independence remains unproven.</p></section>
 <section class="panel" id="imagePanel" hidden><h2>Labels and predictions</h2><img id="preview" alt="Validation labels beside model predictions"><p class="muted">Generated from the best checkpoint at the end of training. This single image does not measure overall accuracy.</p></section>
 <section class="panel"><h2>Live activity</h2><label><input id="follow" type="checkbox" checked> Follow new output</label> <button id="download">Save console log</button><pre id="log"></pre></section>
 <small id="footer">Local dashboard · Keep PowerShell open · Ctrl+C in PowerShell stops the dashboard and its training process. Do not start a second training run alongside one already running.</small>
@@ -74,13 +75,14 @@ async function poll(){try{
  document.getElementById('details').textContent=s.details||'Loading libraries and dataset…';
  if(s.watching){
  document.getElementById('footer').textContent='Local dashboard · Watching the files from an existing run. Its PowerShell window controls training.';
- document.getElementById('chartHelp').textContent='This chart uses the epoch measurements saved in the run folder at the end of training.';
+ document.getElementById('chartHelp').textContent='Each point comes from a completed training round. Detection scoring may finish shortly after its loss point appears.';
  }
  const continuous=s.total==='continuous';
  const recorded=s.watching&&!s.points.length?'—':s.points.length;
  document.getElementById('epoch').textContent=continuous?`${recorded} completed`:`${recorded} / ${s.total}`;
  const last=s.points.at(-1);document.getElementById('train').textContent=last?last.train.toFixed(4):'—';
  document.getElementById('best').textContent=last?Math.min(...s.points.map(p=>p.val)).toFixed(4):'—';
+ if(s.detections?.length){const d=s.detections.at(-1);document.getElementById('measuredPanel').hidden=false;document.getElementById('bestLabel').textContent='Best validation mAP@50';document.getElementById('best').textContent=(100*Math.max(...s.detections.map(v=>v.map50))).toFixed(2)+'%';document.getElementById('measured').textContent='Latest measured epoch '+d.epoch+': '+(100*d.map50).toFixed(2)+'% mAP@50. '+Object.entries(d.class_metrics).map(([name,v])=>name+': '+v.tp+'/'+v.gt+' boxes found, '+v.fp+' false detections, '+(v.gt-v.tp)+' missed.').join(' ');}
  const secs=Math.floor(s.elapsed);document.getElementById('elapsed').textContent=`${Math.floor(secs/60)}m ${secs%60}s`;
  document.getElementById('progress').style.width=continuous?'100%':`${100*s.points.length/s.total}%`;
  const log=document.getElementById('log');log.textContent=s.lines.join('\n');if(document.getElementById('follow').checked)log.scrollTop=log.scrollHeight;
@@ -157,7 +159,7 @@ class SavedRunMonitor:
             except (OSError, KeyError, TypeError, ValueError):
                 # The trainer may still be writing the final history.
                 points = []
-        complete = self.total != 'continuous' and len(points) == self.total and self.preview.is_file()
+        complete = bool(points) and self.preview.is_file()
         checkpoint = self.run / 'thermal_scout_real_weights.pt'
         lines = [f'Run: {self.run.name}']
         if checkpoint.is_file():
@@ -168,9 +170,21 @@ class SavedRunMonitor:
                          for point in points)
         else:
             lines.append('Waiting for the first saved epoch; the trainer writes history after each epoch.')
+        detections = []
+        evidence = self.run / 'detection_history.json'
+        if evidence.is_file():
+            try:
+                detections = json.loads(evidence.read_text(encoding='utf-8'))
+            except (OSError, ValueError):
+                pass
+        if detections:
+            lines.extend(f"Epoch {d['epoch']}: detection mAP@50 {100*d['map50']:.2f}%" for d in detections)
         return dict(total=self.total, points=points, lines=lines, watching=True,
+                    detections=detections,
                     status='Complete' if complete else 'Watching run',
-                    stage='Training complete' if complete else 'Waiting for training results',
+                    stage=('Training complete' if complete else
+                           f'Training round {len(points)+1} of {self.total}' if len(points)<self.total
+                           else 'Scoring validation detections and saving the preview'),
                     details=f'{self.run.name} · {self.total} training rounds',
                     elapsed=max(0, (self.preview.stat().st_mtime if complete else time.time()) - self.started),
                     preview=complete)

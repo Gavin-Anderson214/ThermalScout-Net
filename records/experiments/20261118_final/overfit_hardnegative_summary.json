@@ -1,0 +1,80 @@
+{
+  "passed": true,
+  "scope": "Training-set memorization only; no generalization claim",
+  "size": 512,
+  "seed": 42,
+  "device": "cuda",
+  "images": 16,
+  "augmentation": false,
+  "objectness": "hard-negative",
+  "checkpoint_epoch": 80,
+  "initial_loss": 2.945042848587036,
+  "initial": {
+    "map50": 0.0,
+    "class_metrics": {
+      "animal": {
+        "tp": 0,
+        "fp": 0,
+        "gt": 29,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap50": 0.0,
+        "fn": 29
+      },
+      "human": {
+        "tp": 0,
+        "fp": 0,
+        "gt": 15,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap50": 0.0,
+        "fn": 15
+      }
+    }
+  },
+  "final": {
+    "map50": 1.0,
+    "class_metrics": {
+      "animal": {
+        "tp": 29,
+        "fp": 0,
+        "gt": 29,
+        "precision": 1.0,
+        "recall": 1.0,
+        "ap50": 1.0,
+        "fn": 0
+      },
+      "human": {
+        "tp": 15,
+        "fp": 0,
+        "gt": 15,
+        "precision": 1.0,
+        "recall": 1.0,
+        "ap50": 1.0,
+        "fn": 0
+      }
+    }
+  },
+  "score_min": 0.9274964928627014,
+  "score_max": 0.9964367151260376,
+  "unique_scores": 44,
+  "selected_images": [
+    "0000000067_0000000050__f0000000.jpg",
+    "0000000067_0000000050__f0000586.jpg",
+    "0000000067_0000000052__f0000595.jpg",
+    "0000000354_0000000000__f0000917.jpg",
+    "0000000354_0000000000__f0001447.jpg",
+    "0000000363_0000000000__f0000842.jpg",
+    "0000000364_0000000000__f0002199.jpg",
+    "0000000364_0000000000__f0006881.jpg",
+    "0000000010_0000000000__f0000002.jpg",
+    "0000000062_0000000000__f0000323.jpg",
+    "0000000067_0000000015__f0000677.jpg",
+    "0000000067_0000000028__f0000192.jpg",
+    "0000000067_0000000040__f0000606.jpg",
+    "0000000067_0000000046__f0000343.jpg",
+    "0000000067_0000000058__f0000656.jpg",
+    "0000000367_0000000000__f0005426.jpg"
+  ],
+  "checkpoint_sha256": "d0bde21056bab7e20bd1422123935b0fdbfb20cda9b6fdf781358cbb383ebf95"
+}

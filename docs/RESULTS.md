@@ -2,6 +2,14 @@
 
 [← Project home](../README.md)
 
+## November 18 verification and final checkpoint
+
+The [desktop verification report](DESKTOP_FINAL_2026-11-18.md) contains the current dataset/source audit, 16-image memorization test, full GPU comparisons, final checkpoint instructions and limitations. All 2,335 prepared frames and annotations match their source. The unchanged CNN passes the memorization gate with hard-negative background loss, detecting all 29 animal and 15 human training boxes without false positives at confidence 0.25.
+
+Two new ten-epoch runs measured **21.69% mAP50** (baseline) and **22.98%** (hard-negative). The historical 512-pixel checkpoint was reevaluated at **29.11%** and remains selected. At confidence 0.25 it finds 683/954 animal boxes and 31/62 human boxes, with 12,561 animal and 53 human false positives. It misses 271 animals and 31 humans. The hard-negative full-data run loses human detection despite passing memorization. The selected detector functions, but false alarms prevent a claim of practical reliability.
+
+All scores use the same development videos, with human labels from one video. Video IDs are disjoint; shared filename prefixes and missing flight IDs mean flight-level independence remains unproven. These are not official TestReal results. [Full evidence](../records/experiments/20261118_final/selection.json) · [Final presentation](../report/presentations/ThermalScout-Net_Desktop_Final_2026-11-18.pptx)
+
 ## Data and tools
 
 The main dataset is **BIRDSAI**, a thermal drone imagery dataset distributed through the Conservation Drones / LILA Science project. The prepared project data uses its labeled animal and human frames; the original source data and large image folders stay local because of size and dataset terms. BAMBI is a separate pilot dataset used for diagnosis, not mixed into the BIRDSAI score below.
@@ -69,6 +77,6 @@ The 60-frame BAMBI pilot used training flight 47 and validation flights 6 and 22
 
 ## What is next?
 
-Improve detection quality, verify on more independent footage, test recorded-video inference, then measure performance on the Raspberry Pi and connect the thermal camera. No live flight demonstration or Raspberry Pi frame rate has been verified for this CNN.
+The December 2 submission focuses on the measured desktop detector, its demonstration and honest limitations. Further accuracy work should improve background discrimination and verify footage independence. Raspberry Pi deployment, thermal-camera integration, drone mounting and flight testing are future work. No live flight demonstration or Raspberry Pi frame rate has been verified for this CNN.
 
 [Try the still-image demo](IMAGE_DEMO.md) · [Browse experiment records](EXPERIMENTS.md)

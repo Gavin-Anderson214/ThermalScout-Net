@@ -25,7 +25,8 @@ from torch.utils.data import DataLoader
 from .model import ThermalScoutReal, CLASSES
 from .data import BirdsaiDataset, TiledBirdsaiDataset, collate
 from .training import train_epoch, eval_epoch
-from .inference import create_preview
+from .inference import create_preview, infer
+from .evaluate_detector import ap_101, get_counts
 
 
 def load_pretrained_features(model, path, size, device):
@@ -64,8 +65,14 @@ def main():
     p.add_argument('--background-weight', type=float, default=0.25, help='Weight of the negative objectness loss')
     p.add_argument('--pretrained-features', type=Path, help='Optional weights from thermal patch pretraining')
     p.add_argument('--continuous', action='store_true', help='Train until Ctrl+C; save after finishing the current epoch')
-    p.add_argument('--patience', type=int, default=None, help='Stop after this many epochs without lower validation loss')
+    p.add_argument('--patience', type=int, default=None, help='Stop after this many epochs without improving the selection metric')
+    p.add_argument('--select-by', choices=['val-loss', 'map50'], default='val-loss',
+                   help='Checkpoint selection criterion; map50 measures detections every epoch')
     args = p.parse_args()
+    if args.select_by == 'map50' and args.tile:
+        p.error('--select-by map50 currently requires full-frame training')
+    if args.epochs is not None and args.epochs < 1:
+        p.error('--epochs must be positive')
     if args.continuous and args.epochs is not None:
         p.error('Use --continuous or --epochs, not both')
     if args.patience is not None and args.patience < 1:
@@ -132,9 +139,10 @@ def main():
         print('This is training from RANDOM INITIALIZATION on the supplied thermal frames. No pretrained model.')
     print('Validation uses the supplied development split; this is not an official test score.')
     print(f'Objectness loss: {args.objectness}; human class weight: {args.human_weight}', flush=True)
-    best = float('inf')
+    best = float('-inf') if args.select_by == 'map50' else float('inf')
     best_epoch = 0
     history = []
+    detection_history = []
     stopping = False
     def request_stop(signum, frame):
         nonlocal stopping
@@ -162,25 +170,42 @@ def main():
               f'| same-cell box collisions train={tc}, val={vc}', flush=True)
         history.append((ep, tl, vl, tc, vc))
         write_history()
-        # Select weights by validation loss, not by measured detection mAP.
-        if vl < best:
-            best = vl
+        measured = None
+        if args.select_by == 'map50':
+            entries = []
+            for image, boxes, path in val:
+                entries.append({'ground_truth': boxes, 'predictions': infer(model, image, device, .001)})
+            class_metrics = {name: {**get_counts(entries, c), 'ap50': ap_101(entries, c, .5)}
+                             for c, name in enumerate(CLASSES)}
+            measured = float(np.mean([v['ap50'] for v in class_metrics.values() if v['ap50'] is not None]))
+            detection_history.append(dict(epoch=ep, train_loss=tl, val_loss=vl,
+                                          map50=measured, class_metrics=class_metrics))
+            detection_tmp = out / 'detection_history.json.tmp'
+            detection_tmp.write_text(json.dumps(detection_history, indent=2), encoding='utf-8')
+            detection_tmp.replace(out / 'detection_history.json')
+            print(f'Validation mAP50={measured:.4f}; {class_metrics}', flush=True)
+        improved = measured > best if args.select_by == 'map50' else vl < best
+        if improved:
+            best = measured if args.select_by == 'map50' else vl
             best_epoch = ep
+            checkpoint_tmp = out / 'thermal_scout_real_weights.pt.tmp'
             torch.save({'model': model.state_dict(), 'image_size': args.size,
                         'classes': CLASSES, 'epoch': ep, 'val_loss': vl, 'tile': args.tile,
+                        'selection': args.select_by, 'map50': measured,
                         'objectness_loss': args.objectness,
-                        'human_weight': args.human_weight, 'background_weight': args.background_weight, **initialization}, out / 'thermal_scout_real_weights.pt')
+                        'human_weight': args.human_weight, 'background_weight': args.background_weight, **initialization}, checkpoint_tmp)
+            checkpoint_tmp.replace(out / 'thermal_scout_real_weights.pt')
         if stopping:
             break
         if args.patience is not None and ep - best_epoch >= args.patience:
-            print(f'Early stopping: no lower validation loss for {args.patience} epochs.', flush=True)
+            print(f'Early stopping: no better {args.select_by} for {args.patience} epochs.', flush=True)
             break
     write_history()
     # Reload the best epoch rather than using the final epoch for the preview.
     saved = torch.load(out / 'thermal_scout_real_weights.pt', map_location=device, weights_only=True)
     model.load_state_dict(saved['model'])
     n, name = create_preview(model, val, device, out / 'real_detection_preview.png', args.threshold)
-    print(f'Best checkpoint epoch {saved["epoch"]}, val loss {best:.4f}')
+    print(f'Best checkpoint epoch {saved["epoch"]}, {args.select_by} {best:.4f}')
     print(f'Preview: {out / "real_detection_preview.png"} ({n} detections on {name})')
     print(f'Weights: {out / "thermal_scout_real_weights.pt"}')
     print(f'History: {out / "loss_history.csv"}')
