@@ -18,6 +18,8 @@ if not images:
 counts = Counter()
 errors = []
 
+# Check each exported picture against its labels before using the pair as a supervised
+# example.
 for image_path in images:
     # Find the corresponding YOLO label.
     label_path = labels_dir / (image_path.stem + ".txt")

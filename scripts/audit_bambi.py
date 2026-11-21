@@ -52,6 +52,8 @@ def main():
             result['manifest'].append(dict(split=split,image=image.name,flight=flight,frame=frame,sha256=digest,label_sha256=hashlib.sha256(label.read_bytes()).hexdigest()))
         all_flights[split]=flights
         result['splits'][split]=dict(frames=frame_count,flights=sorted(flights),labels=dict(counts),species=dict(species))
+    # If a flight appears in both splits, visually similar frames could make validation
+    # look easier than a new flight.
     result['flight_overlap']=sorted(all_flights['train'] & all_flights['val'])
     result['duplicate_images']=[v for v in hashes.values() if len(v)>1]
     # Verify extraction against actual video bytes at the named zero-based index.

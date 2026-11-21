@@ -466,6 +466,8 @@ def main():
     print(f"Using real training partition: {train}")
     print("Classes from official BIRDSAI format: animal=0, human=1")
     print("Dataset originals are READ ONLY; TestReal is held out.")
+    # Frame numbers tie each box to a picture. Keeping the sequence identity also lets
+    # whole videos stay in one split.
     sequences = collect_sequences(train, args.frame_offset)
     out = Path(args.out).expanduser().resolve()
     valid = report(sequences, out)

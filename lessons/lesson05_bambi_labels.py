@@ -3,12 +3,10 @@ from pathlib import Path
 from collections import Counter
 
 # Locate the downloaded BAMBI annotations.
-root = Path(
-    r"D:\College Work\Intro To AI\Intro to AI project"
-    r"\ThermalScout-Net_GitHub_Ready\ThermalScout-Net"
-    r"\data\bambi_source"
-)
+root = Path(__file__).resolve().parents[1] / "data" / "bambi_source"
 
+# Start with the annotation table for one flight. Multiple rows can refer to different
+# objects in the same frame.
 files = list(root.rglob("47_gt.txt"))
 
 if not files:

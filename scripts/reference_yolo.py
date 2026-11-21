@@ -44,6 +44,8 @@ def evaluate(weights, data, output, device):
             print(f'Evaluated {index}/{len(dataset)} original validation frames', flush=True)
     elapsed = time.perf_counter() - started
     scores = {}
+    # Score each category separately so performance on the more common class cannot hide
+    # mistakes on the other.
     for cls, name in enumerate(('animal', 'human')):
         row = get_counts(entries, cls)
         row['ap50'] = ap_101(entries, cls, 0.5)

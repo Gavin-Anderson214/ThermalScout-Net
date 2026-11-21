@@ -68,6 +68,8 @@ def main():
     with Image.open(args.image) as source:
         image = source.convert('RGB')
     tensor, geometry = prepare_image(image, int(checkpoint.get('image_size', 256)))
+    # Undo the resize and padding so a reported box refers to pixels in the original
+    # picture.
     detections = original_boxes(infer(model, tensor, device, args.threshold), geometry)
     preview = image.copy()
     draw = ImageDraw.Draw(preview)

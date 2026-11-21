@@ -1,32 +1,16 @@
 # ThermalScout-Net
 
-### Teaching my drone to see heat
+**Can a computer find a person or an animal in a grayscale thermal image?** This Tarleton State University COSC 2345 project studies that question using labeled drone images. For each object it finds, the program returns a rectangle, a class (animal or human), and a confidence score. A warm patch alone does not tell the program what made it.
 
-I am building my own **convolutional neural network (CNN)** to find people and animals in thermal images. **BIRDSAI is my main dataset.** My goal is to run this model on a Raspberry Pi mounted on the drone I am building.
-
-Built for **COSC 2345 — Introduction to AI, Tarleton State University**.
-
-## Find what you need
-
-| Start here | What you will find |
+| What would you like to do? | Open |
 |---|---|
-| [01 · Get started](START_HERE.md) | Setup and the few commands you need |
-| [02 · My CNN](thermalscout/README.md) | The network I built and how the code fits together |
-| [03 · Presentation](docs/INTRO_AI_DRONE_STORY.md) | The simple story: thermal images → my CNN → my drone |
-| [04 · Results](docs/RESULTS.md) | Measured performance and what still needs work |
+| Understand one prediction and relate it to class | [Course walkthrough](docs/CLASS_EXPLANATION.md) |
+| Open the project on a Pi or Windows PC and run a first example | [Start here](START_HERE.md) |
+| Read the Python in order or look up any script | [Code tour and file index](docs/CODE_TOUR.md) |
+| See the measurements and their limits | [Development results](docs/RESULTS.md) |
 
-For the video-style explanation of the project, read [Local AI flow](docs/LOCAL_AI_FLOW.md).
+The main detector is a convolutional neural network (CNN) with 88,503 adjustable values called **weights**. During training it sees BIRDSAI frames with answer boxes. During prediction it gets only pixels. The smaller synthetic demo and the pretrained YOLO comparison are separate experiments.
 
-For a full refresher before working on the code or presenting, read the [project refresher](docs/PROJECT_REFRESHER.md).
+On 334 development frames, the 512-pixel run found 31 of 62 labeled human appearances and drew 53 false human boxes at the recorded cutoff. The human labels came from one video. A person appearing in ten frames can contribute ten appearances. These results describe this data and do not establish live drone performance. [Recorded evaluation](records/experiments/20261112_resolution512_human4/evaluation.json)
 
-## Where it stands
-
-The **88,503-parameter custom CNN** trains and runs inference on thermal images. A new 512-pixel CUDA experiment reached **29.11% mAP@50** on development validation, finding **31 of 62 human boxes** with **53 false human detections**. Animal false detections remain high. The run stopped early and retained its best epoch-4 checkpoint.
-
-An earlier 256-pixel BIRDSAI GPU evaluation reached **15.54% mAP@50** on the same development frames. Both are single-seed research results; detection quality still needs improvement.
-
-**Raspberry Pi deployment and live drone detection are the next goals, not completed features.**
-
-The repository contains code and measured evidence. Large datasets, model checkpoints and local archives stay off GitHub.
-
-[Detailed project reference](docs/PROJECT_REFERENCE.md) · [Experiment library](docs/EXPERIMENTS.md) · [Folder and sharing guide](docs/SHARING_AND_ORGANIZATION.md)
+**Project credit.** Gavin Anderson's Introduction to AI project at Tarleton State University. ChatGPT generated most or possibly all of the original Python code and assisted with the documentation and teaching comments. The recorded experiments and tests provide evidence readers can inspect. [Course context and acknowledgment](docs/CLASS_EXPLANATION.md)

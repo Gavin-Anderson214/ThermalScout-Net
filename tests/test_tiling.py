@@ -5,6 +5,8 @@ from thermalscout.data import tile_boxes, tile_positions
 
 def test_windows_cover_edge_without_gaps():
     starts = tile_positions(698, 256)
+    # The first and last windows must reach both edges. Adjacent windows must also cover
+    # every pixel between them.
     assert starts[0] == 0 and starts[-1] == 442
     assert all(next_start <= start + 256 for start, next_start in zip(starts, starts[1:]))
 

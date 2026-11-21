@@ -106,6 +106,8 @@ def main():
     (output/'predictions.json').write_text(json.dumps(entries),encoding='utf-8')
     thresholds = [.001,.05,.1,.2,.25,.3,.4,.5,.6,.7,.75,.8,.85,.9,.95,.975,.99,.995,.999,1.0]
     rows = []
+    # Reusing predictions makes each cutoff a different decision rule applied to the
+    # same model outputs.
     for threshold in thresholds:
         counts = [get_counts(entries,c,conf=threshold) for c in range(2)]
         for name, count in list(zip(CLASSES,counts))+[('all',dict(

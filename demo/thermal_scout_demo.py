@@ -90,6 +90,8 @@ def generate_thermal_frame(rng: np.random.Generator, n_objects=None):
 
 
 # --- Supply repeatable synthetic examples to the teaching model.
+# This classroom example generates its own answer mask with each synthetic frame. The
+# real detector learns from annotated boxes.
 class SyntheticThermalDataset(Dataset):
     """Create many simulated frames for introductory CNN training."""
     def __init__(self, count, seed):

@@ -11,6 +11,8 @@ labels_dir = pilot / "labels" / "val"
 images = sorted(images_dir.glob("*.png"))
 labels = sorted(labels_dir.glob("*.txt"))
 
+# Counts by flight show whether the pilot actually includes the intended validation
+# sources.
 flight_counts = Counter()
 
 for image in images:

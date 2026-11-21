@@ -49,6 +49,8 @@ def main():
         entry = {'ground_truth': boxes, 'predictions': infer(model, image, args.device, threshold=0.25)}
         animal, human = (get_counts([entry], c) for c in (0, 1))
         missed_human, missed_animal = human['gt']-human['tp'], animal['gt']-animal['tp']
+        # This hand-written priority decides which training frames a person reviews
+        # first. It is separate from model confidence.
         score = 3*missed_human + missed_animal + 0.1*(animal['fp']+human['fp'])
         selected.append(dict(score=score, video=video, frame=int(frame), image=str(path),
                              missed_human=missed_human, missed_animal=missed_animal,

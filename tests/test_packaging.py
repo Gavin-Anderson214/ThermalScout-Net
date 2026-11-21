@@ -8,6 +8,8 @@ def test_export_excludes_local_assets_even_if_tracked():
                  'records/experiments/run/predictions.json',
                  'records/experiments/run/human_examples.png', '.env.local',
                  'private.key', '.git/config', '.venv/bin/python', 'dist/old.zip']:
+        # Even if one of these paths gets tracked accidentally, an exported project must
+        # omit it.
         assert not shareable(path), path
 
 

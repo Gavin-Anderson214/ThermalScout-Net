@@ -62,6 +62,8 @@ for index in range(min(5, len(dataset))):
         )
 
     # Find the highest geometric overlap.
+    # IoU measures the shared area of two boxes divided by the area covered by either.
+    # One good match cannot summarize a whole frame.
     best_iou = 0.0
 
     for pred_class, score, pred_box in predictions:

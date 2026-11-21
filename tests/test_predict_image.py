@@ -21,6 +21,8 @@ def test_preprocessing_matches_training_and_boxes_round_trip(tmp_path, shape):
     (labels / 'frame.txt').write_text('1 0.5 0.5 0.4 0.2\n')
     expected, boxes, _ = BirdsaiDataset(tmp_path, 'val', 256, 0, 42)[0]
     actual, geometry = prepare_image(image, 256)
+    # Training and prediction should produce the same pixel tensor for this image before
+    # the CNN sees it.
     assert torch.equal(actual, expected)
     c, x, y, w, h = boxes[0]
     result = original_boxes([(c, 0.9, [x-w/2, y-h/2, x+w/2, y+h/2])], geometry)

@@ -59,6 +59,8 @@ def main():
     ds=BirdsaiDataset(a.data,'val',size,0,42,augment=False)
     entries=json.loads(a.cache.read_text(encoding='utf-8'))
     assert len(ds)==len(entries), 'Cache length differs from validation split'
+    # Keep the cached predictions as a baseline. Removing boxes in padding tests one
+    # possible explanation for false alarms.
     filtered=copy.deepcopy(entries)
     band_filtered=copy.deepcopy(entries)
     dataset_hash=hashlib.sha256()

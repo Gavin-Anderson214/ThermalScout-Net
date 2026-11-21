@@ -20,6 +20,8 @@ label_files = sorted(labels_dir.glob("flight47_frame*.txt"))
 if not label_files:
     raise RuntimeError("No converted labels found")
 
+# Space the selected frames through the video so the preview includes more than its
+# opening moments.
 step = max(1, len(label_files) // 30)
 selected = label_files[::step][:30]
 

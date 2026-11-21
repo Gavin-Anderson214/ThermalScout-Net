@@ -18,6 +18,8 @@ def main():
     allowed = set(json.loads((args.data.resolve()/'split_videos.json').read_text(encoding='utf-8'))['train_videos'])
     with args.review_csv.open(newline='', encoding='utf-8') as file:
         rows = list(csv.DictReader(file))
+    # Only a reviewed empty frame can act as a negative training example in this
+    # experiment.
     approved = [row for row in rows if row['reviewed_empty'].strip().upper() == 'YES']
     if not approved:
         parser.error('No rows marked YES after manual review')

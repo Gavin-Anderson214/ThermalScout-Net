@@ -16,6 +16,8 @@ images_out.mkdir(parents=True, exist_ok=True)
 labels_out.mkdir(parents=True, exist_ok=True)
 
 # These flights are reserved for validation.
+# Reserve these flights for this local pilot. Neighboring frames from a training flight
+# would give an overly familiar validation set.
 flights = [6, 22]
 max_frames_per_flight = 15
 

@@ -21,19 +21,18 @@ conv = nn.Conv2d(
     bias=False
 )
 
-# Step 4: Use an averaging filter.
-# PyTorch initializes Conv2d weights randomly
+# Step 4: Inspect the randomly initialized filter.
 print("\nRandom filter weights:")
 print(conv.weight.data[0, 0])
 
 # Step 5: Apply convolution.
+# A 3-by-3 window fits in four places on this 4-by-4 image. Each output is a weighted
+# sum of nine pixels.
 features = conv(image)
 
-# lesson 4
 # Add a positive offset for this demonstration
 features = features + 0.3
 
-# lesson 3 
 # Apply ReLU
 relu = nn.ReLU()
 activated_features = relu(features)

@@ -39,6 +39,8 @@ def main():
         print('Deliberately selected largest human TP gain per video:',[ds.records[i][0].name for i in chosen])
     side,header=512,44
     canvas=Image.new('RGB',(3*side,len(chosen)*(side+header)),'#152033');pen=ImageDraw.Draw(canvas)
+    # Show both models on the same frame. The selected examples illustrate differences
+    # and cannot estimate overall accuracy.
     for row,index in enumerate(chosen):
         tensor,boxes,path=ds[index]
         panels=[('Labels',[(int(b[0]),1,xywh_to_xyxy(b)[1]) for b in boxes])]

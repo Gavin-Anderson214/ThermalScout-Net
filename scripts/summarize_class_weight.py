@@ -54,6 +54,8 @@ def main():
         '[Comparison and checkpoint hashes](../records/experiments/20261102_human_weight/comparison.json), [dataset audit](../records/experiments/20261102_human_weight/dataset_audit.json), [control configuration](../records/experiments/20261102_human_weight/control_config.json), [variant configuration](../records/experiments/20261102_human_weight/human4_config.json). Weights and BIRDSAI previews remain local under training_runs. Eleven tests passed, including unchanged default behavior, relative human-gradient effect and invalid-weight rejection.']
     Path('docs/HUMAN_WEIGHT_EXPERIMENT_2026-11-02.md').write_text('\n'.join(lines)+'\n',encoding='utf-8')
     fig,axes=plt.subplots(1,2,figsize=(10,4),layout='constrained')
+    # Recall counts how many labels were found at one cutoff. AP summarizes the ranking
+    # across cutoffs.
     for ax,key,title in zip(axes,['recall','ap50'],['Recall at confidence .25','AP at IoU .50']):
         for i,name in enumerate(('animal','human')):
             vals=[evidence[tag]['metrics']['class_metrics'][name][key]*100 for tag in ('control','human4')]

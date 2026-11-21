@@ -21,6 +21,8 @@ def test_target_decoder_round_trip_both_classes():
     detections=infer(Fixed(),torch.zeros(1,64,64),'cpu',.25)
     entries=[dict(ground_truth=labels,predictions=detections)]
     for c in (0,1):
+        # A known matching box should count once for its class. This checks the scoring
+        # code using a constructed example.
         assert get_counts(entries,c)['tp']==1
         assert ap_101(entries,c,.95)==pytest.approx(1)
 

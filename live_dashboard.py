@@ -132,6 +132,8 @@ class Monitor:
                         preview=bool(self.preview and self.preview.is_file()))
 
 
+# A saved run already has a history on disk. This view can display its progress after
+# training ends.
 class SavedRunMonitor:
     """Show evidence from a run started in another PowerShell window."""
     def __init__(self, run):

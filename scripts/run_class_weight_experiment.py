@@ -32,6 +32,8 @@ def main():
     (output/'dataset_audit.json').write_text(json.dumps(audit,indent=2),encoding='utf-8')
     print(json.dumps(audit,indent=2),flush=True)
     configs=[]
+    # The class weight changes how much the loss emphasizes human examples. Matching the
+    # other settings makes the runs comparable.
     for weight,tag in [(2,'control'),(4,'human4')]:
         run=Path(f'training_runs/20261102_classweight_{tag}')
         cmd=[sys.executable,'-u','-m','thermalscout.train_detector','--full','--data',str(root),'--out',str(run),

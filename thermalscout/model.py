@@ -39,6 +39,8 @@ class ThermalScoutReal(nn.Module):
         # to the same grid before concatenating their channels.
         low = self.low(x)
         deep = self.deep(low)
+        # The two feature maps have different grid sizes. Resizing the deeper map aligns
+        # positions before joining the channels.
         deep = F.interpolate(deep, size=low.shape[-2:], mode="bilinear", align_corners=False)
         return self.fuse(torch.cat((low, deep), dim=1))
 

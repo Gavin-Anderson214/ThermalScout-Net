@@ -20,6 +20,8 @@ def main():
     root=Path(__file__).resolve().parents[1]
     out=root/'records/experiments/20261110_bambi_repair'
     result={}
+    # Evaluate each stored run under the same scoring procedure so the reported
+    # differences are interpretable.
     for name in ('control','hardneg','hardneg_bg1'):
         run=root/f'training_runs/bambi_{name}_40ep_20261110'
         path=run/'thermal_scout_real_weights.pt'

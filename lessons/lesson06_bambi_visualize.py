@@ -16,6 +16,8 @@ if not videos or not labels:
     )
 
 # Open flight 47.
+# Read the matching video so the label coordinates can be checked against what appears
+# in a frame.
 cap = cv2.VideoCapture(str(videos[0]))
 
 if not cap.isOpened():

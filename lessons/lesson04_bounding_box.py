@@ -8,6 +8,8 @@ w = 0.20
 h = 0.40
 
 #Convert center/size3 to corner coordinates
+# A box extends half its width on either side of its center. The same arithmetic gives
+# the top and bottom edges.
 x1 = cx - w / 2
 y1 = cy - h / 2
 x2 = cx + w / 2

@@ -13,6 +13,8 @@ pixels = torch.tensor([
 image = pixels / 255.0
 
 # Add the channel and batch dimensions
+# The four axes let PyTorch distinguish one image, one brightness channel, four rows and
+# four columns.
 image = image.unsqueeze(0).unsqueeze(0)
 
 print("Tensor shape:", image.shape)

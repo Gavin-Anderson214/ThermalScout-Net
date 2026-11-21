@@ -79,6 +79,8 @@ def select_external(metadata, count, rng):
     return candidates[:count], len(candidates)
 
 
+# A fingerprint of the split provides a way to check whether two experiments used the
+# same files.
 def digest_split(root, split):
     digest = sha256()
     for category in ("images", "labels"):

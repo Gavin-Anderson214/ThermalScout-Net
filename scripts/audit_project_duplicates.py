@@ -18,6 +18,8 @@ def main():
                 file=Path(folder)/name
                 if file.suffix not in {'.py','.md','.txt','.yaml','.yml'} or file.stat().st_size>1000000: continue
                 groups[hashlib.sha256(file.read_bytes()).hexdigest()].append(str(file.relative_to(parent)))
+    # Matching contents can have different filenames. The digest groups identical bytes
+    # for inspection.
     duplicates=[{'sha256':h,'paths':paths} for h,paths in groups.items() if len(paths)>1]
     report=dict(scope='Small source/doc files only; excludes data, checkpoints, environments and Git',
                 duplicate_groups=duplicates,removed=[],decision='Preserve historical copies: byte equality alone does not establish that imports, relative paths or prior experiments no longer need them.')

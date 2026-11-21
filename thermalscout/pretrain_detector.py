@@ -18,6 +18,8 @@ PATCH_SIZE = 16
 MASK_PROBABILITY = 0.25
 
 
+# Hidden pixels supply a training target from the image itself. Reconstructing them
+# requires no animal or human label.
 def reconstruction_loss(model, decoder, images):
     batch, _, height, width = images.shape
     patches = torch.rand(batch, 1, height // PATCH_SIZE, width // PATCH_SIZE, device=images.device)

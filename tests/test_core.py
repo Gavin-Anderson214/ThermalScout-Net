@@ -15,6 +15,8 @@ def test_model_returns_seven_prediction_channels():
     m = ThermalScoutReal().eval()
     with torch.no_grad():
         result = m(torch.zeros(1, 1, 64, 64))
+    # Seven numbers at each cell mean one presence score, four box values and two class
+    # scores.
     assert result.shape == (1, 7, 16, 16)
 
 

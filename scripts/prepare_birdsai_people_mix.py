@@ -13,6 +13,7 @@ from scripts.prepare_hit_uav_mix import select_replacements, write_mix
 from thermalscout.data import BirdsaiDataset
 
 
+# Spreading the choices across time reduces repeated views of nearly the same subject.
 def pick_spread_frames(candidates, existing, count):
     """Add frames farthest in time from the already selected frames."""
     if len(candidates) < count:

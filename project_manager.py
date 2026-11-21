@@ -107,6 +107,8 @@ def get_data_root(explicit=None):
 
 
 # --- Register a completed training history in the research log.
+# Training produces a loss history. Registration connects that history to the project
+# records used by the report.
 def register_loss_csv(path: Path, mode='development'):
     """Record a training run only once, using a file checksum."""
     if not path.exists():

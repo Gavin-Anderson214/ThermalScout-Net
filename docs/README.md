@@ -1,6 +1,6 @@
 # Explanations and planning
 
-CODE_TOUR.md explains Python file roles. CLASS_EXPLANATION.md explains the course connection. PRESENTATION_PLAN.md covers presentation planning. GITHUB_SETUP.md covers publishing. Existing PDFs are reference snapshots.
+Read the [course walkthrough](CLASS_EXPLANATION.md) or find a script in the [Python file index](CODE_TOUR.md). See the [presentation plan](PRESENTATION_PLAN.md) for slides and the [GitHub guide](GITHUB_SETUP.md) for publishing. Existing PDFs are reference snapshots.
 
 ## Experiment findings
 

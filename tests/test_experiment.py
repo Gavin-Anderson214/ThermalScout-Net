@@ -15,6 +15,8 @@ def test_relocated_history_is_not_an_additional_run(tmp_path, monkeypatch):
     row.update(run_id='same_run', sha256=hashlib.sha256(history.read_bytes()).hexdigest(),
                source_csv='E:/old_location/same_run/loss_history.csv')
     manager.write_csv(tmp_path / 'training_runs.csv', manager.RUN_FIELDS, [row])
+    # Registering the same history after a move should leave a single experiment in the
+    # records.
     assert manager.register_loss_csv(history) is False
     assert len(manager.read_csv(tmp_path / 'training_runs.csv')) == 1
     # A genuinely different history under the same ID remains recordable.

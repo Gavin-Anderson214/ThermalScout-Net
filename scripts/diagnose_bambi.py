@@ -40,6 +40,8 @@ def main():
         report['objectness_range'] = [pred[:,0].sigmoid().min().item(), pred[:,0].sigmoid().max().item()]
     report['original'] = evaluate(model,val)
     print('Original', report, flush=True)
+    # Work on a copy so the original model provides a baseline for the BatchNorm
+    # comparison.
     calibrated = copy.deepcopy(model)
     # Separate saved copy: reset running moments then average training batches.
     for module in calibrated.modules():

@@ -26,6 +26,8 @@ def main():
     if train_real is None or not (train_real/'annotations').is_dir():
         parser.error('Could not find TrainReal images and annotations')
     split = json.loads((args.data.resolve()/'split_videos.json').read_text(encoding='utf-8'))
+    # A missing annotation can mean a missed label. These training frames still need a
+    # person's review.
     train_videos = set(split['train_videos'])
     validation_videos = set(split['validation_videos'])
     if train_videos & validation_videos:

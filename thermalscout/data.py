@@ -119,6 +119,8 @@ class BirdsaiDataset(Dataset):
         return torch.from_numpy(pixels[None]), adjusted, str(img_path)
 
 # --- Stack equal-sized images but preserve variable-length object lists for each frame.
+# Images in a batch can be stacked because their shapes match. Each image can have a
+# different number of labeled boxes.
 def collate(batch):
     """Combine images into a batch while preserving each image’s list of boxes."""
     imgs, boxes, paths = zip(*batch)

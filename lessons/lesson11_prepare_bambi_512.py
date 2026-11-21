@@ -16,6 +16,8 @@ output.mkdir(parents=True, exist_ok=True)
 preview_dir = pilot / "preview_512"
 preview_dir.mkdir(parents=True, exist_ok=True)
 
+# A normalized coordinate of 0.5 stays halfway across the square after resizing. Its
+# pixel coordinate changes.
 size = 512
 saved = 0
 

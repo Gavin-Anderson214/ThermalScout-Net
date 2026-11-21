@@ -106,6 +106,8 @@ def main():
         except (OSError, ValueError, RuntimeError) as error:
             p.error(f'Cannot load pretrained features: {error}')
         initialization = {'initialization': 'thermal patch pretraining', 'pretrained_features_sha256': digest}
+    # The optimizer updates the CNN weights during training. A saved checkpoint stores
+    # the learned values for later predictions.
     optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr, weight_decay=1e-4)
     out = args.out.expanduser().resolve()
     out.mkdir(parents=True, exist_ok=True)

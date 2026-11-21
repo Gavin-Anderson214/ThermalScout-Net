@@ -19,6 +19,8 @@ output = project / "data" / "bambi_pilot" / "labels_preview"
 output.mkdir(parents=True, exist_ok=True)
 
 image_size = 1024
+# Group boxes by frame because each image needs a label file containing every annotated
+# object in that image.
 frame_labels = defaultdict(list)
 
 valid_animals = (

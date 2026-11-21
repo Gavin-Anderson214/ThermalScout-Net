@@ -1,35 +1,40 @@
-# Start here
+# Open the project and run your first example
 
-[← Project home](README.md)
+[Project home](README.md) · [How the model works](docs/CLASS_EXPLANATION.md)
 
-## Read, present or build
+## On a Raspberry Pi with the project environment installed
 
-- **Understand my idea:** [the presentation story](docs/INTRO_AI_DRONE_STORY.md).
-- **Refresh the whole project:** [project refresher](docs/PROJECT_REFRESHER.md).
-- **See my network:** [model.py](thermalscout/model.py).
-- **Check measured performance:** [results](docs/RESULTS.md).
-- **Improve small-object predictions:** [next detector experiments](docs/NEXT_DETECTOR_EXPERIMENTS_2026-11-12.md).
-- **Try a saved model:** [image demo instructions](docs/IMAGE_DEMO.md).
+Open Terminal on the Pi. These commands open the project, run a tiny example, and check the installation.
 
-## Run the project
-
-Open a terminal in the repository folder. These commands use Python 3.12 on Windows:
-
-```powershell
-py -3.12 -m pip install -r requirements-dev.txt
-py -3.12 -m pytest tests -q
+```bash
+cd ~/Projects/ThermalScout-Net
+code .
+.venv/bin/python lessons/lesson01_pixels.py
+.venv/bin/python -m pytest
 ```
 
-Training additionally requires your locally prepared BIRDSAI data. A new clone does not include images or weights. See [data setup](data/README.md).
+## On Windows with Python 3.12
+
+Open PowerShell in the repository folder. Create the virtual environment and install dependencies on your first visit. Use the last two commands on later visits.
 
 ```powershell
-py -3.12 project_manager.py train --mode quick --data data/processed/yolo_real --device auto
+py -3.12 -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements-dev.txt
+.\.venv\Scripts\python.exe lessons/lesson01_pixels.py
+.\.venv\Scripts\python.exe -m pytest
 ```
 
-A quick run checks the pipeline; it is not a full accuracy experiment. It saves a new run locally under `training_runs`. Official TestReal remains held out.
+The example prints a tensor shape of `[1, 1, 4, 4]`: one image, one brightness channel, four rows and four columns. Try dividing the brightest pixel value (245) by 255 and compare your answer with the program. Tests check software behavior and run without a trained checkpoint.
 
-## Need something less common?
+## Choose what to read next
 
-[Supporting tools](scripts/README.md) · [Windows launchers](scripts/launchers/)
+| Goal | Starting point |
+|---|---|
+| Follow pixels through a convolution | [Second example](lessons/lessons02_convolution.py) |
+| Understand all seven numbers the CNN predicts | [Detection head example](lessons/lesson03_detection_head.py) |
+| Find data preparation, training or evaluation code | [Python file index](docs/CODE_TOUR.md) |
+| Reproduce a recorded experiment with local data | [Dataset setup](data/README.md) and [experiment library](docs/EXPERIMENTS.md) |
+| Use an existing checkpoint | [Image demo](docs/IMAGE_DEMO.md) |
+| Find a slide deck, report or historical record | [Presentations](report/presentations/), [reports](report/), [experiment measurements](records/), [folder guide](docs/SHARING_AND_ORGANIZATION.md) |
 
-[Experiment library](docs/EXPERIMENTS.md) · [Full folder guide](docs/SHARING_AND_ORGANIZATION.md) · [Detailed course background](docs/PROJECT_REFERENCE.md)
+BIRDSAI images and trained weights are local assets. The small introductory examples work on a fresh clone after dependency installation.

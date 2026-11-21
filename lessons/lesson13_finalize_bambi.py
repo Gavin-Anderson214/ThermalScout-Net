@@ -20,6 +20,7 @@ train_labels.mkdir(parents=True, exist_ok=True)
 # Copy only the 30 prepared training pairs.
 copied = 0
 
+# Pair each resized training frame with the annotation file that shares its name.
 for image in sorted(source_images.glob("*.png")):
     label = source_labels / (image.stem + ".txt")
 

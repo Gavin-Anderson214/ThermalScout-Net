@@ -57,6 +57,8 @@ def get_counts(entries, class_id, iou=0.5, conf=.25):
 
 
 # --- Rank detections by confidence and average interpolated precision over 101 recall levels.
+# Average precision rewards putting correct boxes ahead of false alarms as the score
+# cutoff changes.
 def ap_101(entries,class_id,threshold):
     """Calculate average precision from the full ranked prediction list."""
     truths={}

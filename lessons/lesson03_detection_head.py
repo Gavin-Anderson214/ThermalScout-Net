@@ -6,6 +6,8 @@ from torch import nn
 features = torch.rand(1, 48, 4, 4)
 
 # ThermalScout-Net final detection layer
+# The same small layer reads all 48 features at each position. Its seven outputs
+# describe one possible box there.
 head = nn.Conv2d(
     in_channels=48,
     out_channels=7,  # 7 predictions per grid cell

@@ -16,6 +16,7 @@ images = sorted(images_dir.glob("*.png"))
 # Select a few examples from each validation flight.
 selected = []
 
+# Sample from each validation flight so a visual check covers more than one scene.
 for flight in (6, 22):
     flight_images = [
         p for p in images

@@ -40,6 +40,8 @@ def main():
     if not out.is_absolute():
         out = ROOT / out
     out.parent.mkdir(parents=True, exist_ok=True)
+    # Start with files known to Git or visible as new project files, then filter out
+    # private data and local runs.
     candidates = git('ls-files', '-z', '--cached', '--others', '--exclude-standard').decode().split('\0')
     names = sorted({n for n in candidates if n and shareable(n) and (ROOT / n).is_file()})
     for required in ['START_HERE.md', 'README.md', 'report/Living_Project_Report.html',

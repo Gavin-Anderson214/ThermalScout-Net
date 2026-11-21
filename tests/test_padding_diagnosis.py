@@ -2,6 +2,8 @@ from scripts.diagnose_padding import content_rect, inside, human_overlap
 
 
 def test_letterbox_rectangle_matches_integer_resize_and_padding():
+    # A wide frame leaves blank bands at the top and bottom of a square input. These
+    # fractions describe its actual image area.
     assert content_rect(640,480,256)==(0,.125,1,.875)
     assert inside([.4,.1,.6,.2],content_rect(640,480,256))
     assert not inside([.4,.01,.6,.03],content_rect(640,480,256))

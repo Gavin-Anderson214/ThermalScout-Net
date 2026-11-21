@@ -9,6 +9,8 @@ width = 37
 height = 35
 
 # Convert top-left coordinates to center coordinates
+# Add half the width to reach the box center, then divide by the image width to express
+# it as a fraction.
 center_x = (x + width / 2) / image_size
 center_y = (y + height / 2) / image_size
 

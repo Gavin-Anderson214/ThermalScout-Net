@@ -62,7 +62,14 @@ def criterion(pred, boxes, objectness="baseline", human_weight=2.0, background_w
     # Background loss is downweighted; localization loss receives extra weight.
     if objectness == "focal":
         # Emphasize confident false positives while reducing easy background loss.
-        negative_obj = (F.binary_cross_entropy_with_logits(raw_obj[negative], obj[negative], reduction="none") * raw_obj[negative].sigmoid().pow(2)).mean() if negative.any() else pred.sum() * 0.0
+        if negative.any():
+            background_logits = raw_obj[negative]
+            background_errors = F.binary_cross_entropy_with_logits(
+                background_logits, obj[negative], reduction="none"
+            )
+            # A confident object prediction in an empty cell gets a larger penalty.
+            focal_weights = background_logits.sigmoid().pow(2)
+            negative_obj = (background_errors * focal_weights).mean()
     elif objectness == "hard-negative":
         # Averaging over every background cell dilutes rare confident mistakes.
         # Mine at least 32 cells, or three negatives per positive, per batch.
@@ -84,6 +91,8 @@ def train_epoch(model, loader, optimizer, device, objectness="baseline", human_w
         optimizer.zero_grad(set_to_none=True)
         pred = model(images)
         loss, overlaps = criterion(pred, boxes, objectness, human_weight, background_weight)
+        # Backpropagation computes how each weight affects the loss. The optimizer uses
+        # those gradients in the step below.
         loss.backward()
         nn.utils.clip_grad_norm_(model.parameters(), 5.0)
         optimizer.step()
