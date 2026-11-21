@@ -1,6 +1,7 @@
 """Read saved development results. Optionally audit an existing BIRDSAI prediction cache."""
 import argparse
 from collections import defaultdict
+import hashlib
 import json
 from pathlib import Path
 
@@ -11,13 +12,27 @@ REPORTS = {
 }
 
 
+def verify_checkpoint(path):
+    """Check the file against the recorded run without loading or changing it."""
+    report = json.loads(REPORTS["ThermalScout-Net"].read_text())
+    with path.open("rb") as source:
+        digest = hashlib.file_digest(source, "sha256").hexdigest()
+    if digest != report["checkpoint_sha256"]:
+        raise ValueError(f"Checkpoint differs from the recorded run: SHA-256 {digest}")
+    print(f"Verified epoch {report['checkpoint_epoch']} checkpoint: {digest}")
+
+
 def show_summary():
     print("Saved development results | confidence 0.25 | IoU 0.50")
     for model, path in REPORTS.items():
         report = json.loads(path.read_text())
         for label, values in report["class_metrics"].items():
+            tp, fp, gt = values["tp"], values["fp"], values["gt"]
+            precision = f"{tp / (tp + fp):.1%}" if tp + fp else "n/a"
+            recall = f"{tp / gt:.1%}" if gt else "n/a"
             print(f"{model:16} {label:6} {values['tp']}/{values['gt']} found, "
-                  f"{values['fp'] / report['evaluation_images']:.2f} false boxes/frame")
+                  f"{values['fp'] / report['evaluation_images']:.2f} false boxes/frame, "
+                  f"precision {precision}, recall {recall}")
 
 
 def audit_cache(entries):
@@ -63,7 +78,13 @@ def audit_cache(entries):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--cache", type=Path, help="predictions.json from analyze_validation")
+    parser.add_argument("--checkpoint", type=Path, help="Verify a copy of the recorded 512-pixel checkpoint")
     args = parser.parse_args()
+    if args.checkpoint:
+        try:
+            verify_checkpoint(args.checkpoint)
+        except (OSError, ValueError) as error:
+            parser.exit(1, f"{error}\n")
     show_summary()
     if args.cache:
         audit_cache(json.loads(args.cache.read_text()))

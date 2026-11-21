@@ -44,3 +44,5 @@ BIRDSAI images and trained weights are local assets. The small introductory exam
 From the project folder, run `.venv/bin/python -m scripts.review_results` to read the two recorded development evaluations. For a per-video breakdown and observed match frequency by confidence bin, add `--cache PATH/TO/predictions.json` using the corresponding saved BIRDSAI development predictions. The script reports video IDs; multiple videos can belong to one flight. The bins describe retained predictions only.
 
 Run `.venv/bin/python -m scripts.frame_quality path/to/grayscale.png` to inspect a saved 8-bit grayscale camera frame. Values describe displayed brightness. For a regression check after edits, run `.venv/bin/python -m pytest`.
+
+The summary computes precision (correct boxes divided by predicted boxes) and recall (correct boxes divided by labeled boxes) at the recorded cutoff. To identify a copy of the 512-pixel training run, add `--checkpoint /path/to/thermal_scout_real_weights.pt`. This reads the file's SHA-256 digest and compares it to the evaluation record without loading the weights.
