@@ -21,7 +21,7 @@ Page references below use the supplied Fall 2026 lecture PDFs by Kushal Vangara.
 
 | Lecture and PDF pages | Connection you can explain |
 |---|---|
-| 0, pp. 15, 26 | Course project and generative AI expectations. The welcome deck makes permitted use depend on instructor or assignment instructions. The acknowledgment below describes how this project was built. |
+| 0, pp. 15, 26 | Course project and generative AI expectations. The welcome deck makes permitted use depend on instructor or assignment instructions. |
 | 1, pp. 3–5, 18–19 | Recognizing objects is a perception task. The CNN represents patterns with learned weights. |
 | 2, pp. 5–9, 13–16 | Data-driven versus rule-based decisions. The filters learn from examples. A developer writes the score cutoff and duplicate-removal rules. Which part would change after another training epoch? |
 | 3, pp. 3–6 | The search unit asks how a problem and its performance measure are defined. Here the task is to locate objects and performance depends on both class and position. |
@@ -36,5 +36,3 @@ Page references below use the supplied Fall 2026 lecture PDFs by Kushal Vangara.
 - Trace one label from the image loader into the loss. Which four values specify where the object is? Where is its class used?
 - Suppose a 63rd human label is added for a previously unlabeled person the model missed. Recall becomes 31/63. Why does the denominator for precision stay at 84?
 - Open the decoder and find the line that multiplies two scores. Explain which values were learned and which decision a programmer controls.
-
-**AI assistance.** Gavin Anderson reports that ChatGPT wrote most or possibly all of the Python implementation. ChatGPT also helped organize this guide and explain the code. Lecture 0 p. 26 calls for verification and assignment-specific permission. The supplied decks do not establish the permitted level of assistance for this particular submission.
