@@ -1,4 +1,8 @@
 """Keep local data and credentials out of exported research packages."""
+
+# A passing export test says the distribution rules work. It makes no claim about
+# classification accuracy on independent images.
+
 from scripts.package_project import shareable
 
 

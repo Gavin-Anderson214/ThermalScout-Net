@@ -1,3 +1,7 @@
+
+# Near-identical frames give repeated evidence about one scene. Keep their common
+# flight identity when assembling examples.
+
 from pathlib import Path
 import cv2
 

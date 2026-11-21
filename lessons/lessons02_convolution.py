@@ -1,4 +1,9 @@
 
+
+# A feature can be computed from other features. Each output here combines nine
+# brightness values using the same nine weights at every location. This lesson never
+# updates those weights.
+
 import torch
 from torch import nn
 

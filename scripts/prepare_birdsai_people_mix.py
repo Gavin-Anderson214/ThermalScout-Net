@@ -1,5 +1,10 @@
 """Replace animal-only training frames with more people from BIRDSAI TrainReal."""
 
+# Changing the mix of training examples changes the evidence available to the learner.
+# The frequency of a class in a selected sample can differ from its frequency in the
+# field.
+
+
 import argparse
 from collections import defaultdict
 from io import BytesIO

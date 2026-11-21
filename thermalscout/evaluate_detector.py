@@ -45,6 +45,8 @@ def get_counts(entries, class_id, iou=0.5, conf=.25):
         truth=[xywh_to_xyxy(b)[1] for b in entry['ground_truth'] if int(b[0])==class_id]
         preds=sorted([p for p in entry['predictions'] if p[0]==class_id and p[1]>=conf],key=lambda p:-p[1])
         ground_truths += len(truth)
+        # A labeled object can earn credit once per frame. A second prediction for the
+        # same animal can be a false alarm even if its rectangle overlaps perfectly.
         used=set()
         for _,_,box in preds:
             choices=[(iou_xyxy(box,t),j) for j,t in enumerate(truth) if j not in used]
@@ -71,6 +73,8 @@ def ap_101(entries,class_id,threshold):
             if cl==class_id: all_preds.append((float(score),img_id,box))
     if gt_count==0:
         return None
+    # Higher scores are considered first. A confident false alarm early in the ranking
+    # reduces precision before many true matches accumulate.
     all_preds.sort(key=lambda p:-p[0])
     matched={k:set() for k in truths}
     tp=[];fp=[]

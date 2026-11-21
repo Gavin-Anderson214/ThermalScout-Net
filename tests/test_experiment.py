@@ -1,4 +1,8 @@
 """Regression coverage for relocated run registration and confidence filtering."""
+
+# Reliable evaluation depends on bookkeeping: counting a relocated run twice would
+# make the evidence look stronger than it is.
+
 import csv
 import hashlib
 import project_manager as manager

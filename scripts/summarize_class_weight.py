@@ -1,4 +1,8 @@
 """Summarize completed class-weight runs and rebuild the living report."""
+
+# A training preference can trade one type of mistake for another. Compare both missed
+# labels and false alarms when reading the saved runs.
+
 import hashlib
 import json
 import shutil

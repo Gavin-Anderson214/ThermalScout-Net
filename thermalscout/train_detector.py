@@ -165,6 +165,8 @@ def main():
         history.append((ep, tl, vl, tc, vc))
         write_history()
         # Select weights by validation loss, not by measured detection mAP.
+        # A hypothesis can fit its training set yet do poorly on new images (Lecture
+        # 11 p. 7). Compare validation loss before deciding which epoch to keep.
         if vl < best:
             best = vl
             best_epoch = ep

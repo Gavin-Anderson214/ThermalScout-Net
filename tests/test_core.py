@@ -1,4 +1,8 @@
 """Lightweight checks for fundamental code behavior; these are not accuracy tests."""
+
+# A model can return the correct tensor shape with entirely untrained weights. This
+# makes shapes useful for checking wiring before investigating accuracy.
+
 import math
 from pathlib import Path
 import pytest

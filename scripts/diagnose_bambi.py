@@ -1,4 +1,9 @@
 """Reproduce pilot outputs and isolate BatchNorm statistics using train data only."""
+
+# Batch normalization stores estimates of feature statistics. This experiment tests
+# whether changing those estimates using training examples changes validation
+# behavior.
+
 import copy
 import hashlib
 import json

@@ -1,5 +1,9 @@
 # Lesson 11: BAMBI bounding box to YOLO format
 
+
+# The target concept stays the same when its representation changes. Both coordinate
+# formats below describe the same rectangle.
+
 image_size = 1024
 
 # Human bounding box from BAMBI frame 177

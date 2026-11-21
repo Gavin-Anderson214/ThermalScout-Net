@@ -1,3 +1,7 @@
+
+# These tiny examples have known answers. They isolate a software error from the
+# separate question of whether a trained network generalizes.
+
 import math
 import pytest
 import torch

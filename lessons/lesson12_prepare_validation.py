@@ -1,4 +1,8 @@
 
+
+# Lecture 11 p. 7 asks whether learning transfers to unseen instances. Holding out
+# whole flights makes that a stronger question than holding out neighboring frames.
+
 import csv
 from collections import defaultdict
 from pathlib import Path

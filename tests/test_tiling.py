@@ -1,3 +1,7 @@
+
+# Breaking one instance into smaller views also changes each box's coordinates. Edge
+# cases expose geometry errors without requiring training data.
+
 import pytest
 
 from thermalscout.data import tile_boxes, tile_positions

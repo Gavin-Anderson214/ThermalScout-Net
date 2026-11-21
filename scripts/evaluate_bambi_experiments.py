@@ -1,4 +1,8 @@
 """Save reproducible threshold and per-flight diagnostics for fixed checkpoints."""
+
+# A single pooled score can hide variation across scenes. Looking by flight helps ask
+# where a learned hypothesis generalized.
+
 import hashlib
 import json
 from pathlib import Path

@@ -3,6 +3,10 @@
 This produces a review queue, not new labels or a score on unseen footage.
 Only prepared BIRDSAI training frames are read; TestReal is never opened.
 """
+
+# This is a human review queue. A high rank means a frame deserves inspection
+# according to the chosen rule; its annotation may still be correct.
+
 import argparse
 import csv
 import json

@@ -3,6 +3,10 @@
 Runs ON YOUR COMPUTER when you invoke it. It is not an always-on service.
 Only verified model metrics supplied with evidence are displayed as scores.
 """
+
+# A learning experiment has inputs, settings and observations. This file organizes
+# those records so a saved score can be traced to its run.
+
 from __future__ import annotations
 import argparse
 import csv

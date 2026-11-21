@@ -11,6 +11,10 @@ Requires: Pillow, matplotlib (already installed with the ThermalScout demo).
 This script does not train a neural network.
 """
 
+# Think of each frame as x and all its annotated boxes as y. The job here is pairing x
+# with the correct y before either reaches the learner.
+
+
 from __future__ import annotations
 
 import argparse

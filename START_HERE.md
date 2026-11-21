@@ -38,3 +38,9 @@ The example prints a tensor shape of `[1, 1, 4, 4]`: one image, one brightness c
 | Find a slide deck, report or historical record | [Presentations](report/presentations/), [reports](report/), [experiment measurements](records/), [folder guide](docs/SHARING_AND_ORGANIZATION.md) |
 
 BIRDSAI images and trained weights are local assets. The small introductory examples work on a fresh clone after dependency installation.
+
+## Review existing results on the Pi
+
+From the project folder, run `.venv/bin/python -m scripts.review_results` to read the two recorded development evaluations. For a per-video breakdown and observed match frequency by confidence bin, add `--cache PATH/TO/predictions.json` using the corresponding saved BIRDSAI development predictions. The script reports video IDs; multiple videos can belong to one flight. The bins describe retained predictions only.
+
+Run `.venv/bin/python -m scripts.frame_quality path/to/grayscale.png` to inspect a saved 8-bit grayscale camera frame. Values describe displayed brightness. For a regression check after edits, run `.venv/bin/python -m pytest`.

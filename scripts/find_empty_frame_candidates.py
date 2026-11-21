@@ -3,6 +3,10 @@
 Absent source annotation rows are only a candidate signal, never proof of an
 empty scene. This tool does not copy images or create training labels.
 """
+
+# An unannotated image and a confirmed example of background have different meanings.
+# Only the latter is reliable evidence for teaching background.
+
 import argparse
 import csv
 import json

@@ -1,4 +1,8 @@
 
+
+# The learner expects a fixed input shape. Scaling both dimensions of a square image
+# equally preserves the relative position named by a normalized label.
+
 from pathlib import Path
 import cv2
 

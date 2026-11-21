@@ -1,4 +1,8 @@
 
+
+# The split determines the role of an example: training labels influence weights,
+# while validation labels let us measure the candidate model.
+
 from pathlib import Path
 from collections import Counter
 import shutil

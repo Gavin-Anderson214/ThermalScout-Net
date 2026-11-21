@@ -1,3 +1,7 @@
+
+# Building an example can require combining several rows: an image with two objects
+# has two labels even though it is just one input image.
+
 import csv
 from pathlib import Path
 from collections import defaultdict

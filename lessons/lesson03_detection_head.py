@@ -1,3 +1,7 @@
+
+# In Lecture 11 a classifier assigns a category. Only two of these seven channels are
+# category scores. The other five describe presence and position.
+
 import torch
 from torch import nn
 

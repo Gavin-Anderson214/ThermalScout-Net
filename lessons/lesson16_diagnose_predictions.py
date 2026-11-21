@@ -1,4 +1,8 @@
 
+
+# A correct category is only half a detection. Inspecting overlap explains how a
+# plausible class prediction can still miss a labeled box.
+
 from pathlib import Path
 
 import torch

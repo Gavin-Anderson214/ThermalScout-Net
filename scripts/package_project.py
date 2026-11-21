@@ -1,4 +1,8 @@
 """Build and verify a shareable project ZIP without local datasets or models."""
+
+# A reader can reproduce the software checks from this export. Reproducing learned
+# predictions also requires the separately stored checkpoint.
+
 import argparse
 from datetime import datetime, timezone
 import hashlib

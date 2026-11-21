@@ -1,4 +1,8 @@
 
+
+# Lecture 11 calls the input an instance. Here the whole grid is one instance. The
+# four numbers in its shape describe its dimensions, not four examples.
+
 import torch
 
 # A tiny 4x4 grayscale thermal example

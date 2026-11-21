@@ -1,4 +1,8 @@
 """Frozen-cache padding ablation and human-overlap diagnosis; development only."""
+
+# An error can have a systematic cause. A box entirely inside the artificial border is
+# a useful clue that the representation of the image matters.
+
 import argparse
 import copy
 import hashlib

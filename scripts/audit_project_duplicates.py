@@ -1,4 +1,8 @@
 """Read-only inventory of identical small source files in historical project folders."""
+
+# Identical source files can appear under several names. This maintenance check
+# compares bytes; it makes no judgment about a model's predictions.
+
 import hashlib
 import json
 import os

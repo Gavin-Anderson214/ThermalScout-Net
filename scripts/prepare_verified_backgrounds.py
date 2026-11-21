@@ -1,4 +1,8 @@
 """Copy only human-reviewed empty TrainReal frames into a fresh training folder."""
+
+# A reviewed empty frame supplies evidence about object absence. It needs no animal or
+# human box to contribute to the presence loss.
+
 import argparse
 import csv
 import hashlib

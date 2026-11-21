@@ -1,4 +1,8 @@
 """Run a seed-42, ten-epoch baseline-versus-human-weight experiment."""
+
+# Examples can contribute unequally to the training objective. This experiment asks
+# whether emphasizing one class changes the errors on held-out data.
+
 import hashlib
 import json
 from pathlib import Path

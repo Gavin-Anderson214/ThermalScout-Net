@@ -1,4 +1,8 @@
 """Prevent training/inference drift and padding mistakes on real camera shapes."""
+
+# A classifier expects the same input representation during learning and prediction.
+# This test compares those transformations directly.
+
 import numpy as np
 from PIL import Image
 import pytest

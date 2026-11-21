@@ -1,4 +1,8 @@
 
+
+# A score depends on which examples appear in the denominator. Count the validation
+# examples and their sources before interpreting the score.
+
 from pathlib import Path
 from collections import Counter
 

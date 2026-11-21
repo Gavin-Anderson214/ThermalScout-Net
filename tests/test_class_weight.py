@@ -1,3 +1,7 @@
+
+# A gradient measures how a small change to a score would affect the objective. This
+# test checks that the chosen preference reaches the gradient.
+
 import pytest
 import torch
 

@@ -92,6 +92,8 @@ class BirdsaiDataset(Dataset):
         """Return one normalized thermal image plus its adjusted bounding boxes."""
         img_path, _, boxes = self.records[idx]
         with Image.open(img_path) as im:
+            # Lecture 11 p. 5 describes an instance with features. Here the starting
+            # features are one brightness value per pixel.
             im = im.convert("L")
             orig_w, orig_h = im.size
             scale = min(self.size / orig_w, self.size / orig_h)
@@ -113,6 +115,8 @@ class BirdsaiDataset(Dataset):
             aw = w * new_w / self.size
             ah = h * new_h / self.size
             adjusted.append((c, ax, ay, aw, ah))
+        # When training presents a reflected image, its label must move too. Otherwise
+        # the same example teaches the wrong location.
         if self.augment and random.random() < 0.5:
             pixels = np.ascontiguousarray(pixels[:, ::-1])
             adjusted = [(c, 1 - x, y, w, h) for c, x, y, w, h in adjusted]

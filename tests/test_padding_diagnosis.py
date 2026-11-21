@@ -1,3 +1,7 @@
+
+# The blank margin has known geometry. A constructed example lets us separate a
+# coordinate mistake from a learned classification mistake.
+
 from scripts.diagnose_padding import content_rect, inside, human_overlap
 
 

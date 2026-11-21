@@ -1,5 +1,9 @@
 """Prepare a matched-size BIRDSAI and HIT-UAV development experiment."""
 
+# Lecture 11 p. 9 asks what happens when new examples come from the same distribution.
+# Mixing imagery from another dataset changes that assumption.
+
+
 import argparse
 from collections import Counter, defaultdict
 from concurrent.futures import ThreadPoolExecutor

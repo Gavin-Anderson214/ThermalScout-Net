@@ -42,6 +42,9 @@ def infer(model, image, device, threshold=0.25, *, max_candidates=500, max_detec
     _, h, w = pred.shape
     # Confidence combines object presence with the most likely class probability.
     prob = pred[0].sigmoid()
+    # Softmax turns the two class scores at each cell into positive shares summing to
+    # one. Chapter 14a represents conditional probabilities in a graph; this CNN
+    # computes its scores using learned filters.
     clp = pred[5:7].softmax(dim=0)
     cls_prob, cls_id = clp.max(dim=0)
     # Combine evidence that a cell contains an object with the score for its most likely
@@ -49,6 +52,8 @@ def infer(model, image, device, threshold=0.25, *, max_candidates=500, max_detec
     score = prob * cls_prob
     if not 0 <= threshold <= 1 or max_candidates < 1 or max_detections < 1:
         raise ValueError('Invalid threshold or detection limits')
+    # A cutoff is a decision you choose after learning. Raising it can remove both
+    # spurious answers and real objects with weak scores.
     selected_mask = score >= threshold
     if local_peaks:
         # Optional ablation: retain per-class spatial peaks before box NMS.

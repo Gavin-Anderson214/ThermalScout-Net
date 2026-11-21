@@ -29,6 +29,9 @@ def reconstruction_loss(model, decoder, images):
     has_signal = images.ne(0)
     inside = has_signal.any(dim=-1, keepdim=True) & has_signal.any(dim=-2, keepdim=True)
     hidden_pixels = mask & inside
+    # The image supplies its own answer: hide part of the input but keep the original
+    # pixel values to score reconstruction. This is a different learning task from
+    # classifying a labeled object.
     masked = images.masked_fill(mask, -1)
     prediction = decoder(model.features(masked))
     prediction = F.interpolate(prediction, size=(height, width), mode="bilinear", align_corners=False)

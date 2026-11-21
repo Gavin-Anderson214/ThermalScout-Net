@@ -3,6 +3,10 @@
 Caches predictions once, sweeps confidence thresholds, and draws error examples.
 Run from the repository root with --run training_runs/<run_id>.
 """
+
+# The learned hypothesis is held fixed here. Different score cutoffs change which
+# answers are counted, without teaching the CNN new weights.
+
 import argparse
 import csv
 import hashlib

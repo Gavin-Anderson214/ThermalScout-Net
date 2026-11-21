@@ -10,6 +10,10 @@ Fast: python thermal_scout_demo.py --quick
 Train again: python thermal_scout_demo.py --retrain
 Save without opening window: python thermal_scout_demo.py --no-show
 """
+
+# This earlier exercise supplies a category at each pixel with a synthetic answer
+# mask. The main detector instead assigns labeled rectangles to grid cells.
+
 from __future__ import annotations
 
 import argparse

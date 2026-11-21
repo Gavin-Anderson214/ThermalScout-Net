@@ -2,6 +2,10 @@
 # Lesson 4: Bounding Box Decoding
 
 # Normalized center coords and dimensions of the bounding box
+
+# In a detection example the target includes numbers as well as a category. Corner
+# coordinates let us check whether two answers point to the same place.
+
 cx = 0.50
 cy = 0.50
 w = 0.20

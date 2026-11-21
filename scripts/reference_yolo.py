@@ -3,6 +3,11 @@
 Training and validation run locally. This never reads official TestReal.
 Install requirements-reference.txt separately from the custom CNN requirements.
 """
+
+# Compare two hypotheses on the same labeled examples and scoring rules. Different
+# architectures and starting weights limit what can be attributed to a single design
+# choice.
+
 import argparse
 import json
 import time

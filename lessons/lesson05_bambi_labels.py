@@ -1,3 +1,8 @@
+
+# In supervised learning the answer comes from an annotation. The species ID in a
+# source row belongs to the dataset's vocabulary; the detector uses its own two class
+# IDs.
+
 import csv
 from pathlib import Path
 from collections import Counter

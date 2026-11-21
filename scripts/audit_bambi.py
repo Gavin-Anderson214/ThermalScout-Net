@@ -1,4 +1,8 @@
 """Verify pilot labels against released MOT rows, flight isolation and file hashes."""
+
+# Generalization assumes useful separation between training and evaluation. Checking
+# flight IDs catches leakage that a count of image files alone would miss.
+
 import csv
 import hashlib
 import json

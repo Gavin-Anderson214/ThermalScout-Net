@@ -3,6 +3,10 @@
 Run beside project_manager.py: python3.13 live_dashboard.py --mode full
 Only Python's standard library is needed for the dashboard itself.
 """
+
+# Lecture 11 p. 34 varies training-set size for a learning curve. This dashboard can
+# show error over epochs: repeated passes over the training examples.
+
 from __future__ import annotations
 
 import argparse

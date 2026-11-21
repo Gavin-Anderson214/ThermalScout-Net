@@ -1,3 +1,7 @@
+
+# Before asking a model to generalize, inspect one labeled instance yourself. A
+# correctly parsed row can still refer to the wrong frame.
+
 import csv
 from pathlib import Path
 import cv2

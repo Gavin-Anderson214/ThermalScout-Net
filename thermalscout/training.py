@@ -19,6 +19,8 @@ def make_targets(batch_boxes, shape, device):
     collisions = 0
     for i, boxes in enumerate(batch_boxes):
         for c, x, y, bw, bh in boxes:
+            # For x = 0.30 on a 128-column grid, x times 128 is 38.4. Column 38 owns
+            # the label and 0.4 is the desired offset inside it.
             gx = min(w - 1, max(0, int(x * w)))
             gy = min(h - 1, max(0, int(y * h)))
             if obj[i, gy, gx] > 0:
@@ -40,6 +42,8 @@ def criterion(pred, boxes, objectness="baseline", human_weight=2.0, background_w
     if not math.isfinite(background_weight) or background_weight <= 0:
         raise ValueError("background_weight must be finite and positive")
     obj, classes, target_box, collisions = make_targets(boxes, pred.shape, pred.device)
+    # An empty cell still has an answer to "is an object present?" It has no labeled
+    # species or rectangle to predict.
     positive = obj.bool()
     raw_obj = pred[:, 0]
     if positive.any():
@@ -49,6 +53,9 @@ def criterion(pred, boxes, objectness="baseline", human_weight=2.0, background_w
         pred_box[:, :2] = torch.sigmoid(pred_box[:, :2])
         reg = F.smooth_l1_loss(pred_box.permute(0, 2, 3, 1)[positive],
                                target_box.permute(0, 2, 3, 1)[positive])
+        # A logit is a raw score. Cross-entropy penalizes a low relative score for the
+        # annotated class. Lecture 11's decision tree uses information gain to pick a
+        # split; here the loss gives feedback to numerical weights.
         logits = pred[:, 5:7].permute(0, 2, 3, 1)[positive]
         class_loss = F.cross_entropy(logits, classes[positive],
                                      weight=torch.tensor([1., human_weight], device=pred.device))
@@ -88,6 +95,8 @@ def train_epoch(model, loader, optimizer, device, objectness="baseline", human_w
     cumulative, collisions = 0.0, 0
     for images, boxes, _ in loader:
         images = images.to(device)
+        # Each batch supplies fresh examples. Clear the preceding batch's gradients
+        # before calculating how these examples change the loss.
         optimizer.zero_grad(set_to_none=True)
         pred = model(images)
         loss, overlaps = criterion(pred, boxes, objectness, human_weight, background_weight)

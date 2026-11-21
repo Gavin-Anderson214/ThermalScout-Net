@@ -1,4 +1,8 @@
 
+
+# This checks whether a training example is well formed. Detection accuracy requires a
+# second step comparing model predictions with labels.
+
 from pathlib import Path
 from collections import Counter
 import cv2

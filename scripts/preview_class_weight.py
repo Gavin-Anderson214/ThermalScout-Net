@@ -1,4 +1,8 @@
 """Draw the same human-heavy validation frames for both class-weight models."""
+
+# A deliberately selected example can explain a mistake. Use the full split to
+# estimate how often that mistake happens.
+
 import argparse
 import json
 from pathlib import Path

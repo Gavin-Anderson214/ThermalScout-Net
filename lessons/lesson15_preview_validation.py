@@ -1,4 +1,8 @@
 
+
+# A human can use the preview to question the reference labels. The rectangles drawn
+# here come from annotations and do not establish what the learner found.
+
 from pathlib import Path
 import cv2
 
