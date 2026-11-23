@@ -20,7 +20,7 @@ A separate 256-pixel continuous run was stopped after 97 epochs. Its best checkp
 
 A separate YOLO26n model was fine-tuned locally for 10 epochs at 512 pixels. With the project's original-frame AP calculation and 40-detection cap, it reached **44.56% mAP@50**: animal AP50 **69.89%**, human AP50 **19.23%**. At confidence 0.25 it found 704/954 animal boxes with 219 false animal boxes, but only 4/62 human boxes with zero false human boxes. Your 512-pixel custom CNN had higher human AP50 (35.35%) and found 31 human boxes at the same threshold; it also generated many more animal false boxes. The reference has about 2.5 million parameters, compared with 88,503 in your CNN, and uses pretrained weights and a different training recipe. Its own built-in metric is not directly comparable to the project's scorer. Both results use one development split, with human labels from one video.
 
-[Reference settings and evidence](../records/experiments/20261112_reference_yolo26n/README.md)
+[Reference settings and evidence](../records/experiments/20261112_reference_yolo26n/YOLO_REFERENCE_RESULTS.md)
 
 ## Previous BIRDSAI training: CUDA, 12 epochs
 
@@ -39,7 +39,7 @@ The trainer saved epoch 3 as the best checkpoint. Lower loss is better, but loss
 
 The earlier CPU run's best validation loss was 0.7148. Batch size also changed from 4 to 16, so this comparison cannot establish that the GPU improved accuracy. No elapsed times were reported, so no speedup is claimed.
 
-[Run details and evidence](../records/experiments/gpu_run1/README.md) · [All 12 epochs](../records/experiments/gpu_run1/loss_history.csv)
+[Run details and evidence](../records/experiments/gpu_run1/GPU_TRAINING_RESULTS.md) · [All 12 epochs](../records/experiments/gpu_run1/loss_history.csv)
 
 ## Earlier detection evaluation: BIRDSAI
 

@@ -20,6 +20,6 @@ def test_export_excludes_local_assets_even_if_tracked():
 def test_export_keeps_code_evidence_and_navigation():
     for path in ['thermalscout/training.py', 'records/experiments/run/evaluation.json',
                  'records/experiments/run/threshold_tradeoff.png', 'docs/finding.md',
-                 'report/Living_Project_Report.html', 'data/README.md',
-                 'training_runs/README.md', 'tests/test_core.py']:
+                 'report/Living_Project_Report.html', 'data/DATASET_INSTRUCTIONS.md',
+                 'training_runs/CHECKPOINT_INSTRUCTIONS.md', 'tests/test_core.py']:
         assert shareable(path), path
