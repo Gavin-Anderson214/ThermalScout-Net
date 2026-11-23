@@ -6,11 +6,13 @@
 |---|---|
 | Understand the CNN for COSC 2345 | Start with the [course walkthrough](CLASS_EXPLANATION.md), then follow an image through the [Python source](CODE_TOUR.md). |
 | Run a small example | The [lessons](../lessons/) use small inputs. The [earlier synthetic CNN](../demo/thermal_scout_demo.py) and [example images](../examples/) illustrate the project. For measured performance, use the [development results](RESULTS.md). |
-| Find the report or slides | Read the [living report](../report/Living_Project_Report.md). Open the [presentation folder](../report/presentations/) for the AIAA slides and [presentation notes](../report/presentations/PRESENTATION_NOTES.md) for image credits, or the [class presentation plan](PRESENTATION_PLAN.md) for the course talk. |
+| Find the report or slides | Read the [living report](../report/Living_Project_Report.md). Open the [presentation folder](../report/presentations/) for the AIAA slides, or the [class presentation plan](PRESENTATION_PLAN.md) for the course talk. |
 | Check an experiment | Use the [experiment guide](EXPERIMENTS.md) for context and the [run records](../records/experiments/) for individual measurements. The [metrics table](../records/model_metrics.csv) and [run history](../records/training_runs.csv) summarize earlier work. |
 | Locate data or weights | The [dataset notes](../data/DATASET_INSTRUCTIONS.md) and [checkpoint notes](../training_runs/CHECKPOINT_INSTRUCTIONS.md) explain where local files belong. |
 | Find a tool or test | The [Python index](CODE_TOUR.md) describes the scripts and tests. The [Windows shortcuts](../scripts/launchers/) run from the repository root. |
 | Share the project | Follow the ZIP instructions below or use the [GitHub guide](GITHUB_SETUP.md). |
+
+Slide 7 uses flight 22, frame 2135 from [The BAMBI Dataset](https://github.com/bambi-eco/Dataset) by Christoph Praschl and coauthors (2026), licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). The slide shows the extracted thermal half, converted to grayscale, resized and annotated for a side-by-side comparison.
 
 To rebuild the living report on Windows, run `py -3.12 project_manager.py update` from the project root.
 
