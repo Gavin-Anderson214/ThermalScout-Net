@@ -15,6 +15,9 @@ COLORS = ("#A8FF78", "#53C6FF")
 # --- Reuse a convolution, batch normalization and ReLU block throughout the detector.
 def conv(in_ch: int, out_ch: int, stride: int = 1) -> nn.Sequential:
     """Build one small convolution block: filter pixels, normalize, then activate."""
+    # One filter slides across the picture, multiplying nearby values by learned
+    # weights and adding the products. BatchNorm rescales activations; ReLU keeps
+    # positive responses and turns negative ones into zero.
     return nn.Sequential(nn.Conv2d(in_ch, out_ch, 3, stride, 1, bias=False),
                          nn.BatchNorm2d(out_ch), nn.ReLU(inplace=True))
 
@@ -28,9 +31,14 @@ class ThermalScoutReal(nn.Module):
     """
     def __init__(self):
         super().__init__()
+        # Lecture 11 pp. 6–8: the architecture defines a family of possible functions
+        # (a hypothesis space). Training selects weights within that family. For a
+        # 512-square input these two stride-2 layers give grids of 256 then 128.
         self.low = nn.Sequential(conv(1, 16, 2), conv(16, 24, 2))  # stride 4
         self.deep = nn.Sequential(conv(24, 40, 2), conv(40, 56))    # stride 8
         self.fuse = nn.Sequential(conv(24 + 56, 48), conv(48, 48))
+        # At each location, 48 features feed seven raw scores. A 1-by-1 filter mixes
+        # channels at that location using the same weights everywhere.
         self.head = nn.Conv2d(48, 7, kernel_size=1)
 
     def features(self, x):
@@ -39,7 +47,11 @@ class ThermalScoutReal(nn.Module):
         # to the same grid before concatenating their channels.
         low = self.low(x)
         deep = self.deep(low)
+        # The two feature maps have different grid sizes. Resizing the deeper map aligns
+        # positions before joining the channels.
         deep = F.interpolate(deep, size=low.shape[-2:], mode="bilinear", align_corners=False)
+        # Join along the channel axis: 24 fine features plus 56 contextual ones give
+        # 80 numbers at each location. The fusion layers learn how to combine them.
         return self.fuse(torch.cat((low, deep), dim=1))
 
     def forward(self, x):

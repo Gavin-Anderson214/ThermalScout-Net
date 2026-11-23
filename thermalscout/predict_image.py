@@ -64,10 +64,17 @@ def main():
         parser.error('CUDA is unavailable; use --device cpu')
     checkpoint = torch.load(args.checkpoint, map_location='cpu', weights_only=True)
     model = ThermalScoutReal().to(device)
+    # Architecture is the form of the hypothesis. The checkpoint supplies a particular
+    # learned set of numbers within that form.
     model.load_state_dict(checkpoint['model'])
+    # Chapter 14b p. 3 uses observations as evidence in a probabilistic query. Our
+    # observation is an image; prediction runs the stored layers forward without
+    # enumerating hidden variables.
     with Image.open(args.image) as source:
         image = source.convert('RGB')
     tensor, geometry = prepare_image(image, int(checkpoint.get('image_size', 256)))
+    # Undo the resize and padding so a reported box refers to pixels in the original
+    # picture.
     detections = original_boxes(infer(model, tensor, device, args.threshold), geometry)
     preview = image.copy()
     draw = ImageDraw.Draw(preview)

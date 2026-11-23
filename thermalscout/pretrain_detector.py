@@ -18,6 +18,8 @@ PATCH_SIZE = 16
 MASK_PROBABILITY = 0.25
 
 
+# Hidden pixels supply a training target from the image itself. Reconstructing them
+# requires no animal or human label.
 def reconstruction_loss(model, decoder, images):
     batch, _, height, width = images.shape
     patches = torch.rand(batch, 1, height // PATCH_SIZE, width // PATCH_SIZE, device=images.device)
@@ -27,6 +29,9 @@ def reconstruction_loss(model, decoder, images):
     has_signal = images.ne(0)
     inside = has_signal.any(dim=-1, keepdim=True) & has_signal.any(dim=-2, keepdim=True)
     hidden_pixels = mask & inside
+    # The image supplies its own answer: hide part of the input but keep the original
+    # pixel values to score reconstruction. This is a different learning task from
+    # classifying a labeled object.
     masked = images.masked_fill(mask, -1)
     prediction = decoder(model.features(masked))
     prediction = F.interpolate(prediction, size=(height, width), mode="bilinear", align_corners=False)

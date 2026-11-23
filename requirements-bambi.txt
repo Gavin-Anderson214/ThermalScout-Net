@@ -1,3 +1,0 @@
--r requirements.txt
-# Only needed for source-video extraction and the BAMBI audit.
-opencv-python>=4.10
