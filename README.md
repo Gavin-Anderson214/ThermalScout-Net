@@ -8,6 +8,7 @@
 | Open the project on a Pi or Windows PC and run a first example | [Start here](START_HERE.md) |
 | Read the Python in order or look up any script | [Code tour and file index](docs/CODE_TOUR.md) |
 | See the measurements and their limits | [Development results](docs/RESULTS.md) |
+| Find the report, slides or experiment records | [Folder guide](docs/SHARING_AND_ORGANIZATION.md) |
 
 The main detector is a convolutional neural network (CNN) with 88,503 adjustable values called **weights**. During training it sees BIRDSAI frames with answer boxes. During prediction it gets only pixels. The smaller synthetic demo and the pretrained YOLO comparison are separate experiments.
 

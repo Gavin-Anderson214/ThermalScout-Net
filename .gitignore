@@ -53,5 +53,5 @@ records/experiments/*/human_examples.png
 
 # Portable releases
 dist/
-!data/README.md
-!training_runs/README.md
+!data/DATASET_INSTRUCTIONS.md
+!training_runs/CHECKPOINT_INSTRUCTIONS.md

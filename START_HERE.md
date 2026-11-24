@@ -33,7 +33,7 @@ The example prints a tensor shape of `[1, 1, 4, 4]`: one image, one brightness c
 | Follow pixels through a convolution | [Second example](lessons/lessons02_convolution.py) |
 | Understand all seven numbers the CNN predicts | [Detection head example](lessons/lesson03_detection_head.py) |
 | Find data preparation, training or evaluation code | [Python file index](docs/CODE_TOUR.md) |
-| Reproduce a recorded experiment with local data | [Dataset setup](data/README.md) and [experiment library](docs/EXPERIMENTS.md) |
+| Reproduce a recorded experiment with local data | [Dataset setup](data/DATASET_INSTRUCTIONS.md) and [experiment library](docs/EXPERIMENTS.md) |
 | Use an existing checkpoint | [Image demo](docs/IMAGE_DEMO.md) |
 | Find a slide deck, report or historical record | [Presentations](report/presentations/), [reports](report/), [experiment measurements](records/), [folder guide](docs/SHARING_AND_ORGANIZATION.md) |
 

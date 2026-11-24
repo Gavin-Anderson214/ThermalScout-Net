@@ -26,7 +26,8 @@ def shareable(name):
                 'trainreal', 'testreal', 'yolo_real', 'birdsai_step2_output'}:
         return False
     if p.parts[0] in {'data', 'training_runs'}:
-        return len(p.parts) == 2 and p.name in {'README.md', '.gitkeep'}
+        return name in {'data/.gitkeep', 'data/DATASET_INSTRUCTIONS.md',
+                        'training_runs/.gitkeep', 'training_runs/CHECKPOINT_INSTRUCTIONS.md'}
     if p.name.startswith('.env') or p.suffix.lower() in {
         '.pt', '.pth', '.ckpt', '.onnx', '.weights', '.pyc', '.zip', '.pem', '.key'}:
         return False

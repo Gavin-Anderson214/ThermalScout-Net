@@ -1,21 +1,20 @@
-# Sharing and organization
+# Project folder guide
 
-Work from the ThermalScout-Net folder containing project_manager.py. The portable workspace opens that folder only. CNN, dataset and checkpoint paths are preserved. Supporting experiment tools now live under scripts/; Windows launchers live under scripts/launchers/.
+[Project home](../README.md) · [Setup and first example](../START_HERE.md) · [Python file index](CODE_TOUR.md)
 
-| Location | Purpose | ZIP / GitHub? |
-|---|---|---|
-| START_HERE.md, README.md | Navigation, setup, current results | Yes |
-| thermalscout/ | Detector implementation | Yes |
-| scripts/ | Preparation, experiment helpers and ZIP builder | Yes |
-| scripts/launchers/ | Windows shortcuts for training, evaluation and reports | Yes |
-| docs/ | Findings, experiments, explanations | Yes |
-| records/ | Metrics, provenance, histories, charts | Yes, excluding caches |
-| report/ | Current living report, figures, older snapshots | Yes |
-| demo/, examples/ | Synthetic demonstration | Yes |
-| tests/ | Verification | Yes |
-| data/processed/yolo_real/ | Prepared BIRDSAI dataset | Local only |
-| training_runs/ | Checkpoints, previews and caches | Local only |
-| dist/ | Generated ZIPs | Local only |
+| What you need | Where to go |
+|---|---|
+| Understand the CNN for COSC 2345 | Start with the [course walkthrough](CLASS_EXPLANATION.md), then follow an image through the [Python source](CODE_TOUR.md). |
+| Run a small example | The [lessons](../lessons/) use small inputs. The [earlier synthetic CNN](../demo/thermal_scout_demo.py) and [example images](../examples/) illustrate the project. For measured performance, use the [development results](RESULTS.md). |
+| Find the report or slides | Read the [living report](../report/Living_Project_Report.md). Open the [presentation folder](../report/presentations/) for the AIAA slides, or the [class presentation plan](PRESENTATION_PLAN.md) for the course talk. |
+| Check an experiment | Use the [experiment guide](EXPERIMENTS.md) for context and the [run records](../records/experiments/) for individual measurements. The [metrics table](../records/model_metrics.csv) and [run history](../records/training_runs.csv) summarize earlier work. |
+| Locate data or weights | The [dataset notes](../data/DATASET_INSTRUCTIONS.md) and [checkpoint notes](../training_runs/CHECKPOINT_INSTRUCTIONS.md) explain where local files belong. |
+| Find a tool or test | The [Python index](CODE_TOUR.md) describes the scripts and tests. The [Windows shortcuts](../scripts/launchers/) run from the repository root. |
+| Share the project | Follow the ZIP instructions below or use the [GitHub guide](GITHUB_SETUP.md). |
+
+Slide 7 uses flight 22, frame 2135 from [The BAMBI Dataset](https://github.com/bambi-eco/Dataset) by Christoph Praschl and coauthors (2026), licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). The slide shows the extracted thermal half, converted to grayscale, resized and annotated for a side-by-side comparison.
+
+To rebuild the living report on Windows, run `py -3.12 project_manager.py update` from the project root.
 
 ## Build a handoff
 
